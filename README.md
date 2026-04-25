@@ -47,11 +47,11 @@ boardroom_sim_mvp/
 
 ```bash
 export BOARDROOM_LLM_API_KEY="your_api_key"
-export BOARDROOM_LLM_BASE_URL="https://api.openai.com/v1"
-export BOARDROOM_LLM_MODEL="gpt-4o-mini"
+export BOARDROOM_LLM_BASE_URL="https://api.z.ai/api/paas/v4"
+export BOARDROOM_LLM_MODEL="glm-4.7-flash"
 ```
 
-如果你使用 DeepSeek、OpenRouter、硅基流动或其他兼容 OpenAI Chat Completions 的服务，把 `BOARDROOM_LLM_BASE_URL` 和 `BOARDROOM_LLM_MODEL` 改成对应值即可。
+默认配置使用 Z.AI 的 `glm-4.7-flash`。如果你使用 OpenAI、DeepSeek、OpenRouter、硅基流动或其他兼容 OpenAI Chat Completions 的服务，把 `BOARDROOM_LLM_BASE_URL` 和 `BOARDROOM_LLM_MODEL` 改成对应值即可。
 
 ```bash
 cd boardroom_sim_mvp
@@ -68,8 +68,8 @@ python3 run_experiment.py \
   --input data/sample_cases.jsonl \
   --output outputs/sample_results.jsonl \
   --trace-output outputs/sample_traces.json \
-  --model gpt-4o-mini \
-  --base-url https://api.openai.com/v1 \
+  --model glm-4.7-flash \
+  --base-url https://api.z.ai/api/paas/v4 \
   --temperature 0.2
 ```
 

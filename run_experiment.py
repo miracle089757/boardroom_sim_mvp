@@ -21,7 +21,7 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--trace-output", type=Path, required=True, help="Path to detailed trace JSON output.")
     parser.add_argument("--bargaining-rounds", type=int, default=2, help="Number of deterministic bargaining rounds.")
     parser.add_argument("--api-key-env", default="BOARDROOM_LLM_API_KEY", help="Environment variable containing API key.")
-    parser.add_argument("--model", default=None, help="LLM model name. Defaults to BOARDROOM_LLM_MODEL or gpt-4o-mini.")
+    parser.add_argument("--model", default=None, help="LLM model name. Defaults to BOARDROOM_LLM_MODEL or glm-4.7-flash.")
     parser.add_argument("--base-url", default=None, help="OpenAI-compatible base URL. Defaults to BOARDROOM_LLM_BASE_URL.")
     parser.add_argument("--temperature", type=float, default=None, help="LLM temperature. Defaults to BOARDROOM_LLM_TEMPERATURE or 0.2.")
     parser.add_argument("--timeout-seconds", type=int, default=None, help="HTTP timeout. Defaults to BOARDROOM_LLM_TIMEOUT_SECONDS or 120.")

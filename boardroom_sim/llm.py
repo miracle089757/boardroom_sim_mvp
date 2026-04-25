@@ -17,7 +17,7 @@ class LLMConfig:
 
     api_key: str
     model: str
-    base_url: str = "https://api.openai.com/v1"
+    base_url: str = "https://api.z.ai/api/paas/v4"
     temperature: float = 0.2
     timeout_seconds: int = 120
 
@@ -36,7 +36,7 @@ class LLMConfig:
         if not api_key:
             raise ValueError(f"Missing API key. Please set environment variable {api_key_env}.")
 
-        resolved_model = model or os.environ.get("BOARDROOM_LLM_MODEL", "gpt-4o-mini")
+        resolved_model = model or os.environ.get("BOARDROOM_LLM_MODEL", "glm-4.7-flash")
         resolved_base_url = base_url or os.environ.get("BOARDROOM_LLM_BASE_URL", cls.base_url)
         resolved_temperature = (
             temperature
