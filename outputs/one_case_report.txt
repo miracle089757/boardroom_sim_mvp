@@ -1,0 +1,68 @@
+董事会智能体模拟过程记录
+
+案例：11830986（case_id: 11830986_789374083T）
+
+一、背景信息
+本次模拟的共同背景为：11830986 (Alternative Energy Equipment) is evaluated at decision date 2010-01-07. The company has 3 prior VC rounds; prior VC round 3rd Round on 2009-12-09 with size 23.0M USD and post-money unknown. Historical valuation direction is unknown.
+参与本轮讨论的成员包括：Founder_CEO：创始人兼 CEO，代表公司长期价值、控制权与融资需求；CTO：技术负责人，代表工程资源、技术可行性与团队健康；Lead_VC_Director：领投 VC 董事，代表定价权、条款保护和下行风险控制；Followon_VC_Director：跟投 VC 董事，代表 pro-rata 权利、跟投纪律和对领投方的制衡。
+
+二、角色初始判断
+Founder_CEO 的初始立场是：融资意向 raise_now，完成判断 uncertain，预计融资额 10 百万美元，交易类型 Early Stage VC，VC 轮次 4th Round，估值方向 unknown，CEO 更换观点 keep，满意度 50。
+该角色给出的主要理由是：The company has raised significant capital in prior rounds, suggesting market validation, but the lack of recent valuation data makes it uncertain if a raise is optimal now. As the sole founder and current CEO, maintaining control is paramount, and the small board size with no investor members provides some leverage. The company's age and industry (Alternative Energy Equipment) suggest it may need capital for scaling, aligning with the policy to accept dilution for growth resources.
+CTO 的初始立场是：融资意向 raise_now，完成判断 uncertain，预计融资额 10 百万美元，交易类型 Early Stage VC，VC 轮次 4th Round，估值方向 unknown，CEO 更换观点 keep，满意度 50。
+该角色给出的主要理由是：The company is in the Alternative Energy Equipment industry, which typically requires significant capital for scaling infrastructure and R&D. The prior deal size of $23M and total raised of $151.357M suggest the company has achieved some validation but may need additional funding for growth. Protecting engineering team health and technical debt budgets is crucial, and this financing could provide resources for this without compromising technical feasibility. Maintaining technical roadmap autonomy is important, and the current board size and founder's stance suggest some alignment on this front.
+Lead_VC_Director 的初始立场是：融资意向 raise_now，完成判断 uncertain，预计融资额 25 百万美元，交易类型 Early Stage VC，VC 轮次 4th Round，估值方向 unknown，CEO 更换观点 keep，满意度 60。
+该角色给出的主要理由是：The company has demonstrated prior market validation with a $23M deal size and $151.357M raised, suggesting readiness for another round. As a Lead VC Director, maximizing fund exit multiple is a priority, and maintaining the current management team aligns with governance discipline. The lack of recent valuation data and the 'unknown' direction label warrant caution, but the prior success metrics support a raise now.
+Followon_VC_Director 的初始立场是：融资意向 raise_now，完成判断 uncertain，预计融资额 15 百万美元，交易类型 Early Stage VC，VC 轮次 4th Round，估值方向 unknown，CEO 更换观点 keep，满意度 50。
+该角色给出的主要理由是：Following the lead's intent to raise now aligns with the default heuristic of continuing investment post-prior participation. Protecting pro-rata rights is a priority, and not following would require explicit reasons such as valuation concerns or fund timing. The lack of recent valuation data and the 'unknown' direction label warrant caution, but the prior success metrics support a raise now. The company's industry (Alternative Energy Equipment) and prior deal size suggest it may need capital for scaling, aligning with the policy to accept dilution for growth resources.
+
+三、开场陈述
+Founder_CEO：Founder_CEO starts with intent=raise_now, size=10.00M, type=Early Stage VC, round=4th Round, valuation=unknown, ceo=keep. Reason: The company has raised significant capital in prior rounds, suggesting market validation, but the lack of recent valuation data makes it uncertain if a raise is optimal now. As the sole founder and current CEO, maintaining control is paramount, and the small board size with no investor members provides some leverage. The company's age and industry (Alternative Energy Equipment) suggest it may need capital for scaling, aligning with the policy to accept dilution for growth resources.
+CTO：CTO starts with intent=raise_now, size=10.00M, type=Early Stage VC, round=4th Round, valuation=unknown, ceo=keep. Reason: The company is in the Alternative Energy Equipment industry, which typically requires significant capital for scaling infrastructure and R&D. The prior deal size of $23M and total raised of $151.357M suggest the company has achieved some validation but may need additional funding for growth. Protecting engineering team health and technical debt budgets is crucial, and this financing could provide resources for this without compromising technical feasibility. Maintaining technical roadmap autonomy is important, and the current board size and founder's stance suggest some alignment on this front.
+Lead_VC_Director：Lead_VC_Director starts with intent=raise_now, size=25.00M, type=Early Stage VC, round=4th Round, valuation=unknown, ceo=keep. Reason: The company has demonstrated prior market validation with a $23M deal size and $151.357M raised, suggesting readiness for another round. As a Lead VC Director, maximizing fund exit multiple is a priority, and maintaining the current management team aligns with governance discipline. The lack of recent valuation data and the 'unknown' direction label warrant caution, but the prior success metrics support a raise now.
+Followon_VC_Director：Followon_VC_Director starts with intent=raise_now, size=15.00M, type=Early Stage VC, round=4th Round, valuation=unknown, ceo=keep. Reason: Following the lead's intent to raise now aligns with the default heuristic of continuing investment post-prior participation. Protecting pro-rata rights is a priority, and not following would require explicit reasons such as valuation concerns or fund timing. The lack of recent valuation data and the 'unknown' direction label warrant caution, but the prior success metrics support a raise now. The company's industry (Alternative Energy Equipment) and prior deal size suggest it may need capital for scaling, aligning with the policy to accept dilution for growth resources.
+
+四、辩论记录
+第 1 轮辩论：
+Founder_CEO 发言：Given the significant capital already raised and the lack of recent valuation data, I propose we exercise caution and reassess the timing. However, maintaining founder control and leveraging our current board structure suggests we should consider raising now if the terms protect our core operational freedom.
+发言后，该角色的立场更新为：融资意向 raise_now，完成判断 uncertain，预计融资额 10 百万美元，交易类型 Early Stage VC，VC 轮次 4th Round，估值方向 unknown，CEO 更换观点 keep，满意度 50。
+CTO 发言：Given the company's focus on Alternative Energy Equipment and the need for significant capital to scale infrastructure and R&D, I support raising now, but we must ensure the financing terms protect our engineering team health and technical debt budgets without forcing architecture shortcuts.
+发言后，该角色的立场更新为：融资意向 raise_now，完成判断 uncertain，预计融资额 10 百万美元，交易类型 Early Stage VC，VC 轮次 4th Round，估值方向 unknown，CEO 更换观点 keep，满意度 50。
+Lead_VC_Director 发言：Given the company's prior market validation with a $23M deal size and $151.357M raised, I propose we proceed with a $25M 4th Round raise now, but we must insist on strong downside protection and clear path to exit to align with fund discipline.
+发言后，该角色的立场更新为：融资意向 raise_now，完成判断 uncertain，预计融资额 25 百万美元，交易类型 Early Stage VC，VC 轮次 4th Round，估值方向 unknown，CEO 更换观点 keep，满意度 60。
+Followon_VC_Director 发言：Given the prior success and the need for capital to scale in the Alternative Energy Equipment sector, I support raising now, but we must ensure the deal size is reasonable and aligns with the company's growth trajectory.
+发言后，该角色的立场更新为：融资意向 raise_now，完成判断 uncertain，预计融资额 15 百万美元，交易类型 Early Stage VC，VC 轮次 4th Round，估值方向 unknown，CEO 更换观点 keep，满意度 50。
+本轮结束后的综合提案为：建议融资额 17.5 百万美元，交易类型 Early Stage VC，VC 轮次 4th Round，估值方向 unknown，预计稀释 未知%，投资人保护强度 strong。
+第 2 轮辩论：
+Founder_CEO 发言：Given our prior success and the need for capital to solidify our market position, I believe raising now is strategically sound, but we must ensure the terms protect founder control and avoid excessive dilution. The valuation direction remains uncertain, so we should focus on securing a fair multiple that reflects our growth potential without compromising our long-term vision.
+发言后，该角色的立场更新为：融资意向 raise_now，完成判断 uncertain，预计融资额 15 百万美元，交易类型 Early Stage VC，VC 轮次 4th Round，估值方向 unknown，CEO 更换观点 keep，满意度 60。
+CTO 发言：Given the company's rapid scaling needs in the Alternative Energy Equipment sector and the prior successful fundraising, I recommend proceeding with a $10M Seed Round to protect our engineering team and technical debt without compromising long-term feasibility.
+发言后，该角色的立场更新为：融资意向 raise_now，完成判断 uncertain，预计融资额 10 百万美元，交易类型 Seed Round，VC 轮次 1st Round，估值方向 unknown，CEO 更换观点 keep，满意度 50。
+Lead_VC_Director 发言：Given the company's prior market validation and the need for discipline, I propose a $25M 4th Round raise now, but we must insist on strong downside protection and a clear path to exit to align with fund discipline.
+发言后，该角色的立场更新为：融资意向 raise_now，完成判断 uncertain，预计融资额 25 百万美元，交易类型 Early Stage VC，VC 轮次 4th Round，估值方向 unknown，CEO 更换观点 keep，满意度 60。
+Followon_VC_Director 发言：Given the prior deal size and the need for capital to scale, I support raising now, but we must ensure the deal size is reasonable and aligns with the company's growth trajectory, protecting follow-on ownership.
+发言后，该角色的立场更新为：融资意向 raise_now，完成判断 uncertain，预计融资额 15 百万美元，交易类型 Early Stage VC，VC 轮次 4th Round，估值方向 unknown，CEO 更换观点 keep，满意度 50。
+本轮结束后的综合提案为：建议融资额 18.9286 百万美元，交易类型 Early Stage VC，VC 轮次 4th Round，估值方向 unknown，预计稀释 未知%，投资人保护强度 strong。
+第 3 轮辩论：
+Founder_CEO 发言：Given our prior success and the small, founder-dominated board, we should raise now, but only if the terms protect our operational freedom and avoid excessive dilution. The valuation direction remains uncertain, so we must focus on securing a fair multiple that reflects our growth potential without compromising our long-term vision.
+发言后，该角色的立场更新为：融资意向 raise_now，完成判断 uncertain，预计融资额 15 百万美元，交易类型 Early Stage VC，VC 轮次 4th Round，估值方向 unknown，CEO 更换观点 keep，满意度 60。
+CTO 发言：Given the company's rapid scaling needs and prior successful fundraising, I recommend proceeding with a $10M Seed Round to protect our engineering team and technical debt without compromising long-term feasibility.
+发言后，该角色的立场更新为：融资意向 raise_now，完成判断 uncertain，预计融资额 10 百万美元，交易类型 Seed Round，VC 轮次 1st Round，估值方向 unknown，CEO 更换观点 keep，满意度 50。
+Lead_VC_Director 发言：Given the company's prior market validation and the need for discipline, we should proceed with a $25M 4th Round raise now, but we must insist on strong downside protection and a clear path to exit to align with fund discipline.
+发言后，该角色的立场更新为：融资意向 raise_now，完成判断 uncertain，预计融资额 25 百万美元，交易类型 Early Stage VC，VC 轮次 4th Round，估值方向 unknown，CEO 更换观点 keep，满意度 60。
+Followon_VC_Director 发言：Given the prior deal size and the need for capital to scale, I support raising now, but we must ensure the deal size is reasonable and aligns with the company's growth trajectory, protecting follow-on ownership.
+发言后，该角色的立场更新为：融资意向 raise_now，完成判断 uncertain，预计融资额 15 百万美元，交易类型 Early Stage VC，VC 轮次 4th Round，估值方向 unknown，CEO 更换观点 keep，满意度 50。
+本轮结束后的综合提案为：建议融资额 18.9286 百万美元，交易类型 Early Stage VC，VC 轮次 4th Round，估值方向 unknown，预计稀释 未知%，投资人保护强度 strong。
+
+五、最终结果
+最终聚合结果认为，公司融资意向为 raise_now，交易完成判断为 uncertain。模拟预测融资额为 18.9286 百万美元，交易类型为 Early Stage VC，VC 轮次为 4th Round。估值方向判断为 unknown，CEO 更换判断为 keep。共识分数为 0.917，交易破裂风险为 medium，治理冲突风险为 low。
+
+六、模拟结果与真实结果相似度
+总体相似度为 50.9%，基于 6 个可比较指标。
+融资意向：模拟为 raise_now，真实为 raise_now，相似度 100%。
+交易完成状态：模拟为 uncertain，真实为 likely_complete，相似度 0%。
+融资额：模拟为 18.929 百万美元，真实为 350.000 百万美元，相对误差 94.6%，相似度 5.4%。
+交易类型：模拟为 Early Stage VC，真实为 Early Stage VC，相似度 100%。
+VC 轮次：模拟为 4th Round，真实为 4th Round，相似度 100%。
+CEO 更换：模拟为 keep，真实为 replace，相似度 0%。
+未纳入相似度计算的指标包括：估值方向。

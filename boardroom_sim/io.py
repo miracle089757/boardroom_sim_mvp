@@ -25,12 +25,20 @@ def read_cases_jsonl(path: Path) -> List[BoardCase]:
     return cases
 
 
+def write_cases_jsonl(path: Path, cases: Iterable[BoardCase]) -> None:
+    """Write normalized board simulation cases to a JSONL file."""
+    path.parent.mkdir(parents=True, exist_ok=True)
+    with path.open("w", encoding="utf-8") as handle:
+        for case in cases:
+            handle.write(json.dumps(case.to_dict(), ensure_ascii=False, allow_nan=False) + "\n")
+
+
 def write_results_jsonl(path: Path, results: Iterable[SimulationResult]) -> None:
     """Write compact simulation results to a JSONL file."""
     path.parent.mkdir(parents=True, exist_ok=True)
     with path.open("w", encoding="utf-8") as handle:
         for result in results:
-            handle.write(json.dumps(result.to_dict(include_trace=False), ensure_ascii=False) + "\n")
+            handle.write(json.dumps(result.to_dict(include_trace=False), ensure_ascii=False, allow_nan=False) + "\n")
 
 
 def write_traces_json(path: Path, results: Iterable[SimulationResult]) -> None:
@@ -38,4 +46,4 @@ def write_traces_json(path: Path, results: Iterable[SimulationResult]) -> None:
     path.parent.mkdir(parents=True, exist_ok=True)
     payload = [result.to_dict(include_trace=True) for result in results]
     with path.open("w", encoding="utf-8") as handle:
-        json.dump(payload, handle, ensure_ascii=False, indent=2)
+        json.dump(payload, handle, ensure_ascii=False, indent=2, allow_nan=False)

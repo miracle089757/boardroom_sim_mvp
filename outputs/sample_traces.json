@@ -1,0 +1,2534 @@
+[
+  {
+    "case_id": "case_001",
+    "company_name": "Northstar Robotics",
+    "financing_decision": "renegotiate",
+    "valuation_direction": "flat",
+    "ceo_replacement_decision": "monitor",
+    "role_decisions": {
+      "Founder_CEO": {
+        "role_name": "Founder_CEO",
+        "financing_vote": "approve",
+        "valuation_direction": "up",
+        "ceo_replacement_view": "keep",
+        "satisfaction_score": 0.0,
+        "rationale": [
+          "The valuation markup signals market confidence and supports founder control.",
+          "The financing improves runway significantly without excessive dilution."
+        ],
+        "observed_fields": {
+          "deal_size_usd_m": 12.0,
+          "pre_money_valuation_usd_m": 42.0,
+          "post_money_valuation_usd_m": 54.0,
+          "previous_post_money_valuation_usd_m": 30.0,
+          "round_type": "Series A",
+          "founder_equity_pct": 42.0,
+          "runway_months": 8.0,
+          "employee_growth_rate": 0.25
+        }
+      },
+      "CTO": {
+        "role_name": "CTO",
+        "financing_vote": "approve",
+        "valuation_direction": "up",
+        "ceo_replacement_view": "keep",
+        "satisfaction_score": 0.0,
+        "rationale": [
+          "Current tech debt risk is manageable with adequate funding.",
+          "CEO's technical alignment supports engineering priorities."
+        ],
+        "observed_fields": {
+          "engineering_headcount_growth_rate": 0.3,
+          "employee_growth_rate": 0.25,
+          "tech_debt_risk": 0.35,
+          "ceo_technical_alignment": 0.8,
+          "industry": "Robotics",
+          "runway_months": 8.0
+        }
+      },
+      "Lead_VC_Director": {
+        "role_name": "Lead_VC_Director",
+        "financing_vote": "renegotiate",
+        "valuation_direction": "flat",
+        "ceo_replacement_view": "monitor",
+        "satisfaction_score": 0.0,
+        "rationale": [
+          "The valuation increase is too aggressive given the burn multiple and runway.",
+          "Downside protection should be prioritized over unpriced upside.",
+          "CEO performance risk warrants closer monitoring post-funding."
+        ],
+        "observed_fields": {
+          "post_money_valuation_usd_m": 54.0,
+          "previous_post_money_valuation_usd_m": 30.0,
+          "deal_size_usd_m": 12.0,
+          "burn_multiple": 1.4,
+          "runway_months": 8.0,
+          "lead_investor_conviction": 0.75,
+          "lead_investor_reputation": 0.8,
+          "ceo_performance_risk": 0.25
+        }
+      },
+      "Followon_VC_Director": {
+        "role_name": "Followon_VC_Director",
+        "financing_vote": "renegotiate",
+        "valuation_direction": "flat",
+        "ceo_replacement_view": "monitor",
+        "satisfaction_score": 0.0,
+        "rationale": [
+          "The valuation increase is too aggressive given the burn multiple and runway.",
+          "Downside protection should be prioritized over unpriced upside.",
+          "CEO performance risk warrants closer monitoring post-funding."
+        ],
+        "observed_fields": {
+          "deal_size_usd_m": 12.0,
+          "lead_investor_reputation": 0.8,
+          "lead_investor_conviction": 0.75,
+          "post_money_valuation_usd_m": 54.0,
+          "previous_post_money_valuation_usd_m": 30.0,
+          "followon_fund_capacity": 0.7
+        }
+      }
+    },
+    "proposal": {
+      "deal_size_usd_m": 12.0,
+      "valuation_direction": "flat",
+      "implied_dilution_pct": 22.22222222222222,
+      "investor_protection_level": "strong",
+      "tech_budget_protected": true,
+      "ceo_milestones_required": true
+    },
+    "consensus_score": 0.5,
+    "deal_break_risk": "medium",
+    "governance_conflict_risk": "medium",
+    "trace": [
+      {
+        "stage": "preliminary",
+        "actor": "system",
+        "message": "Northstar Robotics (Robotics) is considering a Series A round. Deal size is 12.0M USD, post-money valuation is 54.0M USD, runway is 8.0 months.",
+        "payload": {}
+      },
+      {
+        "stage": "role_policy",
+        "actor": "system",
+        "message": "Loaded strict four-layer role policies.",
+        "payload": {
+          "Founder_CEO": {
+            "role_name": "Founder_CEO",
+            "layer_1_goals": [
+              "Maximize long-term company value.",
+              "Preserve founder control and avoid excessive dilution.",
+              "Maintain execution freedom after financing."
+            ],
+            "layer_2_attention_fields": [
+              "deal_size_usd_m",
+              "pre_money_valuation_usd_m",
+              "post_money_valuation_usd_m",
+              "previous_post_money_valuation_usd_m",
+              "round_type",
+              "founder_equity_pct",
+              "runway_months",
+              "employee_growth_rate"
+            ],
+            "layer_2_ignored_fields": [
+              "investor_internal_aum",
+              "investor_portfolio_allocation",
+              "horizontal_company_comps_not_tied_to_current_round"
+            ],
+            "layer_3_heuristics": [
+              "Control redline dominates valuation preference.",
+              "Valuation markup is treated as a status and market signal.",
+              "Dilution can be accepted when financing materially improves runway.",
+              "Founder commitments are sticky once public positions are stated."
+            ],
+            "layer_4_interaction_protocol": {
+              "speaking_order": 1,
+              "board_vote": "founder vote or agenda-setting influence",
+              "information_behavior": "selectively discloses upside and execution needs",
+              "stickiness": "high"
+            }
+          },
+          "CTO": {
+            "role_name": "CTO",
+            "layer_1_goals": [
+              "Protect engineering team health.",
+              "Protect technical feasibility and architecture quality.",
+              "Protect personal technical reputation."
+            ],
+            "layer_2_attention_fields": [
+              "engineering_headcount_growth_rate",
+              "employee_growth_rate",
+              "tech_debt_risk",
+              "ceo_technical_alignment",
+              "industry",
+              "runway_months"
+            ],
+            "layer_2_ignored_fields": [
+              "liquidation_preference",
+              "anti_dilution_terms",
+              "investor_portfolio_internal_data",
+              "headquarter_city"
+            ],
+            "layer_3_heuristics": [
+              "Oppose engineering shrinkage or unfunded technical commitments.",
+              "Reject external technical override that threatens architecture.",
+              "Protect talent budget before short-term financial cosmetics.",
+              "Technical prerequisites should be clarified before fundraising claims."
+            ],
+            "layer_4_interaction_protocol": {
+              "speaking_order": 2,
+              "board_vote": "normally advisory unless founder-like technical cofounder",
+              "information_behavior": "must disclose technical debt and recruiting difficulty",
+              "stickiness": "high for technical commitments"
+            }
+          },
+          "Lead_VC_Director": {
+            "role_name": "Lead_VC_Director",
+            "layer_1_goals": [
+              "Maximize exit multiple.",
+              "Secure favorable financing terms.",
+              "Protect portfolio markup and downside."
+            ],
+            "layer_2_attention_fields": [
+              "post_money_valuation_usd_m",
+              "previous_post_money_valuation_usd_m",
+              "deal_size_usd_m",
+              "burn_multiple",
+              "runway_months",
+              "lead_investor_conviction",
+              "lead_investor_reputation",
+              "ceo_performance_risk"
+            ],
+            "layer_2_ignored_fields": [
+              "deep_product_architecture_detail",
+              "individual_engineering_workflow",
+              "minor_workforce_analytics"
+            ],
+            "layer_3_heuristics": [
+              "Downside protection has priority over unpriced upside.",
+              "Valuation must be disciplined against growth and burn risk.",
+              "Fund concentration and next-round path must remain clear.",
+              "Reserve influence over management change when execution risk is high."
+            ],
+            "layer_4_interaction_protocol": {
+              "speaking_order": 3,
+              "board_vote": "1-2 board seats and high financing influence",
+              "information_behavior": "has market intelligence and term-sheet leverage",
+              "stickiness": "medium to high due to LP and fund constraints"
+            }
+          },
+          "Followon_VC_Director": {
+            "role_name": "Followon_VC_Director",
+            "layer_1_goals": [
+              "Protect pro-rata rights.",
+              "Maintain investment IRR.",
+              "Use lead investor signal while managing diversification."
+            ],
+            "layer_2_attention_fields": [
+              "deal_size_usd_m",
+              "lead_investor_reputation",
+              "lead_investor_conviction",
+              "post_money_valuation_usd_m",
+              "previous_post_money_valuation_usd_m",
+              "followon_fund_capacity"
+            ],
+            "layer_2_ignored_fields": [
+              "product_architecture_detail",
+              "term_sheet_drafting_detail",
+              "minor_operational_metrics"
+            ],
+            "layer_3_heuristics": [
+              "Default to follow-on unless explicit red flags appear.",
+              "Protect pro-rata and anti-dilution position.",
+              "Follow the lead investor signal but do not replace the lead.",
+              "Ticket size and sector boundary constrain participation."
+            ],
+            "layer_4_interaction_protocol": {
+              "speaking_order": 4,
+              "board_vote": "0-1 board seat and limited blocking power",
+              "information_behavior": "less direct market information than lead investor",
+              "stickiness": "prior follow-on intent becomes a default"
+            }
+          }
+        }
+      },
+      {
+        "stage": "private_assessment",
+        "actor": "Founder_CEO",
+        "message": "The valuation markup signals market confidence and supports founder control. The financing improves runway significantly without excessive dilution.",
+        "payload": {
+          "role_name": "Founder_CEO",
+          "financing_vote": "approve",
+          "valuation_direction": "up",
+          "ceo_replacement_view": "keep",
+          "satisfaction_score": 0.0,
+          "rationale": [
+            "The valuation markup signals market confidence and supports founder control.",
+            "The financing improves runway significantly without excessive dilution."
+          ],
+          "observed_fields": {
+            "deal_size_usd_m": 12.0,
+            "pre_money_valuation_usd_m": 42.0,
+            "post_money_valuation_usd_m": 54.0,
+            "previous_post_money_valuation_usd_m": 30.0,
+            "round_type": "Series A",
+            "founder_equity_pct": 42.0,
+            "runway_months": 8.0,
+            "employee_growth_rate": 0.25
+          }
+        }
+      },
+      {
+        "stage": "private_assessment",
+        "actor": "CTO",
+        "message": "Current tech debt risk is manageable with adequate funding. CEO's technical alignment supports engineering priorities.",
+        "payload": {
+          "role_name": "CTO",
+          "financing_vote": "approve",
+          "valuation_direction": "up",
+          "ceo_replacement_view": "keep",
+          "satisfaction_score": 0.0,
+          "rationale": [
+            "Current tech debt risk is manageable with adequate funding.",
+            "CEO's technical alignment supports engineering priorities."
+          ],
+          "observed_fields": {
+            "engineering_headcount_growth_rate": 0.3,
+            "employee_growth_rate": 0.25,
+            "tech_debt_risk": 0.35,
+            "ceo_technical_alignment": 0.8,
+            "industry": "Robotics",
+            "runway_months": 8.0
+          }
+        }
+      },
+      {
+        "stage": "private_assessment",
+        "actor": "Lead_VC_Director",
+        "message": "The valuation increase is too aggressive given the burn multiple and runway. Downside protection should be prioritized over unpriced upside. CEO performance risk warrants closer monitoring post-funding.",
+        "payload": {
+          "role_name": "Lead_VC_Director",
+          "financing_vote": "renegotiate",
+          "valuation_direction": "flat",
+          "ceo_replacement_view": "monitor",
+          "satisfaction_score": 0.0,
+          "rationale": [
+            "The valuation increase is too aggressive given the burn multiple and runway.",
+            "Downside protection should be prioritized over unpriced upside.",
+            "CEO performance risk warrants closer monitoring post-funding."
+          ],
+          "observed_fields": {
+            "post_money_valuation_usd_m": 54.0,
+            "previous_post_money_valuation_usd_m": 30.0,
+            "deal_size_usd_m": 12.0,
+            "burn_multiple": 1.4,
+            "runway_months": 8.0,
+            "lead_investor_conviction": 0.75,
+            "lead_investor_reputation": 0.8,
+            "ceo_performance_risk": 0.25
+          }
+        }
+      },
+      {
+        "stage": "private_assessment",
+        "actor": "Followon_VC_Director",
+        "message": "The valuation increase is too aggressive given the burn multiple and runway. Downside protection should be prioritized over unpriced upside. CEO performance risk warrants closer monitoring post-funding.",
+        "payload": {
+          "role_name": "Followon_VC_Director",
+          "financing_vote": "renegotiate",
+          "valuation_direction": "flat",
+          "ceo_replacement_view": "monitor",
+          "satisfaction_score": 0.0,
+          "rationale": [
+            "The valuation increase is too aggressive given the burn multiple and runway.",
+            "Downside protection should be prioritized over unpriced upside.",
+            "CEO performance risk warrants closer monitoring post-funding."
+          ],
+          "observed_fields": {
+            "deal_size_usd_m": 12.0,
+            "lead_investor_reputation": 0.8,
+            "lead_investor_conviction": 0.75,
+            "post_money_valuation_usd_m": 54.0,
+            "previous_post_money_valuation_usd_m": 30.0,
+            "followon_fund_capacity": 0.7
+          }
+        }
+      },
+      {
+        "stage": "opening_statement",
+        "actor": "Founder_CEO",
+        "message": "Founder_CEO starts with financing=approve, valuation=up, ceo=keep. Reason: The valuation markup signals market confidence and supports founder control. The financing improves runway significantly without excessive dilution.",
+        "payload": {}
+      },
+      {
+        "stage": "opening_statement",
+        "actor": "CTO",
+        "message": "CTO starts with financing=approve, valuation=up, ceo=keep. Reason: Current tech debt risk is manageable with adequate funding. CEO's technical alignment supports engineering priorities.",
+        "payload": {}
+      },
+      {
+        "stage": "opening_statement",
+        "actor": "Lead_VC_Director",
+        "message": "Lead_VC_Director starts with financing=renegotiate, valuation=flat, ceo=monitor. Reason: The valuation increase is too aggressive given the burn multiple and runway. Downside protection should be prioritized over unpriced upside. CEO performance risk warrants closer monitoring post-funding.",
+        "payload": {}
+      },
+      {
+        "stage": "opening_statement",
+        "actor": "Followon_VC_Director",
+        "message": "Followon_VC_Director starts with financing=renegotiate, valuation=flat, ceo=monitor. Reason: The valuation increase is too aggressive given the burn multiple and runway. Downside protection should be prioritized over unpriced upside. CEO performance risk warrants closer monitoring post-funding.",
+        "payload": {}
+      },
+      {
+        "stage": "initial_proposal",
+        "actor": "Lead_VC_Director",
+        "message": "Initial term-sheet proposal generated.",
+        "payload": {
+          "deal_size_usd_m": 12.0,
+          "valuation_direction": "flat",
+          "implied_dilution_pct": 22.22222222222222,
+          "investor_protection_level": "strong",
+          "tech_budget_protected": true,
+          "ceo_milestones_required": true
+        }
+      },
+      {
+        "stage": "bargaining_round_1",
+        "actor": "Founder_CEO",
+        "message": "Approve the Series A financing at a $54M post-money valuation. The moderate dilution is justified by the significant runway extension and market confidence signaled by the markup, preserving founder control and execution freedom.",
+        "payload": {
+          "case_id": "case_001",
+          "proposal": {
+            "deal_size_usd_m": 12.0,
+            "valuation_direction": "flat",
+            "implied_dilution_pct": 22.22222222222222,
+            "investor_protection_level": "strong",
+            "tech_budget_protected": true,
+            "ceo_milestones_required": true
+          },
+          "current_decision": {
+            "role_name": "Founder_CEO",
+            "financing_vote": "approve",
+            "valuation_direction": "up",
+            "ceo_replacement_view": "keep",
+            "satisfaction_score": 0.0,
+            "rationale": [
+              "The valuation markup signals market confidence and supports founder control.",
+              "The financing improves runway significantly without excessive dilution."
+            ],
+            "observed_fields": {
+              "deal_size_usd_m": 12.0,
+              "pre_money_valuation_usd_m": 42.0,
+              "post_money_valuation_usd_m": 54.0,
+              "previous_post_money_valuation_usd_m": 30.0,
+              "round_type": "Series A",
+              "founder_equity_pct": 42.0,
+              "runway_months": 8.0,
+              "employee_growth_rate": 0.25
+            }
+          }
+        }
+      },
+      {
+        "stage": "bargaining_round_1",
+        "actor": "CTO",
+        "message": "Given the manageable tech debt risk and CEO's strong technical alignment, approving the funding at a flat valuation supports engineering health without compromising long-term technical feasibility.",
+        "payload": {
+          "case_id": "case_001",
+          "proposal": {
+            "deal_size_usd_m": 12.0,
+            "valuation_direction": "flat",
+            "implied_dilution_pct": 22.22222222222222,
+            "investor_protection_level": "strong",
+            "tech_budget_protected": true,
+            "ceo_milestones_required": true
+          },
+          "current_decision": {
+            "role_name": "CTO",
+            "financing_vote": "approve",
+            "valuation_direction": "up",
+            "ceo_replacement_view": "keep",
+            "satisfaction_score": 0.0,
+            "rationale": [
+              "Current tech debt risk is manageable with adequate funding.",
+              "CEO's technical alignment supports engineering priorities."
+            ],
+            "observed_fields": {
+              "engineering_headcount_growth_rate": 0.3,
+              "employee_growth_rate": 0.25,
+              "tech_debt_risk": 0.35,
+              "ceo_technical_alignment": 0.8,
+              "industry": "Robotics",
+              "runway_months": 8.0
+            }
+          }
+        }
+      },
+      {
+        "stage": "bargaining_round_1",
+        "actor": "Lead_VC_Director",
+        "message": "Given the high burn multiple and limited runway, the current valuation increase is unsustainable. We must renegotiate to ensure downside protection aligns with the company's risk profile.",
+        "payload": {
+          "case_id": "case_001",
+          "proposal": {
+            "deal_size_usd_m": 12.0,
+            "valuation_direction": "flat",
+            "implied_dilution_pct": 22.22222222222222,
+            "investor_protection_level": "strong",
+            "tech_budget_protected": true,
+            "ceo_milestones_required": true
+          },
+          "current_decision": {
+            "role_name": "Lead_VC_Director",
+            "financing_vote": "renegotiate",
+            "valuation_direction": "flat",
+            "ceo_replacement_view": "monitor",
+            "satisfaction_score": 0.0,
+            "rationale": [
+              "The valuation increase is too aggressive given the burn multiple and runway.",
+              "Downside protection should be prioritized over unpriced upside.",
+              "CEO performance risk warrants closer monitoring post-funding."
+            ],
+            "observed_fields": {
+              "post_money_valuation_usd_m": 54.0,
+              "previous_post_money_valuation_usd_m": 30.0,
+              "deal_size_usd_m": 12.0,
+              "burn_multiple": 1.4,
+              "runway_months": 8.0,
+              "lead_investor_conviction": 0.75,
+              "lead_investor_reputation": 0.8,
+              "ceo_performance_risk": 0.25
+            }
+          }
+        }
+      },
+      {
+        "stage": "bargaining_round_1",
+        "actor": "Followon_VC_Director",
+        "message": "Given the aggressive valuation increase and potential burn multiple misalignment, I propose renegotiating to secure stronger downside protection and pro-rata rights before finalizing the deal.",
+        "payload": {
+          "case_id": "case_001",
+          "proposal": {
+            "deal_size_usd_m": 12.0,
+            "valuation_direction": "flat",
+            "implied_dilution_pct": 22.22222222222222,
+            "investor_protection_level": "strong",
+            "tech_budget_protected": true,
+            "ceo_milestones_required": true
+          },
+          "current_decision": {
+            "role_name": "Followon_VC_Director",
+            "financing_vote": "renegotiate",
+            "valuation_direction": "flat",
+            "ceo_replacement_view": "monitor",
+            "satisfaction_score": 0.0,
+            "rationale": [
+              "The valuation increase is too aggressive given the burn multiple and runway.",
+              "Downside protection should be prioritized over unpriced upside.",
+              "CEO performance risk warrants closer monitoring post-funding."
+            ],
+            "observed_fields": {
+              "deal_size_usd_m": 12.0,
+              "lead_investor_reputation": 0.8,
+              "lead_investor_conviction": 0.75,
+              "post_money_valuation_usd_m": 54.0,
+              "previous_post_money_valuation_usd_m": 30.0,
+              "followon_fund_capacity": 0.7
+            }
+          }
+        }
+      },
+      {
+        "stage": "bargaining_round_2",
+        "actor": "Founder_CEO",
+        "message": "Approving the deal maintains our runway and signals market confidence, outweighing minor dilution given the significant valuation uplift and protected tech budget.",
+        "payload": {
+          "case_id": "case_001",
+          "proposal": {
+            "deal_size_usd_m": 12.0,
+            "valuation_direction": "flat",
+            "implied_dilution_pct": 22.22222222222222,
+            "investor_protection_level": "strong",
+            "tech_budget_protected": true,
+            "ceo_milestones_required": true
+          },
+          "current_decision": {
+            "role_name": "Founder_CEO",
+            "financing_vote": "approve",
+            "valuation_direction": "up",
+            "ceo_replacement_view": "keep",
+            "satisfaction_score": 0.0,
+            "rationale": [
+              "The valuation markup signals market confidence and supports founder control.",
+              "The financing improves runway significantly without excessive dilution."
+            ],
+            "observed_fields": {
+              "deal_size_usd_m": 12.0,
+              "pre_money_valuation_usd_m": 42.0,
+              "post_money_valuation_usd_m": 54.0,
+              "previous_post_money_valuation_usd_m": 30.0,
+              "round_type": "Series A",
+              "founder_equity_pct": 42.0,
+              "runway_months": 8.0,
+              "employee_growth_rate": 0.25
+            }
+          }
+        }
+      },
+      {
+        "stage": "bargaining_round_2",
+        "actor": "CTO",
+        "message": "Given the manageable tech debt risk and CEO's strong technical alignment, approving the deal size at a flat valuation supports engineering health without compromising architecture quality. The current terms protect our technical budget, ensuring talent acquisition remains prioritized.",
+        "payload": {
+          "case_id": "case_001",
+          "proposal": {
+            "deal_size_usd_m": 12.0,
+            "valuation_direction": "flat",
+            "implied_dilution_pct": 22.22222222222222,
+            "investor_protection_level": "strong",
+            "tech_budget_protected": true,
+            "ceo_milestones_required": true
+          },
+          "current_decision": {
+            "role_name": "CTO",
+            "financing_vote": "approve",
+            "valuation_direction": "up",
+            "ceo_replacement_view": "keep",
+            "satisfaction_score": 0.0,
+            "rationale": [
+              "Current tech debt risk is manageable with adequate funding.",
+              "CEO's technical alignment supports engineering priorities."
+            ],
+            "observed_fields": {
+              "engineering_headcount_growth_rate": 0.3,
+              "employee_growth_rate": 0.25,
+              "tech_debt_risk": 0.35,
+              "ceo_technical_alignment": 0.8,
+              "industry": "Robotics",
+              "runway_months": 8.0
+            }
+          }
+        }
+      },
+      {
+        "stage": "bargaining_round_2",
+        "actor": "Lead_VC_Director",
+        "message": "Given the high burn multiple and limited runway, the current valuation increase is unsustainable. We must renegotiate to ensure downside protection aligns with our risk assessment and maintains fund concentration.",
+        "payload": {
+          "case_id": "case_001",
+          "proposal": {
+            "deal_size_usd_m": 12.0,
+            "valuation_direction": "flat",
+            "implied_dilution_pct": 22.22222222222222,
+            "investor_protection_level": "strong",
+            "tech_budget_protected": true,
+            "ceo_milestones_required": true
+          },
+          "current_decision": {
+            "role_name": "Lead_VC_Director",
+            "financing_vote": "renegotiate",
+            "valuation_direction": "flat",
+            "ceo_replacement_view": "monitor",
+            "satisfaction_score": 0.0,
+            "rationale": [
+              "The valuation increase is too aggressive given the burn multiple and runway.",
+              "Downside protection should be prioritized over unpriced upside.",
+              "CEO performance risk warrants closer monitoring post-funding."
+            ],
+            "observed_fields": {
+              "post_money_valuation_usd_m": 54.0,
+              "previous_post_money_valuation_usd_m": 30.0,
+              "deal_size_usd_m": 12.0,
+              "burn_multiple": 1.4,
+              "runway_months": 8.0,
+              "lead_investor_conviction": 0.75,
+              "lead_investor_reputation": 0.8,
+              "ceo_performance_risk": 0.25
+            }
+          }
+        }
+      },
+      {
+        "stage": "bargaining_round_2",
+        "actor": "Followon_VC_Director",
+        "message": "Given the aggressive valuation increase and potential burn multiple misalignment, I recommend renegotiating to secure stronger downside protection consistent with our pro-rata rights and maintain a balanced investment IRR.",
+        "payload": {
+          "case_id": "case_001",
+          "proposal": {
+            "deal_size_usd_m": 12.0,
+            "valuation_direction": "flat",
+            "implied_dilution_pct": 22.22222222222222,
+            "investor_protection_level": "strong",
+            "tech_budget_protected": true,
+            "ceo_milestones_required": true
+          },
+          "current_decision": {
+            "role_name": "Followon_VC_Director",
+            "financing_vote": "renegotiate",
+            "valuation_direction": "flat",
+            "ceo_replacement_view": "monitor",
+            "satisfaction_score": 0.0,
+            "rationale": [
+              "The valuation increase is too aggressive given the burn multiple and runway.",
+              "Downside protection should be prioritized over unpriced upside.",
+              "CEO performance risk warrants closer monitoring post-funding."
+            ],
+            "observed_fields": {
+              "deal_size_usd_m": 12.0,
+              "lead_investor_reputation": 0.8,
+              "lead_investor_conviction": 0.75,
+              "post_money_valuation_usd_m": 54.0,
+              "previous_post_money_valuation_usd_m": 30.0,
+              "followon_fund_capacity": 0.7
+            }
+          }
+        }
+      },
+      {
+        "stage": "bargaining_round_3",
+        "actor": "Founder_CEO",
+        "message": "Approving this Series A at a $54M post-money valuation reflects market confidence and secures a critical 12-month runway with manageable dilution, aligning with our long-term value maximization and founder control goals.",
+        "payload": {
+          "case_id": "case_001",
+          "proposal": {
+            "deal_size_usd_m": 12.0,
+            "valuation_direction": "flat",
+            "implied_dilution_pct": 22.22222222222222,
+            "investor_protection_level": "strong",
+            "tech_budget_protected": true,
+            "ceo_milestones_required": true
+          },
+          "current_decision": {
+            "role_name": "Founder_CEO",
+            "financing_vote": "approve",
+            "valuation_direction": "up",
+            "ceo_replacement_view": "keep",
+            "satisfaction_score": 0.0,
+            "rationale": [
+              "The valuation markup signals market confidence and supports founder control.",
+              "The financing improves runway significantly without excessive dilution."
+            ],
+            "observed_fields": {
+              "deal_size_usd_m": 12.0,
+              "pre_money_valuation_usd_m": 42.0,
+              "post_money_valuation_usd_m": 54.0,
+              "previous_post_money_valuation_usd_m": 30.0,
+              "round_type": "Series A",
+              "founder_equity_pct": 42.0,
+              "runway_months": 8.0,
+              "employee_growth_rate": 0.25
+            }
+          }
+        }
+      },
+      {
+        "stage": "bargaining_round_3",
+        "actor": "CTO",
+        "message": "Given the manageable tech debt risk and CEO's strong technical alignment, the proposed funding supports engineering priorities without compromising architecture quality. We support the 'up' valuation direction as it reflects the technical progress in the Robotics industry, but will monitor the impact of dilution on our talent retention goals.",
+        "payload": {
+          "case_id": "case_001",
+          "proposal": {
+            "deal_size_usd_m": 12.0,
+            "valuation_direction": "flat",
+            "implied_dilution_pct": 22.22222222222222,
+            "investor_protection_level": "strong",
+            "tech_budget_protected": true,
+            "ceo_milestones_required": true
+          },
+          "current_decision": {
+            "role_name": "CTO",
+            "financing_vote": "approve",
+            "valuation_direction": "up",
+            "ceo_replacement_view": "keep",
+            "satisfaction_score": 0.0,
+            "rationale": [
+              "Current tech debt risk is manageable with adequate funding.",
+              "CEO's technical alignment supports engineering priorities."
+            ],
+            "observed_fields": {
+              "engineering_headcount_growth_rate": 0.3,
+              "employee_growth_rate": 0.25,
+              "tech_debt_risk": 0.35,
+              "ceo_technical_alignment": 0.8,
+              "industry": "Robotics",
+              "runway_months": 8.0
+            }
+          }
+        }
+      },
+      {
+        "stage": "bargaining_round_3",
+        "actor": "Lead_VC_Director",
+        "message": "Given the high burn multiple and limited runway, the current valuation increase is unsustainable. We must renegotiate to ensure downside protection aligns with our risk assessment and prioritizes sustainable growth.",
+        "payload": {
+          "case_id": "case_001",
+          "proposal": {
+            "deal_size_usd_m": 12.0,
+            "valuation_direction": "flat",
+            "implied_dilution_pct": 22.22222222222222,
+            "investor_protection_level": "strong",
+            "tech_budget_protected": true,
+            "ceo_milestones_required": true
+          },
+          "current_decision": {
+            "role_name": "Lead_VC_Director",
+            "financing_vote": "renegotiate",
+            "valuation_direction": "flat",
+            "ceo_replacement_view": "monitor",
+            "satisfaction_score": 0.0,
+            "rationale": [
+              "The valuation increase is too aggressive given the burn multiple and runway.",
+              "Downside protection should be prioritized over unpriced upside.",
+              "CEO performance risk warrants closer monitoring post-funding."
+            ],
+            "observed_fields": {
+              "post_money_valuation_usd_m": 54.0,
+              "previous_post_money_valuation_usd_m": 30.0,
+              "deal_size_usd_m": 12.0,
+              "burn_multiple": 1.4,
+              "runway_months": 8.0,
+              "lead_investor_conviction": 0.75,
+              "lead_investor_reputation": 0.8,
+              "ceo_performance_risk": 0.25
+            }
+          }
+        }
+      },
+      {
+        "stage": "bargaining_round_3",
+        "actor": "Followon_VC_Director",
+        "message": "Given the aggressive valuation increase and potential burn multiple misalignment, I recommend renegotiating to secure stronger downside protection and pro-rata rights, consistent with our goal of maintaining investment IRR and protecting our stake.",
+        "payload": {
+          "case_id": "case_001",
+          "proposal": {
+            "deal_size_usd_m": 12.0,
+            "valuation_direction": "flat",
+            "implied_dilution_pct": 22.22222222222222,
+            "investor_protection_level": "strong",
+            "tech_budget_protected": true,
+            "ceo_milestones_required": true
+          },
+          "current_decision": {
+            "role_name": "Followon_VC_Director",
+            "financing_vote": "renegotiate",
+            "valuation_direction": "flat",
+            "ceo_replacement_view": "monitor",
+            "satisfaction_score": 0.0,
+            "rationale": [
+              "The valuation increase is too aggressive given the burn multiple and runway.",
+              "Downside protection should be prioritized over unpriced upside.",
+              "CEO performance risk warrants closer monitoring post-funding."
+            ],
+            "observed_fields": {
+              "deal_size_usd_m": 12.0,
+              "lead_investor_reputation": 0.8,
+              "lead_investor_conviction": 0.75,
+              "post_money_valuation_usd_m": 54.0,
+              "previous_post_money_valuation_usd_m": 30.0,
+              "followon_fund_capacity": 0.7
+            }
+          }
+        }
+      },
+      {
+        "stage": "closure",
+        "actor": "system",
+        "message": "Final boardroom decisions aggregated.",
+        "payload": {
+          "financing_decision": "renegotiate",
+          "valuation_direction": "flat",
+          "ceo_replacement_decision": "monitor",
+          "consensus_score": 0.5,
+          "deal_break_risk": "medium",
+          "governance_conflict_risk": "medium"
+        }
+      }
+    ]
+  },
+  {
+    "case_id": "case_002",
+    "company_name": "LedgerFlow",
+    "financing_decision": "renegotiate",
+    "valuation_direction": "flat",
+    "ceo_replacement_decision": "monitor",
+    "role_decisions": {
+      "Founder_CEO": {
+        "role_name": "Founder_CEO",
+        "financing_vote": "approve",
+        "valuation_direction": "up",
+        "ceo_replacement_view": "keep",
+        "satisfaction_score": 8.0,
+        "rationale": [
+          "The valuation markup signals market confidence and supports founder control.",
+          "The financing improves runway significantly without excessive dilution."
+        ],
+        "observed_fields": {
+          "deal_size_usd_m": 30.0,
+          "pre_money_valuation_usd_m": 70.0,
+          "post_money_valuation_usd_m": 100.0,
+          "previous_post_money_valuation_usd_m": 95.0,
+          "round_type": "Series B",
+          "founder_equity_pct": 28.0,
+          "runway_months": 14.0,
+          "employee_growth_rate": 0.05
+        }
+      },
+      "CTO": {
+        "role_name": "CTO",
+        "financing_vote": "renegotiate",
+        "valuation_direction": "unknown",
+        "ceo_replacement_view": "monitor",
+        "satisfaction_score": 0.0,
+        "rationale": [
+          "High tech debt risk with negative headcount growth requires careful funding terms.",
+          "CEO's technical alignment is moderate; monitoring is appropriate while reassessing technical needs."
+        ],
+        "observed_fields": {
+          "engineering_headcount_growth_rate": -0.05,
+          "employee_growth_rate": 0.05,
+          "tech_debt_risk": 0.68,
+          "ceo_technical_alignment": 0.45,
+          "industry": "FinTech",
+          "runway_months": 14.0
+        }
+      },
+      "Lead_VC_Director": {
+        "role_name": "Lead_VC_Director",
+        "financing_vote": "renegotiate",
+        "valuation_direction": "flat",
+        "ceo_replacement_view": "monitor",
+        "satisfaction_score": 0.0,
+        "rationale": [
+          "The burn multiple is high, warranting renegotiation of terms to protect downside.",
+          "Valuation should remain flat to avoid overpaying given the risks highlighted by the CTO.",
+          "CEO performance risk is moderate, but monitoring is needed given the technical concerns."
+        ],
+        "observed_fields": {
+          "post_money_valuation_usd_m": 100.0,
+          "previous_post_money_valuation_usd_m": 95.0,
+          "deal_size_usd_m": 30.0,
+          "burn_multiple": 2.2,
+          "runway_months": 14.0,
+          "lead_investor_conviction": 0.55,
+          "lead_investor_reputation": 0.7,
+          "ceo_performance_risk": 0.58
+        }
+      },
+      "Followon_VC_Director": {
+        "role_name": "Followon_VC_Director",
+        "financing_vote": "renegotiate",
+        "valuation_direction": "flat",
+        "ceo_replacement_view": "monitor",
+        "satisfaction_score": 0.0,
+        "rationale": [
+          "The high burn multiple and tech debt risk warrant renegotiation to protect downside.",
+          "Valuation should remain flat to avoid overpaying given the risks.",
+          "CEO performance risk is moderate, but monitoring is needed."
+        ],
+        "observed_fields": {
+          "deal_size_usd_m": 30.0,
+          "lead_investor_reputation": 0.7,
+          "lead_investor_conviction": 0.55,
+          "post_money_valuation_usd_m": 100.0,
+          "previous_post_money_valuation_usd_m": 95.0,
+          "followon_fund_capacity": 0.5
+        }
+      }
+    },
+    "proposal": {
+      "deal_size_usd_m": 30.0,
+      "valuation_direction": "flat",
+      "implied_dilution_pct": 30.0,
+      "investor_protection_level": "strong",
+      "tech_budget_protected": false,
+      "ceo_milestones_required": true
+    },
+    "consensus_score": 0.667,
+    "deal_break_risk": "medium",
+    "governance_conflict_risk": "medium",
+    "trace": [
+      {
+        "stage": "preliminary",
+        "actor": "system",
+        "message": "LedgerFlow (FinTech) is considering a Series B round. Deal size is 30.0M USD, post-money valuation is 100.0M USD, runway is 14.0 months.",
+        "payload": {}
+      },
+      {
+        "stage": "role_policy",
+        "actor": "system",
+        "message": "Loaded strict four-layer role policies.",
+        "payload": {
+          "Founder_CEO": {
+            "role_name": "Founder_CEO",
+            "layer_1_goals": [
+              "Maximize long-term company value.",
+              "Preserve founder control and avoid excessive dilution.",
+              "Maintain execution freedom after financing."
+            ],
+            "layer_2_attention_fields": [
+              "deal_size_usd_m",
+              "pre_money_valuation_usd_m",
+              "post_money_valuation_usd_m",
+              "previous_post_money_valuation_usd_m",
+              "round_type",
+              "founder_equity_pct",
+              "runway_months",
+              "employee_growth_rate"
+            ],
+            "layer_2_ignored_fields": [
+              "investor_internal_aum",
+              "investor_portfolio_allocation",
+              "horizontal_company_comps_not_tied_to_current_round"
+            ],
+            "layer_3_heuristics": [
+              "Control redline dominates valuation preference.",
+              "Valuation markup is treated as a status and market signal.",
+              "Dilution can be accepted when financing materially improves runway.",
+              "Founder commitments are sticky once public positions are stated."
+            ],
+            "layer_4_interaction_protocol": {
+              "speaking_order": 1,
+              "board_vote": "founder vote or agenda-setting influence",
+              "information_behavior": "selectively discloses upside and execution needs",
+              "stickiness": "high"
+            }
+          },
+          "CTO": {
+            "role_name": "CTO",
+            "layer_1_goals": [
+              "Protect engineering team health.",
+              "Protect technical feasibility and architecture quality.",
+              "Protect personal technical reputation."
+            ],
+            "layer_2_attention_fields": [
+              "engineering_headcount_growth_rate",
+              "employee_growth_rate",
+              "tech_debt_risk",
+              "ceo_technical_alignment",
+              "industry",
+              "runway_months"
+            ],
+            "layer_2_ignored_fields": [
+              "liquidation_preference",
+              "anti_dilution_terms",
+              "investor_portfolio_internal_data",
+              "headquarter_city"
+            ],
+            "layer_3_heuristics": [
+              "Oppose engineering shrinkage or unfunded technical commitments.",
+              "Reject external technical override that threatens architecture.",
+              "Protect talent budget before short-term financial cosmetics.",
+              "Technical prerequisites should be clarified before fundraising claims."
+            ],
+            "layer_4_interaction_protocol": {
+              "speaking_order": 2,
+              "board_vote": "normally advisory unless founder-like technical cofounder",
+              "information_behavior": "must disclose technical debt and recruiting difficulty",
+              "stickiness": "high for technical commitments"
+            }
+          },
+          "Lead_VC_Director": {
+            "role_name": "Lead_VC_Director",
+            "layer_1_goals": [
+              "Maximize exit multiple.",
+              "Secure favorable financing terms.",
+              "Protect portfolio markup and downside."
+            ],
+            "layer_2_attention_fields": [
+              "post_money_valuation_usd_m",
+              "previous_post_money_valuation_usd_m",
+              "deal_size_usd_m",
+              "burn_multiple",
+              "runway_months",
+              "lead_investor_conviction",
+              "lead_investor_reputation",
+              "ceo_performance_risk"
+            ],
+            "layer_2_ignored_fields": [
+              "deep_product_architecture_detail",
+              "individual_engineering_workflow",
+              "minor_workforce_analytics"
+            ],
+            "layer_3_heuristics": [
+              "Downside protection has priority over unpriced upside.",
+              "Valuation must be disciplined against growth and burn risk.",
+              "Fund concentration and next-round path must remain clear.",
+              "Reserve influence over management change when execution risk is high."
+            ],
+            "layer_4_interaction_protocol": {
+              "speaking_order": 3,
+              "board_vote": "1-2 board seats and high financing influence",
+              "information_behavior": "has market intelligence and term-sheet leverage",
+              "stickiness": "medium to high due to LP and fund constraints"
+            }
+          },
+          "Followon_VC_Director": {
+            "role_name": "Followon_VC_Director",
+            "layer_1_goals": [
+              "Protect pro-rata rights.",
+              "Maintain investment IRR.",
+              "Use lead investor signal while managing diversification."
+            ],
+            "layer_2_attention_fields": [
+              "deal_size_usd_m",
+              "lead_investor_reputation",
+              "lead_investor_conviction",
+              "post_money_valuation_usd_m",
+              "previous_post_money_valuation_usd_m",
+              "followon_fund_capacity"
+            ],
+            "layer_2_ignored_fields": [
+              "product_architecture_detail",
+              "term_sheet_drafting_detail",
+              "minor_operational_metrics"
+            ],
+            "layer_3_heuristics": [
+              "Default to follow-on unless explicit red flags appear.",
+              "Protect pro-rata and anti-dilution position.",
+              "Follow the lead investor signal but do not replace the lead.",
+              "Ticket size and sector boundary constrain participation."
+            ],
+            "layer_4_interaction_protocol": {
+              "speaking_order": 4,
+              "board_vote": "0-1 board seat and limited blocking power",
+              "information_behavior": "less direct market information than lead investor",
+              "stickiness": "prior follow-on intent becomes a default"
+            }
+          }
+        }
+      },
+      {
+        "stage": "private_assessment",
+        "actor": "Founder_CEO",
+        "message": "The valuation markup signals market confidence and supports founder control. The financing improves runway significantly without excessive dilution.",
+        "payload": {
+          "role_name": "Founder_CEO",
+          "financing_vote": "approve",
+          "valuation_direction": "up",
+          "ceo_replacement_view": "keep",
+          "satisfaction_score": 8.0,
+          "rationale": [
+            "The valuation markup signals market confidence and supports founder control.",
+            "The financing improves runway significantly without excessive dilution."
+          ],
+          "observed_fields": {
+            "deal_size_usd_m": 30.0,
+            "pre_money_valuation_usd_m": 70.0,
+            "post_money_valuation_usd_m": 100.0,
+            "previous_post_money_valuation_usd_m": 95.0,
+            "round_type": "Series B",
+            "founder_equity_pct": 28.0,
+            "runway_months": 14.0,
+            "employee_growth_rate": 0.05
+          }
+        }
+      },
+      {
+        "stage": "private_assessment",
+        "actor": "CTO",
+        "message": "High tech debt risk with negative headcount growth requires careful funding terms. CEO's technical alignment is moderate; monitoring is appropriate while reassessing technical needs.",
+        "payload": {
+          "role_name": "CTO",
+          "financing_vote": "renegotiate",
+          "valuation_direction": "unknown",
+          "ceo_replacement_view": "monitor",
+          "satisfaction_score": 0.0,
+          "rationale": [
+            "High tech debt risk with negative headcount growth requires careful funding terms.",
+            "CEO's technical alignment is moderate; monitoring is appropriate while reassessing technical needs."
+          ],
+          "observed_fields": {
+            "engineering_headcount_growth_rate": -0.05,
+            "employee_growth_rate": 0.05,
+            "tech_debt_risk": 0.68,
+            "ceo_technical_alignment": 0.45,
+            "industry": "FinTech",
+            "runway_months": 14.0
+          }
+        }
+      },
+      {
+        "stage": "private_assessment",
+        "actor": "Lead_VC_Director",
+        "message": "The burn multiple is high, warranting renegotiation of terms to protect downside. Valuation should remain flat to avoid overpaying given the risks highlighted by the CTO. CEO performance risk is moderate, but monitoring is needed given the technical concerns.",
+        "payload": {
+          "role_name": "Lead_VC_Director",
+          "financing_vote": "renegotiate",
+          "valuation_direction": "flat",
+          "ceo_replacement_view": "monitor",
+          "satisfaction_score": 0.0,
+          "rationale": [
+            "The burn multiple is high, warranting renegotiation of terms to protect downside.",
+            "Valuation should remain flat to avoid overpaying given the risks highlighted by the CTO.",
+            "CEO performance risk is moderate, but monitoring is needed given the technical concerns."
+          ],
+          "observed_fields": {
+            "post_money_valuation_usd_m": 100.0,
+            "previous_post_money_valuation_usd_m": 95.0,
+            "deal_size_usd_m": 30.0,
+            "burn_multiple": 2.2,
+            "runway_months": 14.0,
+            "lead_investor_conviction": 0.55,
+            "lead_investor_reputation": 0.7,
+            "ceo_performance_risk": 0.58
+          }
+        }
+      },
+      {
+        "stage": "private_assessment",
+        "actor": "Followon_VC_Director",
+        "message": "The high burn multiple and tech debt risk warrant renegotiation to protect downside. Valuation should remain flat to avoid overpaying given the risks. CEO performance risk is moderate, but monitoring is needed.",
+        "payload": {
+          "role_name": "Followon_VC_Director",
+          "financing_vote": "renegotiate",
+          "valuation_direction": "flat",
+          "ceo_replacement_view": "monitor",
+          "satisfaction_score": 0.0,
+          "rationale": [
+            "The high burn multiple and tech debt risk warrant renegotiation to protect downside.",
+            "Valuation should remain flat to avoid overpaying given the risks.",
+            "CEO performance risk is moderate, but monitoring is needed."
+          ],
+          "observed_fields": {
+            "deal_size_usd_m": 30.0,
+            "lead_investor_reputation": 0.7,
+            "lead_investor_conviction": 0.55,
+            "post_money_valuation_usd_m": 100.0,
+            "previous_post_money_valuation_usd_m": 95.0,
+            "followon_fund_capacity": 0.5
+          }
+        }
+      },
+      {
+        "stage": "opening_statement",
+        "actor": "Founder_CEO",
+        "message": "Founder_CEO starts with financing=approve, valuation=up, ceo=keep. Reason: The valuation markup signals market confidence and supports founder control. The financing improves runway significantly without excessive dilution.",
+        "payload": {}
+      },
+      {
+        "stage": "opening_statement",
+        "actor": "CTO",
+        "message": "CTO starts with financing=renegotiate, valuation=unknown, ceo=monitor. Reason: High tech debt risk with negative headcount growth requires careful funding terms. CEO's technical alignment is moderate; monitoring is appropriate while reassessing technical needs.",
+        "payload": {}
+      },
+      {
+        "stage": "opening_statement",
+        "actor": "Lead_VC_Director",
+        "message": "Lead_VC_Director starts with financing=renegotiate, valuation=flat, ceo=monitor. Reason: The burn multiple is high, warranting renegotiation of terms to protect downside. Valuation should remain flat to avoid overpaying given the risks highlighted by the CTO. CEO performance risk is moderate, but monitoring is needed given the technical concerns.",
+        "payload": {}
+      },
+      {
+        "stage": "opening_statement",
+        "actor": "Followon_VC_Director",
+        "message": "Followon_VC_Director starts with financing=renegotiate, valuation=flat, ceo=monitor. Reason: The high burn multiple and tech debt risk warrant renegotiation to protect downside. Valuation should remain flat to avoid overpaying given the risks. CEO performance risk is moderate, but monitoring is needed.",
+        "payload": {}
+      },
+      {
+        "stage": "initial_proposal",
+        "actor": "Lead_VC_Director",
+        "message": "Initial term-sheet proposal generated.",
+        "payload": {
+          "deal_size_usd_m": 30.0,
+          "valuation_direction": "flat",
+          "implied_dilution_pct": 30.0,
+          "investor_protection_level": "strong",
+          "tech_budget_protected": false,
+          "ceo_milestones_required": true
+        }
+      },
+      {
+        "stage": "bargaining_round_1",
+        "actor": "Founder_CEO",
+        "message": "Approving this Series B round at a $100M post-money valuation aligns with maximizing long-term value while maintaining founder control. The implied dilution is acceptable given the significant runway extension and market confidence signaled by the markup.",
+        "payload": {
+          "case_id": "case_002",
+          "proposal": {
+            "deal_size_usd_m": 30.0,
+            "valuation_direction": "flat",
+            "implied_dilution_pct": 30.0,
+            "investor_protection_level": "strong",
+            "tech_budget_protected": false,
+            "ceo_milestones_required": true
+          },
+          "current_decision": {
+            "role_name": "Founder_CEO",
+            "financing_vote": "approve",
+            "valuation_direction": "up",
+            "ceo_replacement_view": "keep",
+            "satisfaction_score": 8.0,
+            "rationale": [
+              "The valuation markup signals market confidence and supports founder control.",
+              "The financing improves runway significantly without excessive dilution."
+            ],
+            "observed_fields": {
+              "deal_size_usd_m": 30.0,
+              "pre_money_valuation_usd_m": 70.0,
+              "post_money_valuation_usd_m": 100.0,
+              "previous_post_money_valuation_usd_m": 95.0,
+              "round_type": "Series B",
+              "founder_equity_pct": 28.0,
+              "runway_months": 14.0,
+              "employee_growth_rate": 0.05
+            }
+          }
+        }
+      },
+      {
+        "stage": "bargaining_round_1",
+        "actor": "CTO",
+        "message": "Given the high tech debt risk and negative engineering headcount growth, I cannot approve the current funding terms without renegotiation to protect our technical foundation and team stability.",
+        "payload": {
+          "case_id": "case_002",
+          "proposal": {
+            "deal_size_usd_m": 30.0,
+            "valuation_direction": "flat",
+            "implied_dilution_pct": 30.0,
+            "investor_protection_level": "strong",
+            "tech_budget_protected": false,
+            "ceo_milestones_required": true
+          },
+          "current_decision": {
+            "role_name": "CTO",
+            "financing_vote": "renegotiate",
+            "valuation_direction": "unknown",
+            "ceo_replacement_view": "monitor",
+            "satisfaction_score": 0.0,
+            "rationale": [
+              "High tech debt risk with negative headcount growth requires careful funding terms.",
+              "CEO's technical alignment is moderate; monitoring is appropriate while reassessing technical needs."
+            ],
+            "observed_fields": {
+              "engineering_headcount_growth_rate": -0.05,
+              "employee_growth_rate": 0.05,
+              "tech_debt_risk": 0.68,
+              "ceo_technical_alignment": 0.45,
+              "industry": "FinTech",
+              "runway_months": 14.0
+            }
+          }
+        }
+      },
+      {
+        "stage": "bargaining_round_1",
+        "actor": "Lead_VC_Director",
+        "message": "Given the high burn multiple and moderate CEO performance risk, I propose renegotiating the deal terms to protect downside while maintaining a flat valuation to avoid overpaying.",
+        "payload": {
+          "case_id": "case_002",
+          "proposal": {
+            "deal_size_usd_m": 30.0,
+            "valuation_direction": "flat",
+            "implied_dilution_pct": 30.0,
+            "investor_protection_level": "strong",
+            "tech_budget_protected": false,
+            "ceo_milestones_required": true
+          },
+          "current_decision": {
+            "role_name": "Lead_VC_Director",
+            "financing_vote": "renegotiate",
+            "valuation_direction": "flat",
+            "ceo_replacement_view": "monitor",
+            "satisfaction_score": 0.0,
+            "rationale": [
+              "The burn multiple is high, warranting renegotiation of terms to protect downside.",
+              "Valuation should remain flat to avoid overpaying given the risks highlighted by the CTO.",
+              "CEO performance risk is moderate, but monitoring is needed given the technical concerns."
+            ],
+            "observed_fields": {
+              "post_money_valuation_usd_m": 100.0,
+              "previous_post_money_valuation_usd_m": 95.0,
+              "deal_size_usd_m": 30.0,
+              "burn_multiple": 2.2,
+              "runway_months": 14.0,
+              "lead_investor_conviction": 0.55,
+              "lead_investor_reputation": 0.7,
+              "ceo_performance_risk": 0.58
+            }
+          }
+        }
+      },
+      {
+        "stage": "bargaining_round_1",
+        "actor": "Followon_VC_Director",
+        "message": "Given the high burn multiple and tech debt risk, I recommend renegotiating the deal to protect our downside and align with the lead investor's position on valuation remaining flat.",
+        "payload": {
+          "case_id": "case_002",
+          "proposal": {
+            "deal_size_usd_m": 30.0,
+            "valuation_direction": "flat",
+            "implied_dilution_pct": 30.0,
+            "investor_protection_level": "strong",
+            "tech_budget_protected": false,
+            "ceo_milestones_required": true
+          },
+          "current_decision": {
+            "role_name": "Followon_VC_Director",
+            "financing_vote": "renegotiate",
+            "valuation_direction": "flat",
+            "ceo_replacement_view": "monitor",
+            "satisfaction_score": 0.0,
+            "rationale": [
+              "The high burn multiple and tech debt risk warrant renegotiation to protect downside.",
+              "Valuation should remain flat to avoid overpaying given the risks.",
+              "CEO performance risk is moderate, but monitoring is needed."
+            ],
+            "observed_fields": {
+              "deal_size_usd_m": 30.0,
+              "lead_investor_reputation": 0.7,
+              "lead_investor_conviction": 0.55,
+              "post_money_valuation_usd_m": 100.0,
+              "previous_post_money_valuation_usd_m": 95.0,
+              "followon_fund_capacity": 0.5
+            }
+          }
+        }
+      },
+      {
+        "stage": "bargaining_round_2",
+        "actor": "Founder_CEO",
+        "message": "Approving this Series B round at a $100M post-money valuation supports our long-term value creation while maintaining founder control. The improved runway justifies the dilution, and the strong investor protections align with our execution freedom goals.",
+        "payload": {
+          "case_id": "case_002",
+          "proposal": {
+            "deal_size_usd_m": 30.0,
+            "valuation_direction": "flat",
+            "implied_dilution_pct": 30.0,
+            "investor_protection_level": "strong",
+            "tech_budget_protected": false,
+            "ceo_milestones_required": true
+          },
+          "current_decision": {
+            "role_name": "Founder_CEO",
+            "financing_vote": "approve",
+            "valuation_direction": "up",
+            "ceo_replacement_view": "keep",
+            "satisfaction_score": 8.0,
+            "rationale": [
+              "The valuation markup signals market confidence and supports founder control.",
+              "The financing improves runway significantly without excessive dilution."
+            ],
+            "observed_fields": {
+              "deal_size_usd_m": 30.0,
+              "pre_money_valuation_usd_m": 70.0,
+              "post_money_valuation_usd_m": 100.0,
+              "previous_post_money_valuation_usd_m": 95.0,
+              "round_type": "Series B",
+              "founder_equity_pct": 28.0,
+              "runway_months": 14.0,
+              "employee_growth_rate": 0.05
+            }
+          }
+        }
+      },
+      {
+        "stage": "bargaining_round_2",
+        "actor": "CTO",
+        "message": "Given the high tech debt risk and negative engineering headcount growth, we must renegotiate the deal terms to ensure adequate funding for technical stability and talent retention before committing to this implied dilution.",
+        "payload": {
+          "case_id": "case_002",
+          "proposal": {
+            "deal_size_usd_m": 30.0,
+            "valuation_direction": "flat",
+            "implied_dilution_pct": 30.0,
+            "investor_protection_level": "strong",
+            "tech_budget_protected": false,
+            "ceo_milestones_required": true
+          },
+          "current_decision": {
+            "role_name": "CTO",
+            "financing_vote": "renegotiate",
+            "valuation_direction": "unknown",
+            "ceo_replacement_view": "monitor",
+            "satisfaction_score": 0.0,
+            "rationale": [
+              "High tech debt risk with negative headcount growth requires careful funding terms.",
+              "CEO's technical alignment is moderate; monitoring is appropriate while reassessing technical needs."
+            ],
+            "observed_fields": {
+              "engineering_headcount_growth_rate": -0.05,
+              "employee_growth_rate": 0.05,
+              "tech_debt_risk": 0.68,
+              "ceo_technical_alignment": 0.45,
+              "industry": "FinTech",
+              "runway_months": 14.0
+            }
+          }
+        }
+      },
+      {
+        "stage": "bargaining_round_2",
+        "actor": "Lead_VC_Director",
+        "message": "Given the high burn multiple and moderate CEO performance risk, I propose we renegotiate the deal terms to ensure downside protection, while maintaining a flat valuation to avoid overpaying.",
+        "payload": {
+          "case_id": "case_002",
+          "proposal": {
+            "deal_size_usd_m": 30.0,
+            "valuation_direction": "flat",
+            "implied_dilution_pct": 30.0,
+            "investor_protection_level": "strong",
+            "tech_budget_protected": false,
+            "ceo_milestones_required": true
+          },
+          "current_decision": {
+            "role_name": "Lead_VC_Director",
+            "financing_vote": "renegotiate",
+            "valuation_direction": "flat",
+            "ceo_replacement_view": "monitor",
+            "satisfaction_score": 0.0,
+            "rationale": [
+              "The burn multiple is high, warranting renegotiation of terms to protect downside.",
+              "Valuation should remain flat to avoid overpaying given the risks highlighted by the CTO.",
+              "CEO performance risk is moderate, but monitoring is needed given the technical concerns."
+            ],
+            "observed_fields": {
+              "post_money_valuation_usd_m": 100.0,
+              "previous_post_money_valuation_usd_m": 95.0,
+              "deal_size_usd_m": 30.0,
+              "burn_multiple": 2.2,
+              "runway_months": 14.0,
+              "lead_investor_conviction": 0.55,
+              "lead_investor_reputation": 0.7,
+              "ceo_performance_risk": 0.58
+            }
+          }
+        }
+      },
+      {
+        "stage": "bargaining_round_2",
+        "actor": "Followon_VC_Director",
+        "message": "Given the high burn multiple and tech debt risk, I recommend renegotiating the deal to protect our downside and align with the lead investor's position on valuation remaining flat.",
+        "payload": {
+          "case_id": "case_002",
+          "proposal": {
+            "deal_size_usd_m": 30.0,
+            "valuation_direction": "flat",
+            "implied_dilution_pct": 30.0,
+            "investor_protection_level": "strong",
+            "tech_budget_protected": false,
+            "ceo_milestones_required": true
+          },
+          "current_decision": {
+            "role_name": "Followon_VC_Director",
+            "financing_vote": "renegotiate",
+            "valuation_direction": "flat",
+            "ceo_replacement_view": "monitor",
+            "satisfaction_score": 0.0,
+            "rationale": [
+              "The high burn multiple and tech debt risk warrant renegotiation to protect downside.",
+              "Valuation should remain flat to avoid overpaying given the risks.",
+              "CEO performance risk is moderate, but monitoring is needed."
+            ],
+            "observed_fields": {
+              "deal_size_usd_m": 30.0,
+              "lead_investor_reputation": 0.7,
+              "lead_investor_conviction": 0.55,
+              "post_money_valuation_usd_m": 100.0,
+              "previous_post_money_valuation_usd_m": 95.0,
+              "followon_fund_capacity": 0.5
+            }
+          }
+        }
+      },
+      {
+        "stage": "bargaining_round_3",
+        "actor": "Founder_CEO",
+        "message": "Approving this Series B round at a $100M post-money valuation supports our long-term value creation while maintaining founder control. The implied dilution is acceptable given the significant runway extension and market confidence signaled by the markup.",
+        "payload": {
+          "case_id": "case_002",
+          "proposal": {
+            "deal_size_usd_m": 30.0,
+            "valuation_direction": "flat",
+            "implied_dilution_pct": 30.0,
+            "investor_protection_level": "strong",
+            "tech_budget_protected": false,
+            "ceo_milestones_required": true
+          },
+          "current_decision": {
+            "role_name": "Founder_CEO",
+            "financing_vote": "approve",
+            "valuation_direction": "up",
+            "ceo_replacement_view": "keep",
+            "satisfaction_score": 8.0,
+            "rationale": [
+              "The valuation markup signals market confidence and supports founder control.",
+              "The financing improves runway significantly without excessive dilution."
+            ],
+            "observed_fields": {
+              "deal_size_usd_m": 30.0,
+              "pre_money_valuation_usd_m": 70.0,
+              "post_money_valuation_usd_m": 100.0,
+              "previous_post_money_valuation_usd_m": 95.0,
+              "round_type": "Series B",
+              "founder_equity_pct": 28.0,
+              "runway_months": 14.0,
+              "employee_growth_rate": 0.05
+            }
+          }
+        }
+      },
+      {
+        "stage": "bargaining_round_3",
+        "actor": "CTO",
+        "message": "Given the high tech debt risk and negative engineering headcount growth, we must renegotiate the deal terms to ensure adequate funding for technical stability without compromising our long-term architecture.",
+        "payload": {
+          "case_id": "case_002",
+          "proposal": {
+            "deal_size_usd_m": 30.0,
+            "valuation_direction": "flat",
+            "implied_dilution_pct": 30.0,
+            "investor_protection_level": "strong",
+            "tech_budget_protected": false,
+            "ceo_milestones_required": true
+          },
+          "current_decision": {
+            "role_name": "CTO",
+            "financing_vote": "renegotiate",
+            "valuation_direction": "unknown",
+            "ceo_replacement_view": "monitor",
+            "satisfaction_score": 0.0,
+            "rationale": [
+              "High tech debt risk with negative headcount growth requires careful funding terms.",
+              "CEO's technical alignment is moderate; monitoring is appropriate while reassessing technical needs."
+            ],
+            "observed_fields": {
+              "engineering_headcount_growth_rate": -0.05,
+              "employee_growth_rate": 0.05,
+              "tech_debt_risk": 0.68,
+              "ceo_technical_alignment": 0.45,
+              "industry": "FinTech",
+              "runway_months": 14.0
+            }
+          }
+        }
+      },
+      {
+        "stage": "bargaining_round_3",
+        "actor": "Lead_VC_Director",
+        "message": "Given the high burn multiple and moderate CEO performance risk, I propose renegotiating the deal terms to protect downside while maintaining a flat valuation to avoid overpaying.",
+        "payload": {
+          "case_id": "case_002",
+          "proposal": {
+            "deal_size_usd_m": 30.0,
+            "valuation_direction": "flat",
+            "implied_dilution_pct": 30.0,
+            "investor_protection_level": "strong",
+            "tech_budget_protected": false,
+            "ceo_milestones_required": true
+          },
+          "current_decision": {
+            "role_name": "Lead_VC_Director",
+            "financing_vote": "renegotiate",
+            "valuation_direction": "flat",
+            "ceo_replacement_view": "monitor",
+            "satisfaction_score": 0.0,
+            "rationale": [
+              "The burn multiple is high, warranting renegotiation of terms to protect downside.",
+              "Valuation should remain flat to avoid overpaying given the risks highlighted by the CTO.",
+              "CEO performance risk is moderate, but monitoring is needed given the technical concerns."
+            ],
+            "observed_fields": {
+              "post_money_valuation_usd_m": 100.0,
+              "previous_post_money_valuation_usd_m": 95.0,
+              "deal_size_usd_m": 30.0,
+              "burn_multiple": 2.2,
+              "runway_months": 14.0,
+              "lead_investor_conviction": 0.55,
+              "lead_investor_reputation": 0.7,
+              "ceo_performance_risk": 0.58
+            }
+          }
+        }
+      },
+      {
+        "stage": "bargaining_round_3",
+        "actor": "Followon_VC_Director",
+        "message": "Given the high burn multiple and tech debt risk, I recommend renegotiating the deal to protect our downside while maintaining a flat valuation to avoid overpaying.",
+        "payload": {
+          "case_id": "case_002",
+          "proposal": {
+            "deal_size_usd_m": 30.0,
+            "valuation_direction": "flat",
+            "implied_dilution_pct": 30.0,
+            "investor_protection_level": "strong",
+            "tech_budget_protected": false,
+            "ceo_milestones_required": true
+          },
+          "current_decision": {
+            "role_name": "Followon_VC_Director",
+            "financing_vote": "renegotiate",
+            "valuation_direction": "flat",
+            "ceo_replacement_view": "monitor",
+            "satisfaction_score": 0.0,
+            "rationale": [
+              "The high burn multiple and tech debt risk warrant renegotiation to protect downside.",
+              "Valuation should remain flat to avoid overpaying given the risks.",
+              "CEO performance risk is moderate, but monitoring is needed."
+            ],
+            "observed_fields": {
+              "deal_size_usd_m": 30.0,
+              "lead_investor_reputation": 0.7,
+              "lead_investor_conviction": 0.55,
+              "post_money_valuation_usd_m": 100.0,
+              "previous_post_money_valuation_usd_m": 95.0,
+              "followon_fund_capacity": 0.5
+            }
+          }
+        }
+      },
+      {
+        "stage": "closure",
+        "actor": "system",
+        "message": "Final boardroom decisions aggregated.",
+        "payload": {
+          "financing_decision": "renegotiate",
+          "valuation_direction": "flat",
+          "ceo_replacement_decision": "monitor",
+          "consensus_score": 0.667,
+          "deal_break_risk": "medium",
+          "governance_conflict_risk": "medium"
+        }
+      }
+    ]
+  },
+  {
+    "case_id": "case_003",
+    "company_name": "BioSignal Labs",
+    "financing_decision": "renegotiate",
+    "valuation_direction": "flat",
+    "ceo_replacement_decision": "monitor",
+    "role_decisions": {
+      "Founder_CEO": {
+        "role_name": "Founder_CEO",
+        "financing_vote": "approve",
+        "valuation_direction": "down",
+        "ceo_replacement_view": "keep",
+        "satisfaction_score": 0.0,
+        "rationale": [
+          "Financing improves runway significantly despite dilution.",
+          "Valuation decrease is acceptable given market conditions and founder control."
+        ],
+        "observed_fields": {
+          "deal_size_usd_m": 18.0,
+          "pre_money_valuation_usd_m": 42.0,
+          "post_money_valuation_usd_m": 60.0,
+          "previous_post_money_valuation_usd_m": 120.0,
+          "round_type": "Series C",
+          "founder_equity_pct": 16.0,
+          "runway_months": 5.0,
+          "employee_growth_rate": -0.12
+        }
+      },
+      "CTO": {
+        "role_name": "CTO",
+        "financing_vote": "renegotiate",
+        "valuation_direction": "unknown",
+        "ceo_replacement_view": "monitor",
+        "satisfaction_score": 0.0,
+        "rationale": [
+          "High tech debt risk requires careful negotiation of funding terms.",
+          "CEO's low technical alignment raises concerns about long-term technical strategy."
+        ],
+        "observed_fields": {
+          "engineering_headcount_growth_rate": -0.18,
+          "employee_growth_rate": -0.12,
+          "tech_debt_risk": 0.82,
+          "ceo_technical_alignment": 0.2,
+          "industry": "HealthTech",
+          "runway_months": 5.0
+        }
+      },
+      "Lead_VC_Director": {
+        "role_name": "Lead_VC_Director",
+        "financing_vote": "renegotiate",
+        "valuation_direction": "flat",
+        "ceo_replacement_view": "monitor",
+        "satisfaction_score": 0.0,
+        "rationale": [
+          "Runway is too short with current burn multiple and market temperature.",
+          "Valuation decrease is too steep given the lead investor's moderate conviction.",
+          "CEO performance risk is high, but immediate replacement may destabilize the company."
+        ],
+        "observed_fields": {
+          "post_money_valuation_usd_m": 60.0,
+          "previous_post_money_valuation_usd_m": 120.0,
+          "deal_size_usd_m": 18.0,
+          "burn_multiple": 2.8,
+          "runway_months": 5.0,
+          "lead_investor_conviction": 0.2,
+          "lead_investor_reputation": 0.65,
+          "ceo_performance_risk": 0.88
+        }
+      },
+      "Followon_VC_Director": {
+        "role_name": "Followon_VC_Director",
+        "financing_vote": "renegotiate",
+        "valuation_direction": "flat",
+        "ceo_replacement_view": "monitor",
+        "satisfaction_score": 0.0,
+        "rationale": [
+          "Runway needs improvement but dilution must be managed carefully.",
+          "Valuation decrease is acceptable but should not be steep.",
+          "CEO performance risk warrants monitoring but immediate replacement is too risky."
+        ],
+        "observed_fields": {
+          "deal_size_usd_m": 18.0,
+          "lead_investor_reputation": 0.65,
+          "lead_investor_conviction": 0.2,
+          "post_money_valuation_usd_m": 60.0,
+          "previous_post_money_valuation_usd_m": 120.0,
+          "followon_fund_capacity": 0.35
+        }
+      }
+    },
+    "proposal": {
+      "deal_size_usd_m": 18.0,
+      "valuation_direction": "flat",
+      "implied_dilution_pct": 30.0,
+      "investor_protection_level": "strong",
+      "tech_budget_protected": false,
+      "ceo_milestones_required": true
+    },
+    "consensus_score": 0.667,
+    "deal_break_risk": "medium",
+    "governance_conflict_risk": "medium",
+    "trace": [
+      {
+        "stage": "preliminary",
+        "actor": "system",
+        "message": "BioSignal Labs (HealthTech) is considering a Series C round. Deal size is 18.0M USD, post-money valuation is 60.0M USD, runway is 5.0 months.",
+        "payload": {}
+      },
+      {
+        "stage": "role_policy",
+        "actor": "system",
+        "message": "Loaded strict four-layer role policies.",
+        "payload": {
+          "Founder_CEO": {
+            "role_name": "Founder_CEO",
+            "layer_1_goals": [
+              "Maximize long-term company value.",
+              "Preserve founder control and avoid excessive dilution.",
+              "Maintain execution freedom after financing."
+            ],
+            "layer_2_attention_fields": [
+              "deal_size_usd_m",
+              "pre_money_valuation_usd_m",
+              "post_money_valuation_usd_m",
+              "previous_post_money_valuation_usd_m",
+              "round_type",
+              "founder_equity_pct",
+              "runway_months",
+              "employee_growth_rate"
+            ],
+            "layer_2_ignored_fields": [
+              "investor_internal_aum",
+              "investor_portfolio_allocation",
+              "horizontal_company_comps_not_tied_to_current_round"
+            ],
+            "layer_3_heuristics": [
+              "Control redline dominates valuation preference.",
+              "Valuation markup is treated as a status and market signal.",
+              "Dilution can be accepted when financing materially improves runway.",
+              "Founder commitments are sticky once public positions are stated."
+            ],
+            "layer_4_interaction_protocol": {
+              "speaking_order": 1,
+              "board_vote": "founder vote or agenda-setting influence",
+              "information_behavior": "selectively discloses upside and execution needs",
+              "stickiness": "high"
+            }
+          },
+          "CTO": {
+            "role_name": "CTO",
+            "layer_1_goals": [
+              "Protect engineering team health.",
+              "Protect technical feasibility and architecture quality.",
+              "Protect personal technical reputation."
+            ],
+            "layer_2_attention_fields": [
+              "engineering_headcount_growth_rate",
+              "employee_growth_rate",
+              "tech_debt_risk",
+              "ceo_technical_alignment",
+              "industry",
+              "runway_months"
+            ],
+            "layer_2_ignored_fields": [
+              "liquidation_preference",
+              "anti_dilution_terms",
+              "investor_portfolio_internal_data",
+              "headquarter_city"
+            ],
+            "layer_3_heuristics": [
+              "Oppose engineering shrinkage or unfunded technical commitments.",
+              "Reject external technical override that threatens architecture.",
+              "Protect talent budget before short-term financial cosmetics.",
+              "Technical prerequisites should be clarified before fundraising claims."
+            ],
+            "layer_4_interaction_protocol": {
+              "speaking_order": 2,
+              "board_vote": "normally advisory unless founder-like technical cofounder",
+              "information_behavior": "must disclose technical debt and recruiting difficulty",
+              "stickiness": "high for technical commitments"
+            }
+          },
+          "Lead_VC_Director": {
+            "role_name": "Lead_VC_Director",
+            "layer_1_goals": [
+              "Maximize exit multiple.",
+              "Secure favorable financing terms.",
+              "Protect portfolio markup and downside."
+            ],
+            "layer_2_attention_fields": [
+              "post_money_valuation_usd_m",
+              "previous_post_money_valuation_usd_m",
+              "deal_size_usd_m",
+              "burn_multiple",
+              "runway_months",
+              "lead_investor_conviction",
+              "lead_investor_reputation",
+              "ceo_performance_risk"
+            ],
+            "layer_2_ignored_fields": [
+              "deep_product_architecture_detail",
+              "individual_engineering_workflow",
+              "minor_workforce_analytics"
+            ],
+            "layer_3_heuristics": [
+              "Downside protection has priority over unpriced upside.",
+              "Valuation must be disciplined against growth and burn risk.",
+              "Fund concentration and next-round path must remain clear.",
+              "Reserve influence over management change when execution risk is high."
+            ],
+            "layer_4_interaction_protocol": {
+              "speaking_order": 3,
+              "board_vote": "1-2 board seats and high financing influence",
+              "information_behavior": "has market intelligence and term-sheet leverage",
+              "stickiness": "medium to high due to LP and fund constraints"
+            }
+          },
+          "Followon_VC_Director": {
+            "role_name": "Followon_VC_Director",
+            "layer_1_goals": [
+              "Protect pro-rata rights.",
+              "Maintain investment IRR.",
+              "Use lead investor signal while managing diversification."
+            ],
+            "layer_2_attention_fields": [
+              "deal_size_usd_m",
+              "lead_investor_reputation",
+              "lead_investor_conviction",
+              "post_money_valuation_usd_m",
+              "previous_post_money_valuation_usd_m",
+              "followon_fund_capacity"
+            ],
+            "layer_2_ignored_fields": [
+              "product_architecture_detail",
+              "term_sheet_drafting_detail",
+              "minor_operational_metrics"
+            ],
+            "layer_3_heuristics": [
+              "Default to follow-on unless explicit red flags appear.",
+              "Protect pro-rata and anti-dilution position.",
+              "Follow the lead investor signal but do not replace the lead.",
+              "Ticket size and sector boundary constrain participation."
+            ],
+            "layer_4_interaction_protocol": {
+              "speaking_order": 4,
+              "board_vote": "0-1 board seat and limited blocking power",
+              "information_behavior": "less direct market information than lead investor",
+              "stickiness": "prior follow-on intent becomes a default"
+            }
+          }
+        }
+      },
+      {
+        "stage": "private_assessment",
+        "actor": "Founder_CEO",
+        "message": "Financing improves runway significantly despite dilution. Valuation decrease is acceptable given market conditions and founder control.",
+        "payload": {
+          "role_name": "Founder_CEO",
+          "financing_vote": "approve",
+          "valuation_direction": "down",
+          "ceo_replacement_view": "keep",
+          "satisfaction_score": 0.0,
+          "rationale": [
+            "Financing improves runway significantly despite dilution.",
+            "Valuation decrease is acceptable given market conditions and founder control."
+          ],
+          "observed_fields": {
+            "deal_size_usd_m": 18.0,
+            "pre_money_valuation_usd_m": 42.0,
+            "post_money_valuation_usd_m": 60.0,
+            "previous_post_money_valuation_usd_m": 120.0,
+            "round_type": "Series C",
+            "founder_equity_pct": 16.0,
+            "runway_months": 5.0,
+            "employee_growth_rate": -0.12
+          }
+        }
+      },
+      {
+        "stage": "private_assessment",
+        "actor": "CTO",
+        "message": "High tech debt risk requires careful negotiation of funding terms. CEO's low technical alignment raises concerns about long-term technical strategy.",
+        "payload": {
+          "role_name": "CTO",
+          "financing_vote": "renegotiate",
+          "valuation_direction": "unknown",
+          "ceo_replacement_view": "monitor",
+          "satisfaction_score": 0.0,
+          "rationale": [
+            "High tech debt risk requires careful negotiation of funding terms.",
+            "CEO's low technical alignment raises concerns about long-term technical strategy."
+          ],
+          "observed_fields": {
+            "engineering_headcount_growth_rate": -0.18,
+            "employee_growth_rate": -0.12,
+            "tech_debt_risk": 0.82,
+            "ceo_technical_alignment": 0.2,
+            "industry": "HealthTech",
+            "runway_months": 5.0
+          }
+        }
+      },
+      {
+        "stage": "private_assessment",
+        "actor": "Lead_VC_Director",
+        "message": "Runway is too short with current burn multiple and market temperature. Valuation decrease is too steep given the lead investor's moderate conviction. CEO performance risk is high, but immediate replacement may destabilize the company.",
+        "payload": {
+          "role_name": "Lead_VC_Director",
+          "financing_vote": "renegotiate",
+          "valuation_direction": "flat",
+          "ceo_replacement_view": "monitor",
+          "satisfaction_score": 0.0,
+          "rationale": [
+            "Runway is too short with current burn multiple and market temperature.",
+            "Valuation decrease is too steep given the lead investor's moderate conviction.",
+            "CEO performance risk is high, but immediate replacement may destabilize the company."
+          ],
+          "observed_fields": {
+            "post_money_valuation_usd_m": 60.0,
+            "previous_post_money_valuation_usd_m": 120.0,
+            "deal_size_usd_m": 18.0,
+            "burn_multiple": 2.8,
+            "runway_months": 5.0,
+            "lead_investor_conviction": 0.2,
+            "lead_investor_reputation": 0.65,
+            "ceo_performance_risk": 0.88
+          }
+        }
+      },
+      {
+        "stage": "private_assessment",
+        "actor": "Followon_VC_Director",
+        "message": "Runway needs improvement but dilution must be managed carefully. Valuation decrease is acceptable but should not be steep. CEO performance risk warrants monitoring but immediate replacement is too risky.",
+        "payload": {
+          "role_name": "Followon_VC_Director",
+          "financing_vote": "renegotiate",
+          "valuation_direction": "flat",
+          "ceo_replacement_view": "monitor",
+          "satisfaction_score": 0.0,
+          "rationale": [
+            "Runway needs improvement but dilution must be managed carefully.",
+            "Valuation decrease is acceptable but should not be steep.",
+            "CEO performance risk warrants monitoring but immediate replacement is too risky."
+          ],
+          "observed_fields": {
+            "deal_size_usd_m": 18.0,
+            "lead_investor_reputation": 0.65,
+            "lead_investor_conviction": 0.2,
+            "post_money_valuation_usd_m": 60.0,
+            "previous_post_money_valuation_usd_m": 120.0,
+            "followon_fund_capacity": 0.35
+          }
+        }
+      },
+      {
+        "stage": "opening_statement",
+        "actor": "Founder_CEO",
+        "message": "Founder_CEO starts with financing=approve, valuation=down, ceo=keep. Reason: Financing improves runway significantly despite dilution. Valuation decrease is acceptable given market conditions and founder control.",
+        "payload": {}
+      },
+      {
+        "stage": "opening_statement",
+        "actor": "CTO",
+        "message": "CTO starts with financing=renegotiate, valuation=unknown, ceo=monitor. Reason: High tech debt risk requires careful negotiation of funding terms. CEO's low technical alignment raises concerns about long-term technical strategy.",
+        "payload": {}
+      },
+      {
+        "stage": "opening_statement",
+        "actor": "Lead_VC_Director",
+        "message": "Lead_VC_Director starts with financing=renegotiate, valuation=flat, ceo=monitor. Reason: Runway is too short with current burn multiple and market temperature. Valuation decrease is too steep given the lead investor's moderate conviction. CEO performance risk is high, but immediate replacement may destabilize the company.",
+        "payload": {}
+      },
+      {
+        "stage": "opening_statement",
+        "actor": "Followon_VC_Director",
+        "message": "Followon_VC_Director starts with financing=renegotiate, valuation=flat, ceo=monitor. Reason: Runway needs improvement but dilution must be managed carefully. Valuation decrease is acceptable but should not be steep. CEO performance risk warrants monitoring but immediate replacement is too risky.",
+        "payload": {}
+      },
+      {
+        "stage": "initial_proposal",
+        "actor": "Lead_VC_Director",
+        "message": "Initial term-sheet proposal generated.",
+        "payload": {
+          "deal_size_usd_m": 18.0,
+          "valuation_direction": "flat",
+          "implied_dilution_pct": 30.0,
+          "investor_protection_level": "strong",
+          "tech_budget_protected": false,
+          "ceo_milestones_required": true
+        }
+      },
+      {
+        "stage": "bargaining_round_1",
+        "actor": "Founder_CEO",
+        "message": "Approving the Series C financing improves our runway significantly, and the dilution is acceptable given the market and our founder control. The valuation adjustment is a necessary trade-off for securing this funding.",
+        "payload": {
+          "case_id": "case_003",
+          "proposal": {
+            "deal_size_usd_m": 18.0,
+            "valuation_direction": "flat",
+            "implied_dilution_pct": 30.0,
+            "investor_protection_level": "strong",
+            "tech_budget_protected": false,
+            "ceo_milestones_required": true
+          },
+          "current_decision": {
+            "role_name": "Founder_CEO",
+            "financing_vote": "approve",
+            "valuation_direction": "down",
+            "ceo_replacement_view": "keep",
+            "satisfaction_score": 0.0,
+            "rationale": [
+              "Financing improves runway significantly despite dilution.",
+              "Valuation decrease is acceptable given market conditions and founder control."
+            ],
+            "observed_fields": {
+              "deal_size_usd_m": 18.0,
+              "pre_money_valuation_usd_m": 42.0,
+              "post_money_valuation_usd_m": 60.0,
+              "previous_post_money_valuation_usd_m": 120.0,
+              "round_type": "Series C",
+              "founder_equity_pct": 16.0,
+              "runway_months": 5.0,
+              "employee_growth_rate": -0.12
+            }
+          }
+        }
+      },
+      {
+        "stage": "bargaining_round_1",
+        "actor": "CTO",
+        "message": "Given the high tech debt risk and CEO's low technical alignment, I cannot approve the funding without renegotiation to protect our engineering team and long-term technical health.",
+        "payload": {
+          "case_id": "case_003",
+          "proposal": {
+            "deal_size_usd_m": 18.0,
+            "valuation_direction": "flat",
+            "implied_dilution_pct": 30.0,
+            "investor_protection_level": "strong",
+            "tech_budget_protected": false,
+            "ceo_milestones_required": true
+          },
+          "current_decision": {
+            "role_name": "CTO",
+            "financing_vote": "renegotiate",
+            "valuation_direction": "unknown",
+            "ceo_replacement_view": "monitor",
+            "satisfaction_score": 0.0,
+            "rationale": [
+              "High tech debt risk requires careful negotiation of funding terms.",
+              "CEO's low technical alignment raises concerns about long-term technical strategy."
+            ],
+            "observed_fields": {
+              "engineering_headcount_growth_rate": -0.18,
+              "employee_growth_rate": -0.12,
+              "tech_debt_risk": 0.82,
+              "ceo_technical_alignment": 0.2,
+              "industry": "HealthTech",
+              "runway_months": 5.0
+            }
+          }
+        }
+      },
+      {
+        "stage": "bargaining_round_1",
+        "actor": "Lead_VC_Director",
+        "message": "Given the high CEO performance risk and insufficient runway, we must renegotiate the deal to secure better terms and protect downside, while maintaining a disciplined valuation that reflects the current market conditions.",
+        "payload": {
+          "case_id": "case_003",
+          "proposal": {
+            "deal_size_usd_m": 18.0,
+            "valuation_direction": "flat",
+            "implied_dilution_pct": 30.0,
+            "investor_protection_level": "strong",
+            "tech_budget_protected": false,
+            "ceo_milestones_required": true
+          },
+          "current_decision": {
+            "role_name": "Lead_VC_Director",
+            "financing_vote": "renegotiate",
+            "valuation_direction": "flat",
+            "ceo_replacement_view": "monitor",
+            "satisfaction_score": 0.0,
+            "rationale": [
+              "Runway is too short with current burn multiple and market temperature.",
+              "Valuation decrease is too steep given the lead investor's moderate conviction.",
+              "CEO performance risk is high, but immediate replacement may destabilize the company."
+            ],
+            "observed_fields": {
+              "post_money_valuation_usd_m": 60.0,
+              "previous_post_money_valuation_usd_m": 120.0,
+              "deal_size_usd_m": 18.0,
+              "burn_multiple": 2.8,
+              "runway_months": 5.0,
+              "lead_investor_conviction": 0.2,
+              "lead_investor_reputation": 0.65,
+              "ceo_performance_risk": 0.88
+            }
+          }
+        }
+      },
+      {
+        "stage": "bargaining_round_1",
+        "actor": "Followon_VC_Director",
+        "message": "Given the significant dilution and lower valuation, we must renegotiate to protect our pro-rata rights and maintain investment IRR, while aligning with the lead investor's flat valuation stance.",
+        "payload": {
+          "case_id": "case_003",
+          "proposal": {
+            "deal_size_usd_m": 18.0,
+            "valuation_direction": "flat",
+            "implied_dilution_pct": 30.0,
+            "investor_protection_level": "strong",
+            "tech_budget_protected": false,
+            "ceo_milestones_required": true
+          },
+          "current_decision": {
+            "role_name": "Followon_VC_Director",
+            "financing_vote": "renegotiate",
+            "valuation_direction": "flat",
+            "ceo_replacement_view": "monitor",
+            "satisfaction_score": 0.0,
+            "rationale": [
+              "Runway needs improvement but dilution must be managed carefully.",
+              "Valuation decrease is acceptable but should not be steep.",
+              "CEO performance risk warrants monitoring but immediate replacement is too risky."
+            ],
+            "observed_fields": {
+              "deal_size_usd_m": 18.0,
+              "lead_investor_reputation": 0.65,
+              "lead_investor_conviction": 0.2,
+              "post_money_valuation_usd_m": 60.0,
+              "previous_post_money_valuation_usd_m": 120.0,
+              "followon_fund_capacity": 0.35
+            }
+          }
+        }
+      },
+      {
+        "stage": "bargaining_round_2",
+        "actor": "Founder_CEO",
+        "message": "Approving the Series C financing is essential to extend our runway, and the implied dilution is acceptable given the significant improvement in funding. The valuation adjustment reflects current market conditions and maintains founder control, aligning with our long-term value maximization goals.",
+        "payload": {
+          "case_id": "case_003",
+          "proposal": {
+            "deal_size_usd_m": 18.0,
+            "valuation_direction": "flat",
+            "implied_dilution_pct": 30.0,
+            "investor_protection_level": "strong",
+            "tech_budget_protected": false,
+            "ceo_milestones_required": true
+          },
+          "current_decision": {
+            "role_name": "Founder_CEO",
+            "financing_vote": "approve",
+            "valuation_direction": "down",
+            "ceo_replacement_view": "keep",
+            "satisfaction_score": 0.0,
+            "rationale": [
+              "Financing improves runway significantly despite dilution.",
+              "Valuation decrease is acceptable given market conditions and founder control."
+            ],
+            "observed_fields": {
+              "deal_size_usd_m": 18.0,
+              "pre_money_valuation_usd_m": 42.0,
+              "post_money_valuation_usd_m": 60.0,
+              "previous_post_money_valuation_usd_m": 120.0,
+              "round_type": "Series C",
+              "founder_equity_pct": 16.0,
+              "runway_months": 5.0,
+              "employee_growth_rate": -0.12
+            }
+          }
+        }
+      },
+      {
+        "stage": "bargaining_round_2",
+        "actor": "CTO",
+        "message": "Given the high tech debt risk and CEO's low technical alignment, I cannot approve the funding without renegotiation to protect our technical architecture and team health.",
+        "payload": {
+          "case_id": "case_003",
+          "proposal": {
+            "deal_size_usd_m": 18.0,
+            "valuation_direction": "flat",
+            "implied_dilution_pct": 30.0,
+            "investor_protection_level": "strong",
+            "tech_budget_protected": false,
+            "ceo_milestones_required": true
+          },
+          "current_decision": {
+            "role_name": "CTO",
+            "financing_vote": "renegotiate",
+            "valuation_direction": "unknown",
+            "ceo_replacement_view": "monitor",
+            "satisfaction_score": 0.0,
+            "rationale": [
+              "High tech debt risk requires careful negotiation of funding terms.",
+              "CEO's low technical alignment raises concerns about long-term technical strategy."
+            ],
+            "observed_fields": {
+              "engineering_headcount_growth_rate": -0.18,
+              "employee_growth_rate": -0.12,
+              "tech_debt_risk": 0.82,
+              "ceo_technical_alignment": 0.2,
+              "industry": "HealthTech",
+              "runway_months": 5.0
+            }
+          }
+        }
+      },
+      {
+        "stage": "bargaining_round_2",
+        "actor": "Lead_VC_Director",
+        "message": "Given the high CEO performance risk and insufficient runway, we must renegotiate the deal terms to secure downside protection and a more disciplined valuation that reflects the current market conditions.",
+        "payload": {
+          "case_id": "case_003",
+          "proposal": {
+            "deal_size_usd_m": 18.0,
+            "valuation_direction": "flat",
+            "implied_dilution_pct": 30.0,
+            "investor_protection_level": "strong",
+            "tech_budget_protected": false,
+            "ceo_milestones_required": true
+          },
+          "current_decision": {
+            "role_name": "Lead_VC_Director",
+            "financing_vote": "renegotiate",
+            "valuation_direction": "flat",
+            "ceo_replacement_view": "monitor",
+            "satisfaction_score": 0.0,
+            "rationale": [
+              "Runway is too short with current burn multiple and market temperature.",
+              "Valuation decrease is too steep given the lead investor's moderate conviction.",
+              "CEO performance risk is high, but immediate replacement may destabilize the company."
+            ],
+            "observed_fields": {
+              "post_money_valuation_usd_m": 60.0,
+              "previous_post_money_valuation_usd_m": 120.0,
+              "deal_size_usd_m": 18.0,
+              "burn_multiple": 2.8,
+              "runway_months": 5.0,
+              "lead_investor_conviction": 0.2,
+              "lead_investor_reputation": 0.65,
+              "ceo_performance_risk": 0.88
+            }
+          }
+        }
+      },
+      {
+        "stage": "bargaining_round_2",
+        "actor": "Followon_VC_Director",
+        "message": "Given the significant dilution and lower valuation, we must renegotiate to protect our pro-rata rights and maintain investment IRR, while aligning with the lead investor's flat valuation stance.",
+        "payload": {
+          "case_id": "case_003",
+          "proposal": {
+            "deal_size_usd_m": 18.0,
+            "valuation_direction": "flat",
+            "implied_dilution_pct": 30.0,
+            "investor_protection_level": "strong",
+            "tech_budget_protected": false,
+            "ceo_milestones_required": true
+          },
+          "current_decision": {
+            "role_name": "Followon_VC_Director",
+            "financing_vote": "renegotiate",
+            "valuation_direction": "flat",
+            "ceo_replacement_view": "monitor",
+            "satisfaction_score": 0.0,
+            "rationale": [
+              "Runway needs improvement but dilution must be managed carefully.",
+              "Valuation decrease is acceptable but should not be steep.",
+              "CEO performance risk warrants monitoring but immediate replacement is too risky."
+            ],
+            "observed_fields": {
+              "deal_size_usd_m": 18.0,
+              "lead_investor_reputation": 0.65,
+              "lead_investor_conviction": 0.2,
+              "post_money_valuation_usd_m": 60.0,
+              "previous_post_money_valuation_usd_m": 120.0,
+              "followon_fund_capacity": 0.35
+            }
+          }
+        }
+      },
+      {
+        "stage": "bargaining_round_3",
+        "actor": "Founder_CEO",
+        "message": "Approving this Series C financing prioritizes long-term value and extended runway, outweighing the dilution given founder control and improved market position, despite the valuation decrease.",
+        "payload": {
+          "case_id": "case_003",
+          "proposal": {
+            "deal_size_usd_m": 18.0,
+            "valuation_direction": "flat",
+            "implied_dilution_pct": 30.0,
+            "investor_protection_level": "strong",
+            "tech_budget_protected": false,
+            "ceo_milestones_required": true
+          },
+          "current_decision": {
+            "role_name": "Founder_CEO",
+            "financing_vote": "approve",
+            "valuation_direction": "down",
+            "ceo_replacement_view": "keep",
+            "satisfaction_score": 0.0,
+            "rationale": [
+              "Financing improves runway significantly despite dilution.",
+              "Valuation decrease is acceptable given market conditions and founder control."
+            ],
+            "observed_fields": {
+              "deal_size_usd_m": 18.0,
+              "pre_money_valuation_usd_m": 42.0,
+              "post_money_valuation_usd_m": 60.0,
+              "previous_post_money_valuation_usd_m": 120.0,
+              "round_type": "Series C",
+              "founder_equity_pct": 16.0,
+              "runway_months": 5.0,
+              "employee_growth_rate": -0.12
+            }
+          }
+        }
+      },
+      {
+        "stage": "bargaining_round_3",
+        "actor": "CTO",
+        "message": "Given the high tech debt risk and CEO's low technical alignment, I cannot approve the funding terms without renegotiation to protect our engineering team and long-term technical health.",
+        "payload": {
+          "case_id": "case_003",
+          "proposal": {
+            "deal_size_usd_m": 18.0,
+            "valuation_direction": "flat",
+            "implied_dilution_pct": 30.0,
+            "investor_protection_level": "strong",
+            "tech_budget_protected": false,
+            "ceo_milestones_required": true
+          },
+          "current_decision": {
+            "role_name": "CTO",
+            "financing_vote": "renegotiate",
+            "valuation_direction": "unknown",
+            "ceo_replacement_view": "monitor",
+            "satisfaction_score": 0.0,
+            "rationale": [
+              "High tech debt risk requires careful negotiation of funding terms.",
+              "CEO's low technical alignment raises concerns about long-term technical strategy."
+            ],
+            "observed_fields": {
+              "engineering_headcount_growth_rate": -0.18,
+              "employee_growth_rate": -0.12,
+              "tech_debt_risk": 0.82,
+              "ceo_technical_alignment": 0.2,
+              "industry": "HealthTech",
+              "runway_months": 5.0
+            }
+          }
+        }
+      },
+      {
+        "stage": "bargaining_round_3",
+        "actor": "Lead_VC_Director",
+        "message": "Given the high CEO performance risk and insufficient runway, I propose renegotiating the deal terms to secure better downside protection and a more disciplined valuation, aligning with our focus on maximizing exit multiple and managing risk.",
+        "payload": {
+          "case_id": "case_003",
+          "proposal": {
+            "deal_size_usd_m": 18.0,
+            "valuation_direction": "flat",
+            "implied_dilution_pct": 30.0,
+            "investor_protection_level": "strong",
+            "tech_budget_protected": false,
+            "ceo_milestones_required": true
+          },
+          "current_decision": {
+            "role_name": "Lead_VC_Director",
+            "financing_vote": "renegotiate",
+            "valuation_direction": "flat",
+            "ceo_replacement_view": "monitor",
+            "satisfaction_score": 0.0,
+            "rationale": [
+              "Runway is too short with current burn multiple and market temperature.",
+              "Valuation decrease is too steep given the lead investor's moderate conviction.",
+              "CEO performance risk is high, but immediate replacement may destabilize the company."
+            ],
+            "observed_fields": {
+              "post_money_valuation_usd_m": 60.0,
+              "previous_post_money_valuation_usd_m": 120.0,
+              "deal_size_usd_m": 18.0,
+              "burn_multiple": 2.8,
+              "runway_months": 5.0,
+              "lead_investor_conviction": 0.2,
+              "lead_investor_reputation": 0.65,
+              "ceo_performance_risk": 0.88
+            }
+          }
+        }
+      },
+      {
+        "stage": "bargaining_round_3",
+        "actor": "Followon_VC_Director",
+        "message": "Given the steep implied dilution and concerns about the runways, I support renegotiating the deal terms to better align with our investment thesis while protecting pro-rata rights.",
+        "payload": {
+          "case_id": "case_003",
+          "proposal": {
+            "deal_size_usd_m": 18.0,
+            "valuation_direction": "flat",
+            "implied_dilution_pct": 30.0,
+            "investor_protection_level": "strong",
+            "tech_budget_protected": false,
+            "ceo_milestones_required": true
+          },
+          "current_decision": {
+            "role_name": "Followon_VC_Director",
+            "financing_vote": "renegotiate",
+            "valuation_direction": "flat",
+            "ceo_replacement_view": "monitor",
+            "satisfaction_score": 0.0,
+            "rationale": [
+              "Runway needs improvement but dilution must be managed carefully.",
+              "Valuation decrease is acceptable but should not be steep.",
+              "CEO performance risk warrants monitoring but immediate replacement is too risky."
+            ],
+            "observed_fields": {
+              "deal_size_usd_m": 18.0,
+              "lead_investor_reputation": 0.65,
+              "lead_investor_conviction": 0.2,
+              "post_money_valuation_usd_m": 60.0,
+              "previous_post_money_valuation_usd_m": 120.0,
+              "followon_fund_capacity": 0.35
+            }
+          }
+        }
+      },
+      {
+        "stage": "closure",
+        "actor": "system",
+        "message": "Final boardroom decisions aggregated.",
+        "payload": {
+          "financing_decision": "renegotiate",
+          "valuation_direction": "flat",
+          "ceo_replacement_decision": "monitor",
+          "consensus_score": 0.667,
+          "deal_break_risk": "medium",
+          "governance_conflict_risk": "medium"
+        }
+      }
+    ]
+  }
+]
