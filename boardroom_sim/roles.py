@@ -19,6 +19,7 @@ def build_role_policies() -> Dict[str, RolePolicy]:
             ],
             layer_2_attention_fields=[
                 "prior_deal_size_usd_m",
+                "prior_company_deal_history",
                 "prior_post_money_valuation_usd_m",
                 "prior_valuation_markup_multiple",
                 "prior_valuation_direction_label",
@@ -38,10 +39,10 @@ def build_role_policies() -> Dict[str, RolePolicy]:
             layer_2_ignored_fields=[
                 "current target deal size, type, round, valuation, and completion status",
                 "investor internal AUM and total active portfolio metrics",
-                "horizontal comp-set valuations not central to CEO decision control",
+                "horizontal comp-set valuations not central to founder control and financing terms",
             ],
             layer_3_heuristics=[
-                "Control red lines dominate valuation optimization when terms threaten board majority, CEO tenure, or major veto rights.",
+                "Control red lines dominate valuation optimization when terms threaten voting influence, board majority, or major veto rights.",
                 "Prior valuation markup is a status signal; weak or down historical markup makes future fundraising emotionally and politically costly.",
                 "Dilution is acceptable only when the capital meaningfully increases growth resources, strategic value, or survival odds.",
                 "Cash pressure allows flexible compromise, but survival concessions should still protect core founder control.",
@@ -63,6 +64,7 @@ def build_role_policies() -> Dict[str, RolePolicy]:
             ],
             layer_2_attention_fields=[
                 "prior_deal_size_usd_m",
+                "prior_company_deal_history",
                 "prior_raised_to_date_usd_m",
                 "employee_count_at_decision",
                 "previous_employee_count",
@@ -105,6 +107,7 @@ def build_role_policies() -> Dict[str, RolePolicy]:
             ],
             layer_2_attention_fields=[
                 "prior_post_money_valuation_usd_m",
+                "prior_lead_investor_deal_history",
                 "prior_pre_money_valuation_usd_m",
                 "prior_valuation_markup_multiple",
                 "prior_valuation_direction_label",
@@ -136,7 +139,7 @@ def build_role_policies() -> Dict[str, RolePolicy]:
                 "Valuation reasonableness matters more than valuation number; compare prior markup, sector context, and operating signals.",
                 "Fund concentration discipline cannot be broken for a single attractive opportunity.",
                 "The next-round financing path must be clear; if the path is ambiguous, require stronger protections or lower valuation.",
-                "Management-change influence should be preserved through board seats or CEO milestones when governance risk rises.",
+                "Governance influence should be preserved through board seats, information rights, or protective provisions when financing risk rises.",
             ],
             layer_4_interaction_protocol={
                 "speaking_order": 3,
@@ -154,6 +157,7 @@ def build_role_policies() -> Dict[str, RolePolicy]:
             ],
             layer_2_attention_fields=[
                 "prior_deal_size_usd_m",
+                "prior_followon_investor_deal_history",
                 "prior_post_money_valuation_usd_m",
                 "prior_valuation_markup_multiple",
                 "prior_valuation_direction_label",

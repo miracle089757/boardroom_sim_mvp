@@ -8,7 +8,6 @@ from typing import Any, Dict, Iterable, List, Optional, Tuple
 from boardroom_sim.llm import LLMClient
 from boardroom_sim.models import (
     BoardCase,
-    CeoReplacementView,
     DealCompletionView,
     FinancingIntent,
     RoleDecision,
@@ -21,7 +20,6 @@ from boardroom_sim.models import (
 FINANCING_INTENTS = {"raise_now", "wait", "avoid"}
 COMPLETION_VIEWS = {"likely_complete", "unlikely_complete"}
 VALUATION_CHOICES = {"up", "flat", "down"}
-CEO_CHOICES = {"keep", "monitor", "replace"}
 
 
 def clamp_score(value: float) -> float:
@@ -98,8 +96,10 @@ class BoardAgent:
         return (
             f"{self.role_name} starts with intent={decision.financing_intent}, "
             f"size={decision.predicted_deal_size_usd_m:.2f}M, "
+            f"post-money={decision.predicted_post_money_valuation_usd_m:.2f}M, "
+            f"ownership={decision.predicted_investor_ownership_pct:.2f}%, "
             f"type={decision.predicted_deal_type}, "
-            f"valuation={decision.valuation_direction}, ceo={decision.ceo_replacement_view}. "
+            f"valuation={decision.valuation_direction}. "
             f"Reason: {self.rationale_line(decision.rationale)}"
         )
 
@@ -192,6 +192,8 @@ Hard consistency rules:
 - If financing_intent is "raise_now", predicted_deal_size_usd_m must be greater than 0.
 - If financing_intent is "wait" or "avoid", predicted_deal_size_usd_m may be 0.
 - When financing_intent is "raise_now" and exact amount is not clear, estimate a plausible positive amount from visible prior_deal_size_usd_m, prior_raised_to_date_usd_m, prior_vc_round, company age, and role policy. Do not use hidden current-deal labels.
+- predicted_post_money_valuation_usd_m is the expected post-money valuation in million USD. Estimate it from visible prior valuation, valuation direction, company stage, and role policy; use 0 only when no defensible estimate is possible.
+- predicted_investor_ownership_pct is the expected investor ownership percentage after the financing. It must be between 0 and 100; use 0 only when no defensible estimate is possible.
 - satisfaction_score must be a 0-100 score, where 0 means completely unacceptable, 50 means neutral or not enough information, and 100 means fully aligned with this role's goals.
 - Do not copy numeric placeholders from the schema. Return values that are consistent with your own rationale.
 
@@ -199,16 +201,16 @@ Allowed labels:
 - financing_intent: raise_now, wait, avoid
 - completion_view: likely_complete, unlikely_complete
 - valuation_direction: up, flat, down
-- ceo_replacement_view: keep, monitor, replace
 
 Return one JSON object only with this schema:
 {{
   "financing_intent": "raise_now|wait|avoid",
   "completion_view": "likely_complete|unlikely_complete",
   "predicted_deal_size_usd_m": 10.0,
+  "predicted_post_money_valuation_usd_m": 50.0,
+  "predicted_investor_ownership_pct": 20.0,
   "predicted_deal_type": "Seed Round|Early Stage VC|Later Stage VC|Bridge|Debt|Other",
   "valuation_direction": "up|flat|down",
-  "ceo_replacement_view": "keep|monitor|replace",
   "satisfaction_score": 50,
   "rationale": ["short reason 1", "short reason 2"]
 }}
@@ -255,12 +257,14 @@ Hard consistency rules:
 - If financing_intent is "raise_now", predicted_deal_size_usd_m must be greater than 0.
 - If financing_intent is "wait" or "avoid", predicted_deal_size_usd_m may be 0.
 - When financing_intent is "raise_now" and exact amount is not clear, estimate a plausible positive amount from visible prior_deal_size_usd_m, prior_raised_to_date_usd_m, prior_vc_round, company age, current proposal, bargaining history, and role policy. Do not use hidden current-deal labels.
+- predicted_post_money_valuation_usd_m is the expected post-money valuation in million USD. Estimate it from visible prior valuation, valuation direction, company stage, current proposal, bargaining history, and role policy; use 0 only when no defensible estimate is possible.
+- predicted_investor_ownership_pct is the expected investor ownership percentage after the financing. It must be between 0 and 100; use 0 only when no defensible estimate is possible.
 - satisfaction_score must be a 0-100 score, where 0 means completely unacceptable, 50 means neutral or not enough information, and 100 means fully aligned with this role's goals.
 - Do not copy numeric placeholders from the schema. Return values that are consistent with your updated rationale.
 
 Write one concise boardroom bargaining message for round {round_index + 1}, then update your prediction if the discussion changes your stance.
 The message must:
-- focus on financing timing, financing amount, deal type, valuation direction, or CEO replacement;
+- focus on financing timing, financing amount, deal type, valuation direction, or investor protections;
 - reflect your role's L1 goals, L2 attention, L3 heuristics, and L4 protocol;
 - avoid generic corporate slogans;
 - be one to three sentences.
@@ -271,9 +275,10 @@ Return one JSON object only:
   "financing_intent": "raise_now|wait|avoid",
   "completion_view": "likely_complete|unlikely_complete",
   "predicted_deal_size_usd_m": 10.0,
+  "predicted_post_money_valuation_usd_m": 50.0,
+  "predicted_investor_ownership_pct": 20.0,
   "predicted_deal_type": "Seed Round|Early Stage VC|Later Stage VC|Bridge|Debt|Other",
   "valuation_direction": "up|flat|down",
-  "ceo_replacement_view": "keep|monitor|replace",
   "satisfaction_score": 50,
   "rationale": ["short reason 1", "short reason 2"]
 }}
@@ -303,6 +308,23 @@ Return one JSON object only:
                 fallback.predicted_deal_size_usd_m if fallback else 0.0,
             ),
         )
+        predicted_post_money_valuation = max(
+            0.0,
+            coerce_float(
+                raw.get("predicted_post_money_valuation_usd_m"),
+                fallback.predicted_post_money_valuation_usd_m if fallback else 0.0,
+            ),
+        )
+        predicted_investor_ownership = min(
+            100.0,
+            max(
+                0.0,
+                coerce_float(
+                    raw.get("predicted_investor_ownership_pct"),
+                    fallback.predicted_investor_ownership_pct if fallback else 0.0,
+                ),
+            ),
+        )
         predicted_deal_type = coerce_text(
             raw.get("predicted_deal_type"),
             fallback.predicted_deal_type if fallback else "unknown",
@@ -311,11 +333,6 @@ Return one JSON object only:
             raw.get("valuation_direction"),
             VALUATION_CHOICES,
             fallback.valuation_direction if fallback and fallback.valuation_direction in VALUATION_CHOICES else "flat",
-        )
-        ceo_replacement_view = coerce_choice(
-            raw.get("ceo_replacement_view"),
-            CEO_CHOICES,
-            fallback.ceo_replacement_view if fallback else "monitor",
         )
         satisfaction_score = clamp_score(
             coerce_float(raw.get("satisfaction_score"), fallback.satisfaction_score if fallback else 50.0)
@@ -327,9 +344,10 @@ Return one JSON object only:
             financing_intent=financing_intent,  # type: ignore[arg-type]
             completion_view=completion_view,  # type: ignore[arg-type]
             predicted_deal_size_usd_m=round(predicted_deal_size, 6),
+            predicted_post_money_valuation_usd_m=round(predicted_post_money_valuation, 6),
+            predicted_investor_ownership_pct=round(predicted_investor_ownership, 6),
             predicted_deal_type=predicted_deal_type,
             valuation_direction=valuation_direction,  # type: ignore[arg-type]
-            ceo_replacement_view=ceo_replacement_view,  # type: ignore[arg-type]
             satisfaction_score=satisfaction_score,
             rationale=rationale or ["LLM returned no explicit rationale."],
             observed_fields=observed_fields,
@@ -341,9 +359,10 @@ Return one JSON object only:
             "financing_intent": decision.financing_intent,
             "completion_view": decision.completion_view,
             "predicted_deal_size_usd_m": decision.predicted_deal_size_usd_m,
+            "predicted_post_money_valuation_usd_m": decision.predicted_post_money_valuation_usd_m,
+            "predicted_investor_ownership_pct": decision.predicted_investor_ownership_pct,
             "predicted_deal_type": decision.predicted_deal_type,
             "valuation_direction": decision.valuation_direction,
-            "ceo_replacement_view": decision.ceo_replacement_view,
             "satisfaction_score": decision.satisfaction_score,
             "rationale": decision.rationale,
         }

@@ -8,9 +8,12 @@
 
 1. 融资意向：`raise_now`、`wait`、`avoid`。
 2. 预计融资额：`predicted_deal_size_usd_m`。
-3. 预计交易类型：`predicted_deal_type`。
-4. 估值方向：`up`、`flat`、`down`。
-5. CEO 更换压力：`keep`、`monitor`、`replace`。
+3. 预计投后估值：`predicted_post_money_valuation_usd_m`。
+4. 预计投资人持股：`predicted_investor_ownership_pct`。
+5. 预计交易类型：`predicted_deal_type`。
+6. 估值方向：`up`、`flat`、`down`。
+
+CEO 更换压力暂时不作为本轮预测目标。当前数据中的 24 个月 CEO 更换标签仍保留在 `notes.labels` 里用于审计，等评估标准修正后再纳入实验。
 
 智能体角色严格采用“智能体角色编定”文档中的四层结构：
 
@@ -84,14 +87,117 @@ python3 run_experiment.py \
 - `outputs/sample_results.jsonl`：每个案例一行的结构化结果。
 - `outputs/sample_traces.json`：包含每个案例的角色发言、初始判断、谈判过程和最终决议轨迹。
 
+## 批量实验与准确率评估
+
+如果已经有 `results.jsonl`，可以直接离线评估，不会再次调用 LLM：
+
+```bash
+python3 evaluate_results.py \
+  --input outputs/pitchbook_results.jsonl \
+  --metrics-output outputs/pitchbook_metrics.json \
+  --case-metrics-output outputs/pitchbook_case_metrics.csv
+```
+
+评估会输出：
+
+- 融资发起命中率：`financing_initiation_decision` 对比 `true_financing_initiated_label`。
+- 交易类型准确率：`predicted_deal_type` 对比 `real_deal_type`。
+- 估值方向准确率：`valuation_direction` 对比 `real_valuation_direction_label`，真实标签为 `unknown` 的样本会跳过。
+- 数值误差：融资额、投后估值、投资人持股分别统计 `MAE`、`RMSE`、`MAPE`、`Median APE`、`±25%` 命中率、`±50%` 命中率；真实数值缺失或非正的样本会跳过该指标。
+
+`financing_completion_view` 仍会输出，但当前样本几乎全部为已完成交易，因此暂不计入正确率统计。
+
+批量运行使用 `run_batch_experiments.py`：
+
+```bash
+python3 run_batch_experiments.py \
+  --input input/02_03_pitchbook_sample_100_shared.xlsx \
+  --output-dir outputs/batch/pitchbook_001 \
+  --repeats 1 \
+  --bargaining-rounds 3 \
+  --history-limit 10
+```
+
+为了先快速验证流程，可以加 `--case-limit`：
+
+```bash
+python3 run_batch_experiments.py \
+  --input input/02_03_pitchbook_sample_100_shared.xlsx \
+  --output-dir outputs/batch/smoke_test \
+  --repeats 1 \
+  --case-limit 3 \
+  --bargaining-rounds 1 \
+  --history-limit 3
+```
+
+批量输出目录结构：
+
+```text
+outputs/batch/pitchbook_001/
+├── manifest.json
+├── run_001/
+│   ├── results.jsonl
+│   ├── traces.json
+│   ├── metrics.json
+│   ├── case_metrics.csv
+│   ├── debate_accuracy_report.md
+│   ├── debate_accuracy_cases.csv
+│   ├── baseline_history_only_results.jsonl
+│   ├── baseline_history_only_metrics.json
+│   ├── baseline_history_only_case_metrics.csv
+│   ├── baseline_history_with_roles_results.jsonl
+│   ├── baseline_history_with_roles_metrics.json
+│   └── baseline_history_with_roles_case_metrics.csv
+├── aggregate_metrics.json
+├── case_metrics.csv
+├── baseline_history_only_aggregate_metrics.json
+├── baseline_history_only_case_metrics.csv
+├── baseline_history_with_roles_aggregate_metrics.json
+└── baseline_history_with_roles_case_metrics.csv
+```
+
+默认会额外运行两个单 agent baseline：
+
+- `baseline_history_only`：只把已知历史字段发送给模型，不提供角色编定规则。
+- `baseline_history_with_roles`：把已知历史字段和四个角色的编定规则一起发送给模型，但仍是单次单 agent 判断，不进行多智能体辩论。
+
+如果运行中断，重新执行时加 `--resume`，已经完整生成 `results.jsonl` 的 run 会被跳过。若只想保存 compact result 和指标，不保存详细 trace，可以加 `--skip-traces`；若暂时不想跑 baseline，可以加 `--skip-baselines`。
+
+`--history-limit` 控制每个历史记录字段最多保留最近多少条记录，默认是 `10`；设为 `0` 表示不提供历史列表，设为 `-1` 表示保留全部可构造历史记录。
+
+如果需要分析“辩论前后预测发生了什么变化”，使用详细 trace 文件生成可读报告：
+
+```bash
+python3 analyze_debate_changes.py \
+  --input outputs/batch/pitchbook_001/run_001/traces.json \
+  --output outputs/batch/pitchbook_001/run_001/debate_changes_report.md \
+  --case-csv-output outputs/batch/pitchbook_001/run_001/debate_changes_cases.csv
+```
+
+注意该分析依赖初始判断和每轮更新，因此应输入 `traces.json`；紧凑版 `results.jsonl` 不包含辩论前状态，无法单独还原变化过程。
+
+如果需要进一步统计辩论让预测更接近真实结果还是偏离真实结果：
+
+```bash
+python3 analyze_debate_accuracy.py \
+  --input outputs/batch/pitchbook_001/run_001/traces.json \
+  --output outputs/batch/pitchbook_001/run_001/debate_accuracy_report.md \
+  --case-csv-output outputs/batch/pitchbook_001/run_001/debate_accuracy_cases.csv \
+  --baseline-results baseline_history_only=outputs/batch/pitchbook_001/run_001/baseline_history_only_results.jsonl \
+  --baseline-results baseline_history_with_roles=outputs/batch/pitchbook_001/run_001/baseline_history_with_roles_results.jsonl \
+  --deal-size-tolerance 0.50
+```
+
+批量运行会自动生成 `debate_accuracy_report.md` 和 `debate_accuracy_cases.csv`。上面的命令也可以对已有 trace 单独重跑报告。该报告会分别给出辩论前、每轮辩论后、最终结果的准确率，并统计 `wrong->correct`、`correct->wrong`、`correct->correct`、`wrong->wrong` 的比例。融资额、投后估值、投资人持股是连续变量，额外统计误差是更接近真实值还是更偏离真实值。
+
 ## 输入数据格式
 
 当前支持两种输入：
 
-1. PitchBook Excel：`input/02_03_pitchbook_sample_100_shared.xlsx`。程序会自动筛选有 `postvaluation` 的 VC 交易并转换成 `BoardCase`。
+1. PitchBook Excel：`input/02_03_pitchbook_sample_100_shared.xlsx`。程序会自动筛选 VC-like 交易并转换成 `BoardCase`，不再要求目标交易有 `postvaluation`。
 2. 标准化 JSONL：每行一个已经转换好的 `BoardCase`。
 
-真实结果字段，例如当前轮 `deal.dealsize`、`deal.dealtype`、`deal.vcround`、`deal.postvaluation`、`deal.dealstatus`、`deal.vcroundup_down_flat` 以及派生出的 24 个月 CEO 更换标签，只会保存在 `notes.labels` 中用于后续评测，不会进入 Agent 可见字段。
+真实结果字段，例如当前轮 `deal.dealsize`、`deal.dealtype`、`deal.vcround`、`deal.postvaluation`、`deal.dealstatus`、`deal.vcroundup_down_flat` 以及派生出的 24 个月 CEO 更换标签，只会保存在 `notes.labels` 中，不会进入 Agent 可见字段。当前批量评估暂不统计 CEO 更换指标。
 
 表格中的数值缺失会保留为 JSON `null`，不会再被填成 `0` 发送给 Agent。`business_status`、`company_financing_status`、`ownership_status` 等 PitchBook 快照状态字段会保留在案例中用于审计，但不进入角色可见字段，避免泄露决策时点之后的状态。
 
@@ -126,9 +232,10 @@ python3 run_experiment.py \
     "labels": {
       "true_financing_initiated_label": "raise_now",
       "real_deal_size_usd_m": 250.0,
+      "real_post_money_valuation_usd_m": 2250.0,
+      "real_investor_ownership_pct": 78.22,
       "real_deal_type": "Later Stage VC",
-      "real_valuation_direction_label": "up",
-      "real_ceo_replacement_label": "replace"
+      "real_valuation_direction_label": "up"
     }
   }
 }
@@ -137,9 +244,11 @@ python3 run_experiment.py \
 ## 当前边界
 
 - 当前是 LLM 智能体，但聚合规则仍是确定性代码，便于批量统计。
-- 当前只做正样本 VC 交易；因为没有负样本，不能严格评测“是否发起融资”，只能评测正样本下的融资规模、轮次、估值方向和 CEO 更换。
+- 当前只做正样本 VC-like 交易；因为没有负样本，不能严格评测“是否发起融资”，只能评测正样本下的融资规模、投后估值、投资人持股、轮次和估值方向。
+- 当前交易完成标签极度不均衡，因此 `financing_completion_view` 暂不计入正确率。
+- CEO 更换压力暂时从预测目标和批量评估中移除，后续需要重新定义标签构造和评估口径后再加回。
 - 当前 Follow-on VC 的行为会参考 Lead VC 的立场，但没有完整基金组合约束。
-- 当前从 Excel 只筛选有 `postvaluation` 的 VC 交易。
+- 当前从 Excel 可构造 212 条 VC-like 正样本；缺少真实数值标签的样本仍参与预测，但跳过对应数值指标的正确率统计。
 - 当前输出是研究实验用，不代表真实投资建议。
 
 ## 下一步扩展建议

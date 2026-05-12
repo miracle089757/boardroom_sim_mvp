@@ -28,14 +28,20 @@ ENGINEERING_TITLE_TOKENS = (
 )
 
 
-def build_cases_from_pitchbook(path: Path, limit: Optional[int] = None) -> List[BoardCase]:
+def build_cases_from_pitchbook(
+    path: Path,
+    limit: Optional[int] = None,
+    history_limit: Optional[int] = 10,
+) -> List[BoardCase]:
     """Read the PitchBook workbook and convert eligible VC rounds into point-in-time cases."""
     tables = pd.read_excel(path, sheet_name=None)
     deal_df = _clean_table(tables["deal"])
     financing_deals = _select_vc_deals(deal_df)
+    history_limit = _normalize_history_limit(history_limit)
 
-    # First version: positive VC transaction samples with post-money valuation labels.
-    case_deals = financing_deals[pd.to_numeric(financing_deals["postvaluation"], errors="coerce") > 0].copy()
+    # Use every observable VC-like transaction as a positive event sample. Missing numeric labels
+    # are preserved as None and skipped by the relevant evaluation metrics.
+    case_deals = financing_deals.copy()
     case_deals = case_deals.sort_values(["companyid", "dealdate", "dealid"], na_position="last")
     if limit is not None:
         case_deals = case_deals.head(limit)
@@ -63,15 +69,35 @@ def build_cases_from_pitchbook(path: Path, limit: Optional[int] = None) -> List[
         prior_deals = _prior_deals(financing_deals, company_id, decision_date)
         previous_deal = prior_deals.iloc[-1] if not prior_deals.empty else None
         prior_previous_deal = prior_deals.iloc[-2] if len(prior_deals) > 1 else None
+        previous_deal_id = previous_deal.get("dealid") if previous_deal is not None else None
 
         company = company_by_id.get(company_id, {})
         industry_context = industry_by_company.get(company_id, {})
         prior_investor_context = _investor_context(
-            previous_deal.get("dealid") if previous_deal is not None else None,
+            previous_deal_id,
             deal_investors,
             investor_by_id,
         )
         real_investor_context = _investor_context(deal_id, deal_investors, investor_by_id)
+        lead_investor_ids = _investor_ids_for_deal(deal_id, deal_investors, investor_role="lead")
+        followon_investor_ids = _investor_ids_for_deal(deal_id, deal_investors, investor_role="followon")
+        prior_company_deal_history = _company_deal_history(prior_deals, history_limit)
+        prior_lead_investor_deal_history = _investor_deal_history(
+            lead_investor_ids,
+            financing_deals,
+            deal_investors,
+            investor_by_id,
+            decision_date,
+            history_limit,
+        )
+        prior_followon_investor_deal_history = _investor_deal_history(
+            followon_investor_ids,
+            financing_deals,
+            deal_investors,
+            investor_by_id,
+            decision_date,
+            history_limit,
+        )
         employee_context = _employee_context(company_id, decision_date, employee_history)
         governance_context = _governance_context(
             company_id=company_id,
@@ -120,8 +146,9 @@ def build_cases_from_pitchbook(path: Path, limit: Optional[int] = None) -> List[
             "labels": labels,
             "field_sources": _field_sources(),
             "caveats": [
-                "Positive-sample first version: every case has a real VC transaction on the decision date.",
+                "Positive-event backtest: every case has an observable VC-like transaction as the target event.",
                 "Current transaction outcomes are stored only in notes.labels and are not exposed through role attention fields.",
+                "Missing target numeric labels are kept as null and skipped by numeric evaluation metrics.",
                 "Some company status fields may be PitchBook snapshot fields rather than strict point-in-time facts.",
             ],
         }
@@ -185,6 +212,9 @@ def build_cases_from_pitchbook(path: Path, limit: Optional[int] = None) -> List[
                 prior_lead_preferred_company_valuation_max_usd_m=prior_investor_context[
                     "lead_preferred_company_valuation_max_usd_m"
                 ],
+                prior_company_deal_history=prior_company_deal_history,
+                prior_lead_investor_deal_history=prior_lead_investor_deal_history,
+                prior_followon_investor_deal_history=prior_followon_investor_deal_history,
                 employee_count_at_decision=employee_context["employee_count_at_decision"],
                 previous_employee_count=employee_context["previous_employee_count"],
                 employee_growth_rate=employee_context["employee_growth_rate"],
@@ -218,6 +248,144 @@ def _select_vc_deals(deal_df: pd.DataFrame) -> pd.DataFrame:
     deal_class = deal_df["dealclass"].fillna("").astype(str)
     mask = deal_type.isin(VC_DEAL_TYPES) | deal_class.eq("Venture Capital")
     return deal_df[mask].copy()
+
+
+def _normalize_history_limit(history_limit: Optional[int]) -> Optional[int]:
+    """Normalize the optional history limit; negative values mean no limit."""
+    if history_limit is None or history_limit < 0:
+        return None
+    return int(history_limit)
+
+
+def _company_deal_history(prior_deals: pd.DataFrame, history_limit: Optional[int]) -> List[Dict[str, Any]]:
+    """Return same-company historical deal records visible before the decision date."""
+    if prior_deals.empty or history_limit == 0:
+        return []
+    previous_post_valuation: Optional[float] = None
+    enriched_rows: List[Dict[str, Any]] = []
+    for _, row in prior_deals.iterrows():
+        payload = _deal_history_payload(row, previous_post_valuation=previous_post_valuation)
+        enriched_rows.append(payload)
+        post_valuation = _optional_float(row.get("postvaluation"))
+        if post_valuation is not None and post_valuation > 0:
+            previous_post_valuation = post_valuation
+    return _tail(enriched_rows, history_limit)
+
+
+def _investor_ids_for_deal(deal_id: Any, deal_investors: pd.DataFrame, *, investor_role: str) -> Set[str]:
+    """Return investor IDs from one target deal for a role-specific investor representative."""
+    deal_id_text = _as_str(deal_id)
+    if not deal_id_text or deal_investors.empty:
+        return set()
+    relation = deal_investors[deal_investors["dealid"].astype(str) == deal_id_text].copy()
+    if relation.empty:
+        return set()
+
+    is_lead = pd.to_numeric(relation["isleadinvestor"], errors="coerce").fillna(0).astype(int) == 1
+    if investor_role == "lead":
+        selected = relation[is_lead]
+    elif investor_role == "followon":
+        status = relation["investorstatus"].fillna("").astype(str).str.lower()
+        selected = relation[status.str.contains("follow-on", regex=False)]
+        if selected.empty:
+            selected = relation[~is_lead]
+    else:
+        selected = relation.iloc[0:0]
+    return {_as_str(investor_id) for investor_id in selected["investorid"] if _as_str(investor_id)}
+
+
+def _investor_deal_history(
+    investor_ids: Set[str],
+    financing_deals: pd.DataFrame,
+    deal_investors: pd.DataFrame,
+    investor_by_id: Dict[str, Dict[str, Any]],
+    decision_date: Any,
+    history_limit: Optional[int],
+) -> List[Dict[str, Any]]:
+    """Return historical investor-deal records for the represented investor IDs."""
+    if not investor_ids or pd.isna(decision_date) or history_limit == 0:
+        return []
+
+    deal_by_id = {
+        _as_str(row.get("dealid")): row
+        for _, row in financing_deals.iterrows()
+        if _as_str(row.get("dealid"))
+    }
+    relation = deal_investors[deal_investors["investorid"].astype(str).isin(investor_ids)].copy()
+    items: List[tuple[pd.Timestamp, str, Dict[str, Any]]] = []
+    for _, investor_deal in relation.iterrows():
+        deal_id = _as_str(investor_deal.get("dealid"))
+        deal = deal_by_id.get(deal_id)
+        if deal is None:
+            continue
+        deal_date = pd.to_datetime(deal.get("dealdate"), errors="coerce")
+        if pd.isna(deal_date) or deal_date >= decision_date:
+            continue
+        investor_id = _as_str(investor_deal.get("investorid"))
+        investor_profile = investor_by_id.get(investor_id, {})
+        payload = _deal_history_payload(deal, previous_post_valuation=None)
+        payload.update(
+            {
+                "investor_id": investor_id,
+                "investor_primary_type": _as_str(investor_profile.get("primaryinvestortype"), ""),
+                "investor_status_in_deal": _as_str(investor_deal.get("investorstatus"), ""),
+                "is_lead_investor": bool(_optional_int(investor_deal.get("isleadinvestor")) == 1),
+                "investor_investment_amount_usd_m": _optional_float(investor_deal.get("investorinvestmentamount")),
+                "investor_preferred_deal_size_min_usd_m": _optional_float(
+                    investor_profile.get("preferreddealsizemin") or investor_profile.get("preferreddealsize")
+                ),
+                "investor_preferred_deal_size_max_usd_m": _optional_float(
+                    investor_profile.get("preferreddealsizemax") or investor_profile.get("preferreddealsize")
+                ),
+                "investor_preferred_company_valuation_min_usd_m": _optional_float(
+                    investor_profile.get("preferredcompanyvaluationmin")
+                    or investor_profile.get("preferredcompanyvaluation")
+                ),
+                "investor_preferred_company_valuation_max_usd_m": _optional_float(
+                    investor_profile.get("preferredcompanyvaluationmax")
+                    or investor_profile.get("preferredcompanyvaluation")
+                ),
+            }
+        )
+        items.append((deal_date, f"{deal_id}_{investor_id}", payload))
+
+    items.sort(key=lambda item: (item[0], item[1]))
+    payloads = [item[2] for item in items]
+    return _tail(payloads, history_limit)
+
+
+def _deal_history_payload(row: Any, *, previous_post_valuation: Optional[float]) -> Dict[str, Any]:
+    """Serialize one historical deal row without exposing future target labels."""
+    post_valuation = _optional_float(row.get("postvaluation"))
+    markup = _valuation_markup(post_valuation, previous_post_valuation)
+    return {
+        "deal_id": _as_str(row.get("dealid")),
+        "company_id": _as_str(row.get("companyid")),
+        "deal_date": _date_str(row.get("dealdate")),
+        "deal_class": _as_str(row.get("dealclass"), ""),
+        "deal_type": _as_str(row.get("dealtype"), ""),
+        "deal_status": _as_str(row.get("dealstatus"), ""),
+        "vc_round": _as_str(row.get("vcround"), ""),
+        "deal_size_usd_m": _optional_float(row.get("dealsize")),
+        "pre_money_valuation_usd_m": _optional_float(row.get("premoneyvaluation")),
+        "post_money_valuation_usd_m": post_valuation,
+        "investor_ownership_pct": _optional_float(row.get("investorownership")),
+        "raised_to_date_usd_m": _optional_float(row.get("raisedtodate")),
+        "investor_count": _optional_int(row.get("investors")),
+        "new_investor_count": _optional_int(row.get("newinvestors")),
+        "followon_investor_count": _optional_int(row.get("followoninvestors")),
+        "valuation_markup_multiple": markup,
+        "valuation_direction_label": _valuation_direction_from_label_or_markup(row.get("vcroundup_down_flat"), markup),
+    }
+
+
+def _tail(items: List[Dict[str, Any]], limit: Optional[int]) -> List[Dict[str, Any]]:
+    """Return the most recent history records while preserving chronological order."""
+    if limit is None:
+        return items
+    if limit <= 0:
+        return []
+    return items[-limit:]
 
 
 def _primary_industry_by_company(df: pd.DataFrame) -> Dict[str, Dict[str, Any]]:
@@ -553,6 +721,9 @@ def _field_sources() -> Dict[str, str]:
         "prior_deal_size_usd_m": "previous same-company VC deal.dealsize",
         "prior_post_money_valuation_usd_m": "previous same-company VC deal.postvaluation",
         "prior_valuation_markup_multiple": "previous VC deal.postvaluation divided by the deal before it",
+        "prior_company_deal_history": "same-company VC-like deals before decision_date, truncated by history_limit",
+        "prior_lead_investor_deal_history": "historical VC-like investments before decision_date by lead investors from the target financing round",
+        "prior_followon_investor_deal_history": "historical VC-like investments before decision_date by follow-on or non-lead investors from the target financing round",
         "employee_growth_rate": "companyemployeehistoryrelation.employeecount before decision_date",
         "governance_fields": "_sample_person_roles, personpositionrelation, companyboardteamrelation, personboardseatrelation before decision_date",
         "labels": "current target deal outcomes and derived 24-month CEO replacement label; not exposed to agents",

@@ -10,7 +10,6 @@ from typing import Any, Dict, List, Literal, Optional
 FinancingIntent = Literal["raise_now", "wait", "avoid"]
 DealCompletionView = Literal["likely_complete", "uncertain", "unlikely_complete"]
 ValuationDirection = Literal["up", "flat", "down", "unknown"]
-CeoReplacementView = Literal["keep", "monitor", "replace"]
 RiskLevel = Literal["low", "medium", "high"]
 
 
@@ -102,6 +101,13 @@ def safe_str_list(value: Any) -> List[str]:
     return [str(value).strip()] if str(value).strip() else []
 
 
+def safe_dict_list(value: Any) -> List[Dict[str, Any]]:
+    """Convert a loose value into a list of dictionaries."""
+    if not isinstance(value, list):
+        return []
+    return [dict(item) for item in value if isinstance(item, dict)]
+
+
 def safe_direction(value: Any) -> ValuationDirection:
     """Normalize a valuation direction label."""
     text = safe_str(value, "unknown").strip().lower().replace(" round", "")
@@ -152,6 +158,9 @@ class BoardCase:
     prior_lead_preferred_deal_size_max_usd_m: Optional[float]  # 上一笔领投方偏好的单笔投资额上限；缺失时为 None。
     prior_lead_preferred_company_valuation_min_usd_m: Optional[float]  # 上一笔领投方偏好的公司估值下限；缺失时为 None。
     prior_lead_preferred_company_valuation_max_usd_m: Optional[float]  # 上一笔领投方偏好的公司估值上限；缺失时为 None。
+    prior_company_deal_history: List[Dict[str, Any]]  # 决策日前同公司历史 VC-like 交易记录，按时间升序截断保留。
+    prior_lead_investor_deal_history: List[Dict[str, Any]]  # 本轮领投方在决策日前的历史投资记录。
+    prior_followon_investor_deal_history: List[Dict[str, Any]]  # 本轮跟投/非领投方在决策日前的历史投资记录。
     employee_count_at_decision: Optional[float]  # 决策时点之前最近一次可观测员工数；缺失时为 None。
     previous_employee_count: Optional[float]  # 决策时点之前上一条员工数记录；缺失时为 None。
     employee_growth_rate: Optional[float]  # 员工增长率，由最近员工数和上一条员工数计算；缺失时为 None。
@@ -218,6 +227,9 @@ class BoardCase:
             prior_lead_preferred_company_valuation_max_usd_m=safe_optional_float(
                 data.get("prior_lead_preferred_company_valuation_max_usd_m")
             ),
+            prior_company_deal_history=safe_dict_list(data.get("prior_company_deal_history")),
+            prior_lead_investor_deal_history=safe_dict_list(data.get("prior_lead_investor_deal_history")),
+            prior_followon_investor_deal_history=safe_dict_list(data.get("prior_followon_investor_deal_history")),
             employee_count_at_decision=safe_optional_float(
                 first_present(data.get("employee_count_at_decision"), data.get("employee_count_at_deal"))
             ),
@@ -289,9 +301,10 @@ class RoleDecision:
     financing_intent: FinancingIntent
     completion_view: DealCompletionView
     predicted_deal_size_usd_m: float
+    predicted_post_money_valuation_usd_m: float
+    predicted_investor_ownership_pct: float
     predicted_deal_type: str
     valuation_direction: ValuationDirection
-    ceo_replacement_view: CeoReplacementView
     satisfaction_score: float
     rationale: List[str]
     observed_fields: Dict[str, Any]
@@ -306,12 +319,13 @@ class TermSheetProposal:
     """Represent the negotiated financing proposal predicted by the simulator."""
 
     recommended_deal_size_usd_m: float
+    recommended_post_money_valuation_usd_m: float
+    recommended_investor_ownership_pct: float
     recommended_deal_type: str
     valuation_direction: ValuationDirection
     estimated_dilution_pct: Optional[float]
     investor_protection_level: Literal["light", "standard", "strong"]
     tech_budget_protected: bool
-    ceo_milestones_required: bool
 
     def to_dict(self) -> Dict[str, Any]:
         """Serialize a term-sheet proposal to a plain dictionary."""
@@ -327,14 +341,14 @@ class SimulationResult:
     financing_initiation_decision: FinancingIntent
     financing_completion_view: DealCompletionView
     predicted_deal_size_usd_m: float
+    predicted_post_money_valuation_usd_m: float
+    predicted_investor_ownership_pct: float
     predicted_deal_type: str
     valuation_direction: ValuationDirection
-    ceo_replacement_decision: CeoReplacementView
     role_decisions: Dict[str, Dict[str, Any]]
     proposal: Dict[str, Any]
     consensus_score: float
     deal_break_risk: RiskLevel
-    governance_conflict_risk: RiskLevel
     labels: Dict[str, Any]
     trace: List[Dict[str, Any]]
 

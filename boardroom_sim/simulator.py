@@ -9,7 +9,6 @@ from boardroom_sim.agents import build_agents
 from boardroom_sim.llm import LLMClient
 from boardroom_sim.models import (
     BoardCase,
-    CeoReplacementView,
     DealCompletionView,
     FinancingIntent,
     RiskLevel,
@@ -73,24 +72,30 @@ class BoardroomSimulator:
         financing_intent = self._aggregate_financing_intent(context)
         completion_view = self._aggregate_completion_view(context)
         predicted_deal_size = self._aggregate_deal_size(context)
+        predicted_post_money_valuation = self._aggregate_positive_numeric(
+            context,
+            "predicted_post_money_valuation_usd_m",
+        )
+        predicted_investor_ownership = self._aggregate_positive_numeric(
+            context,
+            "predicted_investor_ownership_pct",
+        )
         predicted_deal_type = self._aggregate_text_choice(context, "predicted_deal_type", "unknown")
         valuation_direction = self._aggregate_valuation(context)
-        ceo_decision = self._aggregate_ceo_replacement(context)
         consensus = self._consensus_score(context)
         deal_break_risk = self._deal_break_risk(financing_intent, completion_view, consensus)
-        governance_risk = self._governance_conflict_risk(ceo_decision, context)
         final_proposal = self._build_proposal(case, context)
 
         final_payload = {
             "financing_initiation_decision": financing_intent,
             "financing_completion_view": completion_view,
             "predicted_deal_size_usd_m": predicted_deal_size,
+            "predicted_post_money_valuation_usd_m": predicted_post_money_valuation,
+            "predicted_investor_ownership_pct": predicted_investor_ownership,
             "predicted_deal_type": predicted_deal_type,
             "valuation_direction": valuation_direction,
-            "ceo_replacement_decision": ceo_decision,
             "consensus_score": consensus,
             "deal_break_risk": deal_break_risk,
-            "governance_conflict_risk": governance_risk,
         }
         self._record(trace, "closure", "system", "Final boardroom predictions aggregated.", final_payload)
 
@@ -100,14 +105,14 @@ class BoardroomSimulator:
             financing_initiation_decision=financing_intent,
             financing_completion_view=completion_view,
             predicted_deal_size_usd_m=predicted_deal_size,
+            predicted_post_money_valuation_usd_m=predicted_post_money_valuation,
+            predicted_investor_ownership_pct=predicted_investor_ownership,
             predicted_deal_type=predicted_deal_type,
             valuation_direction=valuation_direction,
-            ceo_replacement_decision=ceo_decision,
             role_decisions={role: decision.to_dict() for role, decision in context.items()},
             proposal=final_proposal.to_dict(),
             consensus_score=consensus,
             deal_break_risk=deal_break_risk,
-            governance_conflict_risk=governance_risk,
             labels=case.notes.get("labels", {}) if isinstance(case.notes.get("labels", {}), dict) else {},
             trace=trace,
         )
@@ -134,29 +139,31 @@ class BoardroomSimulator:
     def _build_proposal(self, case: BoardCase, context: Dict[str, RoleDecision]) -> TermSheetProposal:
         """Build a minimal proposal from current role predictions."""
         size = self._aggregate_deal_size(context)
+        post_money_valuation = self._aggregate_positive_numeric(context, "predicted_post_money_valuation_usd_m")
+        investor_ownership = self._aggregate_positive_numeric(context, "predicted_investor_ownership_pct")
         deal_type = self._aggregate_text_choice(context, "predicted_deal_type", "unknown")
         valuation_direction = self._aggregate_valuation(context)
         lead = context.get("Lead_VC_Director")
 
         protection_level = "standard"
-        if lead and (lead.ceo_replacement_view in {"monitor", "replace"} or lead.valuation_direction in {"down", "unknown"}):
+        if lead and lead.valuation_direction in {"down", "unknown"}:
             protection_level = "strong"
         elif lead and lead.financing_intent == "raise_now" and lead.valuation_direction == "up":
             protection_level = "light"
 
         cto = context.get("CTO")
         tech_budget_protected = bool(cto and cto.financing_intent != "avoid" and cto.satisfaction_score >= 45.0)
-        ceo_milestones_required = bool(lead and lead.ceo_replacement_view in {"monitor", "replace"})
 
         estimated_dilution = case.estimated_dilution_pct(size)
         return TermSheetProposal(
             recommended_deal_size_usd_m=size,
+            recommended_post_money_valuation_usd_m=post_money_valuation,
+            recommended_investor_ownership_pct=investor_ownership,
             recommended_deal_type=deal_type,
             valuation_direction=valuation_direction,
             estimated_dilution_pct=round(estimated_dilution, 3) if estimated_dilution is not None else None,
             investor_protection_level=protection_level,  # type: ignore[arg-type]
             tech_budget_protected=tech_budget_protected,
-            ceo_milestones_required=ceo_milestones_required,
         )
 
     def _format_money(self, value: Any) -> str:
@@ -223,13 +230,18 @@ class BoardroomSimulator:
 
     def _aggregate_deal_size(self, context: Dict[str, RoleDecision]) -> float:
         """Aggregate predicted deal size using board influence weights."""
+        return self._aggregate_positive_numeric(context, "predicted_deal_size_usd_m")
+
+    def _aggregate_positive_numeric(self, context: Dict[str, RoleDecision], attr: str) -> float:
+        """Aggregate a positive numeric prediction using board influence weights."""
         weighted_total = 0.0
         weight_total = 0.0
         for role, decision in context.items():
-            if decision.predicted_deal_size_usd_m <= 0 or decision.financing_intent == "avoid":
+            value = getattr(decision, attr, 0.0)
+            if value <= 0 or decision.financing_intent == "avoid":
                 continue
             weight = ROLE_WEIGHTS.get(role, 1.0)
-            weighted_total += decision.predicted_deal_size_usd_m * weight
+            weighted_total += value * weight
             weight_total += weight
         if weight_total <= 0:
             return 0.0
@@ -242,18 +254,6 @@ class BoardroomSimulator:
     def _aggregate_valuation(self, context: Dict[str, RoleDecision]) -> ValuationDirection:
         """Aggregate valuation-direction views using board influence weights."""
         return self._weighted_choice(context, "valuation_direction", "flat")  # type: ignore[return-value]
-
-    def _aggregate_ceo_replacement(self, context: Dict[str, RoleDecision]) -> CeoReplacementView:
-        """Aggregate CEO replacement outcome from founder resistance and investor governance pressure."""
-        lead_view = context["Lead_VC_Director"].ceo_replacement_view
-        follow_view = context["Followon_VC_Director"].ceo_replacement_view
-        cto_view = context["CTO"].ceo_replacement_view
-
-        if lead_view == "replace" and follow_view in {"replace", "monitor"} and cto_view != "keep":
-            return "replace"
-        if lead_view in {"replace", "monitor"} or follow_view == "monitor" or cto_view == "monitor":
-            return "monitor"
-        return "keep"
 
     def _weighted_choice(self, context: Dict[str, RoleDecision], attr: str, default: str) -> str:
         """Return the weighted modal value for an attribute across role decisions."""
@@ -276,7 +276,6 @@ class BoardroomSimulator:
             "completion_view",
             "predicted_deal_type",
             "valuation_direction",
-            "ceo_replacement_view",
         ]
         agreement = 0
         for attr in attrs:
@@ -295,15 +294,6 @@ class BoardroomSimulator:
         if financing_intent == "wait" or consensus_score < 0.70:
             return "medium"
         return "low"
-
-    def _governance_conflict_risk(self, ceo_decision: CeoReplacementView, context: Dict[str, RoleDecision]) -> RiskLevel:
-        """Map CEO replacement pressure and role disagreement into governance conflict risk."""
-        if ceo_decision == "replace":
-            return "high"
-        if ceo_decision == "monitor":
-            return "medium"
-        investor_pressure = context["Lead_VC_Director"].ceo_replacement_view != "keep"
-        return "medium" if investor_pressure else "low"
 
     def _record(
         self,

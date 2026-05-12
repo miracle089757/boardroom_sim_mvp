@@ -1,0 +1,122 @@
+# 辩论前后准确度变化报告
+
+- 分析案例数：3
+- 数值指标正确判定阈值：预测值相对真实值误差 <= 50%
+- 交易完成判断暂不计入准确率，因为当前样本几乎全部是已完成交易。
+
+## 1. 各阶段预测准确度
+
+| stage | financing_initiation | deal_type | valuation_direction | deal_size | post_money_valuation | investor_ownership |
+| --- | ---: | ---: | ---: | ---: | ---: | ---: |
+| initial | 3/3 (100.00%) | 1/3 (33.33%) | 0/0 (n/a) | 0/3 (0.00%) | 0/0 (n/a) | 0/0 (n/a) |
+| round_1 | 3/3 (100.00%) | 1/3 (33.33%) | 0/0 (n/a) | 0/3 (0.00%) | 0/0 (n/a) | 0/0 (n/a) |
+| round_2 | 3/3 (100.00%) | 1/3 (33.33%) | 0/0 (n/a) | 0/3 (0.00%) | 0/0 (n/a) | 0/0 (n/a) |
+| round_3 | 3/3 (100.00%) | 1/3 (33.33%) | 0/0 (n/a) | 0/3 (0.00%) | 0/0 (n/a) | 0/0 (n/a) |
+| final | 3/3 (100.00%) | 1/3 (33.33%) | 0/0 (n/a) | 0/3 (0.00%) | 0/0 (n/a) | 0/0 (n/a) |
+
+## 2. 单 Agent Baseline 对比
+
+| system | rows | financing_initiation | deal_type | valuation_direction | deal_size | post_money_valuation | investor_ownership |
+| --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
+| multi_agent_final | 3 | 3/3 (100.00%) | 1/3 (33.33%) | 0/0 (n/a) | 0/3 (0.00%) | 0/0 (n/a) | 0/0 (n/a) |
+| baseline_history_only | 3 | 3/3 (100.00%) | 2/3 (66.67%) | 0/0 (n/a) | 0/3 (0.00%) | 0/0 (n/a) | 0/0 (n/a) |
+| baseline_history_with_roles | 3 | 3/3 (100.00%) | 2/3 (66.67%) | 0/0 (n/a) | 0/3 (0.00%) | 0/0 (n/a) | 0/0 (n/a) |
+
+## 3. 辩论前 vs 辩论后
+
+### initial_to_final
+
+| metric | wrong->correct | correct->wrong | correct->correct | wrong->wrong | evaluated |
+| --- | ---: | ---: | ---: | ---: | ---: |
+| financing_initiation | 0 (0.00%) | 0 (0.00%) | 3 (100.00%) | 0 (0.00%) | 3 |
+| deal_type | 0 (0.00%) | 0 (0.00%) | 1 (33.33%) | 2 (66.67%) | 3 |
+| valuation_direction | 0 (n/a) | 0 (n/a) | 0 (n/a) | 0 (n/a) | 0 |
+| deal_size | 0 (0.00%) | 0 (0.00%) | 0 (0.00%) | 3 (100.00%) | 3 |
+| post_money_valuation | 0 (n/a) | 0 (n/a) | 0 (n/a) | 0 (n/a) | 0 |
+| investor_ownership | 0 (n/a) | 0 (n/a) | 0 (n/a) | 0 (n/a) | 0 |
+
+## 4. 随辩论轮次推进的正确性变化
+
+### initial_to_round_1
+
+| metric | wrong->correct | correct->wrong | correct->correct | wrong->wrong | evaluated |
+| --- | ---: | ---: | ---: | ---: | ---: |
+| financing_initiation | 0 (0.00%) | 0 (0.00%) | 3 (100.00%) | 0 (0.00%) | 3 |
+| deal_type | 0 (0.00%) | 0 (0.00%) | 1 (33.33%) | 2 (66.67%) | 3 |
+| valuation_direction | 0 (n/a) | 0 (n/a) | 0 (n/a) | 0 (n/a) | 0 |
+| deal_size | 0 (0.00%) | 0 (0.00%) | 0 (0.00%) | 3 (100.00%) | 3 |
+| post_money_valuation | 0 (n/a) | 0 (n/a) | 0 (n/a) | 0 (n/a) | 0 |
+| investor_ownership | 0 (n/a) | 0 (n/a) | 0 (n/a) | 0 (n/a) | 0 |
+
+### round_1_to_round_2
+
+| metric | wrong->correct | correct->wrong | correct->correct | wrong->wrong | evaluated |
+| --- | ---: | ---: | ---: | ---: | ---: |
+| financing_initiation | 0 (0.00%) | 0 (0.00%) | 3 (100.00%) | 0 (0.00%) | 3 |
+| deal_type | 0 (0.00%) | 0 (0.00%) | 1 (33.33%) | 2 (66.67%) | 3 |
+| valuation_direction | 0 (n/a) | 0 (n/a) | 0 (n/a) | 0 (n/a) | 0 |
+| deal_size | 0 (0.00%) | 0 (0.00%) | 0 (0.00%) | 3 (100.00%) | 3 |
+| post_money_valuation | 0 (n/a) | 0 (n/a) | 0 (n/a) | 0 (n/a) | 0 |
+| investor_ownership | 0 (n/a) | 0 (n/a) | 0 (n/a) | 0 (n/a) | 0 |
+
+### round_2_to_round_3
+
+| metric | wrong->correct | correct->wrong | correct->correct | wrong->wrong | evaluated |
+| --- | ---: | ---: | ---: | ---: | ---: |
+| financing_initiation | 0 (0.00%) | 0 (0.00%) | 3 (100.00%) | 0 (0.00%) | 3 |
+| deal_type | 0 (0.00%) | 0 (0.00%) | 1 (33.33%) | 2 (66.67%) | 3 |
+| valuation_direction | 0 (n/a) | 0 (n/a) | 0 (n/a) | 0 (n/a) | 0 |
+| deal_size | 0 (0.00%) | 0 (0.00%) | 0 (0.00%) | 3 (100.00%) | 3 |
+| post_money_valuation | 0 (n/a) | 0 (n/a) | 0 (n/a) | 0 (n/a) | 0 |
+| investor_ownership | 0 (n/a) | 0 (n/a) | 0 (n/a) | 0 (n/a) | 0 |
+
+### round_3_to_final
+
+| metric | wrong->correct | correct->wrong | correct->correct | wrong->wrong | evaluated |
+| --- | ---: | ---: | ---: | ---: | ---: |
+| financing_initiation | 0 (0.00%) | 0 (0.00%) | 3 (100.00%) | 0 (0.00%) | 3 |
+| deal_type | 0 (0.00%) | 0 (0.00%) | 1 (33.33%) | 2 (66.67%) | 3 |
+| valuation_direction | 0 (n/a) | 0 (n/a) | 0 (n/a) | 0 (n/a) | 0 |
+| deal_size | 0 (0.00%) | 0 (0.00%) | 0 (0.00%) | 3 (100.00%) | 3 |
+| post_money_valuation | 0 (n/a) | 0 (n/a) | 0 (n/a) | 0 (n/a) | 0 |
+| investor_ownership | 0 (n/a) | 0 (n/a) | 0 (n/a) | 0 (n/a) | 0 |
+
+## 5. 数值预测是否更接近真实值
+
+| metric | transition | closer | farther | same | evaluated |
+| --- | --- | ---: | ---: | ---: | ---: |
+| deal_size | initial_to_final | 1 (33.33%) | 0 (0.00%) | 2 (66.67%) | 3 |
+| post_money_valuation | initial_to_final | 0 (n/a) | 0 (n/a) | 0 (n/a) | 0 |
+| investor_ownership | initial_to_final | 0 (n/a) | 0 (n/a) | 0 (n/a) | 0 |
+| deal_size | initial_to_round_1 | 1 (33.33%) | 0 (0.00%) | 2 (66.67%) | 3 |
+| post_money_valuation | initial_to_round_1 | 0 (n/a) | 0 (n/a) | 0 (n/a) | 0 |
+| investor_ownership | initial_to_round_1 | 0 (n/a) | 0 (n/a) | 0 (n/a) | 0 |
+| deal_size | round_1_to_round_2 | 1 (33.33%) | 0 (0.00%) | 2 (66.67%) | 3 |
+| post_money_valuation | round_1_to_round_2 | 0 (n/a) | 0 (n/a) | 0 (n/a) | 0 |
+| investor_ownership | round_1_to_round_2 | 0 (n/a) | 0 (n/a) | 0 (n/a) | 0 |
+| deal_size | round_2_to_round_3 | 0 (0.00%) | 0 (0.00%) | 3 (100.00%) | 3 |
+| post_money_valuation | round_2_to_round_3 | 0 (n/a) | 0 (n/a) | 0 (n/a) | 0 |
+| investor_ownership | round_2_to_round_3 | 0 (n/a) | 0 (n/a) | 0 (n/a) | 0 |
+| deal_size | round_3_to_final | 0 (0.00%) | 0 (0.00%) | 3 (100.00%) | 3 |
+| post_money_valuation | round_3_to_final | 0 (n/a) | 0 (n/a) | 0 (n/a) | 0 |
+| investor_ownership | round_3_to_final | 0 (n/a) | 0 (n/a) | 0 (n/a) | 0 |
+
+## 6. 数值误差随阶段变化
+
+| metric | stage | evaluated | MAE | MAPE | Median APE |
+| --- | --- | ---: | ---: | ---: | ---: |
+| deal_size | initial | 3 | 52.358 M USD | 5012.42% | 212.37% |
+| deal_size | round_1 | 3 | 51.216 M USD | 5011.39% | 212.37% |
+| deal_size | round_2 | 3 | 49.930 M USD | 5010.23% | 212.37% |
+| deal_size | round_3 | 3 | 49.930 M USD | 5010.23% | 212.37% |
+| deal_size | final | 3 | 49.930 M USD | 5010.23% | 212.37% |
+| post_money_valuation | initial | 0 | n/a M USD | n/a | n/a |
+| post_money_valuation | round_1 | 0 | n/a M USD | n/a | n/a |
+| post_money_valuation | round_2 | 0 | n/a M USD | n/a | n/a |
+| post_money_valuation | round_3 | 0 | n/a M USD | n/a | n/a |
+| post_money_valuation | final | 0 | n/a M USD | n/a | n/a |
+| investor_ownership | initial | 0 | n/a pct | n/a | n/a |
+| investor_ownership | round_1 | 0 | n/a pct | n/a | n/a |
+| investor_ownership | round_2 | 0 | n/a pct | n/a | n/a |
+| investor_ownership | round_3 | 0 | n/a pct | n/a | n/a |
+| investor_ownership | final | 0 | n/a pct | n/a | n/a |

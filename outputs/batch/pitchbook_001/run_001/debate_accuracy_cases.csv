@@ -1,0 +1,346 @@
+case_id,stage,financing_initiation_prediction,financing_initiation_correct,financing_completion_prediction,financing_completion_correct,deal_type_prediction,deal_type_correct,valuation_direction_prediction,valuation_direction_correct,deal_size_prediction,deal_size_true,deal_size_abs_error,deal_size_abs_pct_error,deal_size_within_tolerance
+11830986_789374083T,initial,raise_now,True,likely_complete,True,early stage vc,True,up,,26.428571,350.0,323.571429,0.9244897971428572,False
+11830986_789374083T,round_1,raise_now,True,likely_complete,True,early stage vc,True,up,,27.040816,350.0,322.959184,0.9227405257142857,False
+11830986_789374083T,round_2,raise_now,True,likely_complete,True,early stage vc,True,up,,27.740525,350.0,322.259475,0.9207413571428572,False
+11830986_789374083T,round_3,raise_now,True,likely_complete,True,early stage vc,True,up,,27.740525,350.0,322.259475,0.9207413571428572,False
+11830986_789374083T,final,raise_now,True,likely_complete,True,early stage vc,True,up,,27.740525,350.0,322.259475,0.9207413571428572,False
+11830986_816183250T,initial,raise_now,True,likely_complete,True,early stage vc,False,up,True,500.0,250.0,250.0,1.0,False
+11830986_816183250T,round_1,raise_now,True,likely_complete,True,early stage vc,False,up,True,500.0,250.0,250.0,1.0,False
+11830986_816183250T,round_2,raise_now,True,likely_complete,True,early stage vc,False,up,True,500.0,250.0,250.0,1.0,False
+11830986_816183250T,round_3,raise_now,True,likely_complete,True,early stage vc,False,up,True,500.0,250.0,250.0,1.0,False
+11830986_816183250T,final,raise_now,True,likely_complete,True,early stage vc,False,up,True,500.0,250.0,250.0,1.0,False
+55845274_269156833T,initial,raise_now,True,likely_complete,True,early stage vc,False,up,,1.292857,3.142495,1.849638,0.588589003323792,False
+55845274_269156833T,round_1,raise_now,True,likely_complete,True,early stage vc,False,up,,1.292857,3.142495,1.849638,0.588589003323792,False
+55845274_269156833T,round_2,raise_now,True,likely_complete,True,early stage vc,False,up,,1.292857,3.142495,1.849638,0.588589003323792,False
+55845274_269156833T,round_3,raise_now,True,likely_complete,True,early stage vc,False,up,,1.292857,3.142495,1.849638,0.588589003323792,False
+55845274_269156833T,final,raise_now,True,likely_complete,True,early stage vc,False,up,,1.292857,3.142495,1.849638,0.588589003323792,False
+56698470_648838575T,initial,raise_now,True,likely_complete,True,early stage vc,True,up,,8.285714,,,,
+56698470_648838575T,round_1,raise_now,True,likely_complete,True,seed round,False,up,,8.285714,,,,
+56698470_648838575T,round_2,raise_now,True,likely_complete,True,seed round,False,up,,9.357143,,,,
+56698470_648838575T,round_3,raise_now,True,likely_complete,True,seed round,False,up,,9.357143,,,,
+56698470_648838575T,final,raise_now,True,likely_complete,True,seed round,False,up,,9.357143,,,,
+82237047_094939993T,initial,raise_now,True,likely_complete,True,early stage vc,True,up,,0.517857,0.8,0.28214300000000003,0.35267875000000004,True
+82237047_094939993T,round_1,raise_now,True,likely_complete,True,early stage vc,True,up,,0.5,0.8,0.30000000000000004,0.37500000000000006,True
+82237047_094939993T,round_2,raise_now,True,likely_complete,True,early stage vc,True,up,,0.5,0.8,0.30000000000000004,0.37500000000000006,True
+82237047_094939993T,round_3,raise_now,True,likely_complete,True,early stage vc,True,up,,0.5,0.8,0.30000000000000004,0.37500000000000006,True
+82237047_094939993T,final,raise_now,True,likely_complete,True,early stage vc,True,up,,0.5,0.8,0.30000000000000004,0.37500000000000006,True
+108943275_242536412T,initial,raise_now,True,likely_complete,True,seed round,False,up,,1.0,2.728363,1.7283629999999999,0.6334798558696185,False
+108943275_242536412T,round_1,raise_now,True,likely_complete,True,seed round,False,up,,1.0,2.728363,1.7283629999999999,0.6334798558696185,False
+108943275_242536412T,round_2,raise_now,True,likely_complete,True,seed round,False,up,,1.0,2.728363,1.7283629999999999,0.6334798558696185,False
+108943275_242536412T,round_3,raise_now,True,likely_complete,True,seed round,False,up,,1.0,2.728363,1.7283629999999999,0.6334798558696185,False
+108943275_242536412T,final,raise_now,True,likely_complete,True,seed round,False,up,,1.0,2.728363,1.7283629999999999,0.6334798558696185,False
+123268600_221012973T,initial,raise_now,True,likely_complete,True,seed round,True,flat,,1.0,,,,
+123268600_221012973T,round_1,raise_now,True,likely_complete,True,seed round,True,flat,,1.0,,,,
+123268600_221012973T,round_2,raise_now,True,likely_complete,True,seed round,True,flat,,9.357143,,,,
+123268600_221012973T,round_3,raise_now,True,likely_complete,True,seed round,True,flat,,9.357143,,,,
+123268600_221012973T,final,raise_now,True,likely_complete,True,seed round,True,flat,,9.357143,,,,
+134622385_526904228T,initial,raise_now,True,likely_complete,True,early stage vc,False,up,,1.0,0.784,0.21599999999999997,0.2755102040816326,True
+134622385_526904228T,round_1,raise_now,True,likely_complete,True,seed round,True,up,,1.0,0.784,0.21599999999999997,0.2755102040816326,True
+134622385_526904228T,round_2,raise_now,True,likely_complete,True,seed round,True,up,,1.0,0.784,0.21599999999999997,0.2755102040816326,True
+134622385_526904228T,round_3,raise_now,True,likely_complete,True,seed round,True,up,,1.0,0.784,0.21599999999999997,0.2755102040816326,True
+134622385_526904228T,final,raise_now,True,likely_complete,True,seed round,True,up,,1.0,0.784,0.21599999999999997,0.2755102040816326,True
+152916478_816603649T,initial,raise_now,True,likely_complete,True,early stage vc,False,up,,10.0,3.743051,6.2569490000000005,1.6716173517272408,False
+152916478_816603649T,round_1,raise_now,True,likely_complete,True,early stage vc,False,up,,10.0,3.743051,6.2569490000000005,1.6716173517272408,False
+152916478_816603649T,round_2,raise_now,True,likely_complete,True,early stage vc,False,up,,10.0,3.743051,6.2569490000000005,1.6716173517272408,False
+152916478_816603649T,round_3,raise_now,True,likely_complete,True,early stage vc,False,up,,10.0,3.743051,6.2569490000000005,1.6716173517272408,False
+152916478_816603649T,final,raise_now,True,likely_complete,True,early stage vc,False,up,,10.0,3.743051,6.2569490000000005,1.6716173517272408,False
+152916478_579647233T,initial,raise_now,True,likely_complete,True,early stage vc,False,up,True,10.0,0.5,9.5,19.0,False
+152916478_579647233T,round_1,raise_now,True,likely_complete,True,early stage vc,False,up,True,10.0,0.5,9.5,19.0,False
+152916478_579647233T,round_2,raise_now,True,likely_complete,True,early stage vc,False,up,True,10.0,0.5,9.5,19.0,False
+152916478_579647233T,round_3,raise_now,True,likely_complete,True,early stage vc,False,up,True,10.0,0.5,9.5,19.0,False
+152916478_579647233T,final,raise_now,True,likely_complete,True,early stage vc,False,up,True,10.0,0.5,9.5,19.0,False
+218034134_459544862T,initial,raise_now,True,likely_complete,True,early stage vc,True,up,,1.821429,3.592405,1.7709759999999999,0.4929778240482351,True
+218034134_459544862T,round_1,raise_now,True,likely_complete,True,early stage vc,True,up,,1.880102,3.592405,1.712303,0.4766453114278596,True
+218034134_459544862T,round_2,raise_now,True,likely_complete,True,early stage vc,True,up,,1.880102,3.592405,1.712303,0.4766453114278596,True
+218034134_459544862T,round_3,raise_now,True,likely_complete,True,early stage vc,True,up,,1.880102,3.592405,1.712303,0.4766453114278596,True
+218034134_459544862T,final,raise_now,True,likely_complete,True,early stage vc,True,up,,1.880102,3.592405,1.712303,0.4766453114278596,True
+218034134_081995870T,initial,raise_now,True,likely_complete,True,early stage vc,True,up,True,10.0,3.774843,6.225156999999999,1.6491167977052288,False
+218034134_081995870T,round_1,raise_now,True,likely_complete,True,early stage vc,True,up,True,10.0,3.774843,6.225156999999999,1.6491167977052288,False
+218034134_081995870T,round_2,raise_now,True,likely_complete,True,early stage vc,True,up,True,10.0,3.774843,6.225156999999999,1.6491167977052288,False
+218034134_081995870T,round_3,raise_now,True,likely_complete,True,early stage vc,True,up,True,10.0,3.774843,6.225156999999999,1.6491167977052288,False
+218034134_081995870T,final,raise_now,True,likely_complete,True,early stage vc,True,up,True,10.0,3.774843,6.225156999999999,1.6491167977052288,False
+218034134_879239922T,initial,raise_now,True,likely_complete,True,early stage vc,True,up,True,10.0,3.25,6.75,2.076923076923077,False
+218034134_879239922T,round_1,raise_now,True,likely_complete,True,early stage vc,True,up,True,10.0,3.25,6.75,2.076923076923077,False
+218034134_879239922T,round_2,raise_now,True,likely_complete,True,early stage vc,True,up,True,10.0,3.25,6.75,2.076923076923077,False
+218034134_879239922T,round_3,raise_now,True,likely_complete,True,early stage vc,True,up,True,10.0,3.25,6.75,2.076923076923077,False
+218034134_879239922T,final,raise_now,True,likely_complete,True,early stage vc,True,up,True,10.0,3.25,6.75,2.076923076923077,False
+218034134_453064052T,initial,raise_now,True,likely_complete,True,early stage vc,False,up,True,10.0,21.749998,11.749998000000001,0.5402298427797557,False
+218034134_453064052T,round_1,raise_now,True,likely_complete,True,early stage vc,False,up,True,10.0,21.749998,11.749998000000001,0.5402298427797557,False
+218034134_453064052T,round_2,raise_now,True,likely_complete,True,early stage vc,False,up,True,10.0,21.749998,11.749998000000001,0.5402298427797557,False
+218034134_453064052T,round_3,raise_now,True,likely_complete,True,early stage vc,False,up,True,10.0,21.749998,11.749998000000001,0.5402298427797557,False
+218034134_453064052T,final,raise_now,True,likely_complete,True,early stage vc,False,up,True,10.0,21.749998,11.749998000000001,0.5402298427797557,False
+218034134_154346820T,initial,raise_now,True,likely_complete,True,later stage vc,True,up,False,25.0,29.5,4.5,0.15254237288135594,True
+218034134_154346820T,round_1,raise_now,True,likely_complete,True,later stage vc,True,up,False,25.0,29.5,4.5,0.15254237288135594,True
+218034134_154346820T,round_2,raise_now,True,likely_complete,True,later stage vc,True,up,False,25.0,29.5,4.5,0.15254237288135594,True
+218034134_154346820T,round_3,raise_now,True,likely_complete,True,later stage vc,True,up,False,25.0,29.5,4.5,0.15254237288135594,True
+218034134_154346820T,final,raise_now,True,likely_complete,True,later stage vc,True,up,False,25.0,29.5,4.5,0.15254237288135594,True
+218034134_219205641T,initial,raise_now,True,likely_complete,True,later stage vc,True,up,True,33.571429,56.0,22.428570999999998,0.4005101964285714,True
+218034134_219205641T,round_1,raise_now,True,likely_complete,True,later stage vc,True,up,True,33.571429,56.0,22.428570999999998,0.4005101964285714,True
+218034134_219205641T,round_2,raise_now,True,likely_complete,True,later stage vc,True,up,True,33.571429,56.0,22.428570999999998,0.4005101964285714,True
+218034134_219205641T,round_3,raise_now,True,likely_complete,True,later stage vc,True,up,True,33.571429,56.0,22.428570999999998,0.4005101964285714,True
+218034134_219205641T,final,raise_now,True,likely_complete,True,later stage vc,True,up,True,33.571429,56.0,22.428570999999998,0.4005101964285714,True
+218034134_144126445T,initial,raise_now,True,likely_complete,True,later stage vc,True,up,,50.0,83.0,33.0,0.39759036144578314,True
+218034134_144126445T,round_1,raise_now,True,likely_complete,True,later stage vc,True,up,,50.0,83.0,33.0,0.39759036144578314,True
+218034134_144126445T,round_2,raise_now,True,likely_complete,True,later stage vc,True,up,,50.0,83.0,33.0,0.39759036144578314,True
+218034134_144126445T,round_3,raise_now,True,likely_complete,True,later stage vc,True,up,,50.0,83.0,33.0,0.39759036144578314,True
+218034134_144126445T,final,raise_now,True,likely_complete,True,later stage vc,True,up,,50.0,83.0,33.0,0.39759036144578314,True
+339444541_771219396T,initial,raise_now,True,likely_complete,True,early stage vc,True,up,,10.0,1.0,9.0,9.0,False
+339444541_771219396T,round_1,raise_now,True,likely_complete,True,early stage vc,True,up,,10.0,1.0,9.0,9.0,False
+339444541_771219396T,round_2,raise_now,True,likely_complete,True,early stage vc,True,up,,10.0,1.0,9.0,9.0,False
+339444541_771219396T,round_3,raise_now,True,likely_complete,True,early stage vc,True,up,,10.0,1.0,9.0,9.0,False
+339444541_771219396T,final,raise_now,True,likely_complete,True,early stage vc,True,up,,10.0,1.0,9.0,9.0,False
+374175356_767844503T,initial,raise_now,True,unlikely_complete,False,seed round,False,flat,,1.0,0.18086457,0.81913543,4.528998852566868,False
+374175356_767844503T,round_1,raise_now,True,unlikely_complete,False,seed round,False,flat,,1.0,0.18086457,0.81913543,4.528998852566868,False
+374175356_767844503T,round_2,raise_now,True,unlikely_complete,False,seed round,False,flat,,1.0,0.18086457,0.81913543,4.528998852566868,False
+374175356_767844503T,round_3,raise_now,True,unlikely_complete,False,seed round,False,flat,,1.0,0.18086457,0.81913543,4.528998852566868,False
+374175356_767844503T,final,raise_now,True,unlikely_complete,False,seed round,False,flat,,1.0,0.18086457,0.81913543,4.528998852566868,False
+374175356_090165516T,initial,raise_now,True,likely_complete,True,early stage vc,False,up,False,8.571429,0.19359137,8.37783763,43.27588378552205,False
+374175356_090165516T,round_1,raise_now,True,likely_complete,True,early stage vc,False,up,False,8.571429,0.19359137,8.37783763,43.27588378552205,False
+374175356_090165516T,round_2,raise_now,True,likely_complete,True,early stage vc,False,up,False,8.571429,0.19359137,8.37783763,43.27588378552205,False
+374175356_090165516T,round_3,raise_now,True,likely_complete,True,early stage vc,False,up,False,8.571429,0.19359137,8.37783763,43.27588378552205,False
+374175356_090165516T,final,raise_now,True,likely_complete,True,early stage vc,False,up,False,8.571429,0.19359137,8.37783763,43.27588378552205,False
+381597158_757264750T,initial,raise_now,True,likely_complete,True,seed round,True,up,,0.964286,0.5,0.464286,0.928572,False
+381597158_757264750T,round_1,raise_now,True,likely_complete,True,seed round,True,up,,0.964286,0.5,0.464286,0.928572,False
+381597158_757264750T,round_2,raise_now,True,likely_complete,True,seed round,True,up,,0.964286,0.5,0.464286,0.928572,False
+381597158_757264750T,round_3,raise_now,True,likely_complete,True,seed round,True,up,,0.964286,0.5,0.464286,0.928572,False
+381597158_757264750T,final,raise_now,True,likely_complete,True,seed round,True,up,,0.964286,0.5,0.464286,0.928572,False
+395080535_182107892T,initial,raise_now,True,likely_complete,True,early stage vc,False,up,,1.0,13.520714,12.520714,0.9260394088655377,False
+395080535_182107892T,round_1,raise_now,True,likely_complete,True,early stage vc,False,up,,3.769231,13.520714,9.751483,0.7212254471176597,False
+395080535_182107892T,round_2,raise_now,True,likely_complete,True,seed round,True,up,,10.0,13.520714,3.520714,0.2603940886553772,True
+395080535_182107892T,round_3,raise_now,True,likely_complete,True,seed round,True,up,,10.0,13.520714,3.520714,0.2603940886553772,True
+395080535_182107892T,final,raise_now,True,likely_complete,True,seed round,True,up,,10.0,13.520714,3.520714,0.2603940886553772,True
+414460303_211651070T,initial,raise_now,True,likely_complete,True,early stage vc,False,up,,15.0,8.65449364,6.34550636,0.7332036539575064,False
+414460303_211651070T,round_1,raise_now,True,likely_complete,True,early stage vc,False,up,,15.0,8.65449364,6.34550636,0.7332036539575064,False
+414460303_211651070T,round_2,raise_now,True,likely_complete,True,early stage vc,False,up,,15.0,8.65449364,6.34550636,0.7332036539575064,False
+414460303_211651070T,round_3,raise_now,True,likely_complete,True,early stage vc,False,up,,15.0,8.65449364,6.34550636,0.7332036539575064,False
+414460303_211651070T,final,raise_now,True,likely_complete,True,early stage vc,False,up,,15.0,8.65449364,6.34550636,0.7332036539575064,False
+420468035_511690561T,initial,raise_now,True,likely_complete,True,early stage vc,True,up,,10.0,10.0,0.0,0.0,True
+420468035_511690561T,round_1,raise_now,True,likely_complete,True,early stage vc,True,up,,10.0,10.0,0.0,0.0,True
+420468035_511690561T,round_2,raise_now,True,likely_complete,True,early stage vc,True,up,,10.0,10.0,0.0,0.0,True
+420468035_511690561T,round_3,raise_now,True,likely_complete,True,early stage vc,True,up,,10.0,10.0,0.0,0.0,True
+420468035_511690561T,final,raise_now,True,likely_complete,True,early stage vc,True,up,,10.0,10.0,0.0,0.0,True
+420468035_575477039T,initial,raise_now,True,likely_complete,True,later stage vc,True,up,,10.0,38.8,28.799999999999997,0.7422680412371134,False
+420468035_575477039T,round_1,raise_now,True,likely_complete,True,later stage vc,True,up,,10.0,38.8,28.799999999999997,0.7422680412371134,False
+420468035_575477039T,round_2,raise_now,True,likely_complete,True,later stage vc,True,up,,10.0,38.8,28.799999999999997,0.7422680412371134,False
+420468035_575477039T,round_3,raise_now,True,likely_complete,True,later stage vc,True,up,,10.0,38.8,28.799999999999997,0.7422680412371134,False
+420468035_575477039T,final,raise_now,True,likely_complete,True,later stage vc,True,up,,10.0,38.8,28.799999999999997,0.7422680412371134,False
+437602468_696873542T,initial,raise_now,True,likely_complete,True,early stage vc,False,up,,10.0,1.47444929,8.525550710000001,5.782193235007765,False
+437602468_696873542T,round_1,raise_now,True,likely_complete,True,seed round,False,up,,10.0,1.47444929,8.525550710000001,5.782193235007765,False
+437602468_696873542T,round_2,raise_now,True,likely_complete,True,seed round,False,up,,10.0,1.47444929,8.525550710000001,5.782193235007765,False
+437602468_696873542T,round_3,raise_now,True,likely_complete,True,seed round,False,up,,10.0,1.47444929,8.525550710000001,5.782193235007765,False
+437602468_696873542T,final,raise_now,True,likely_complete,True,seed round,False,up,,10.0,1.47444929,8.525550710000001,5.782193235007765,False
+440112243_958212705T,initial,raise_now,True,likely_complete,True,early stage vc,True,up,,1.0,1.35948,0.35948,0.26442463294789187,True
+440112243_958212705T,round_1,raise_now,True,likely_complete,True,early stage vc,True,up,,3.571429,1.35948,2.211949,1.6270551975755436,False
+440112243_958212705T,round_2,raise_now,True,likely_complete,True,early stage vc,True,up,,9.642857,1.35948,8.283377,6.0930480772059905,False
+440112243_958212705T,round_3,raise_now,True,likely_complete,True,early stage vc,True,up,,9.642857,1.35948,8.283377,6.0930480772059905,False
+440112243_958212705T,final,raise_now,True,likely_complete,True,early stage vc,True,up,,9.642857,1.35948,8.283377,6.0930480772059905,False
+470615116_012605103T,initial,raise_now,True,likely_complete,True,early stage vc,False,up,,0.1,2.4,2.3,0.9583333333333333,False
+470615116_012605103T,round_1,raise_now,True,likely_complete,True,early stage vc,False,up,,0.1,2.4,2.3,0.9583333333333333,False
+470615116_012605103T,round_2,raise_now,True,likely_complete,True,early stage vc,False,up,,0.1,2.4,2.3,0.9583333333333333,False
+470615116_012605103T,round_3,raise_now,True,likely_complete,True,early stage vc,False,up,,0.1,2.4,2.3,0.9583333333333333,False
+470615116_012605103T,final,raise_now,True,likely_complete,True,early stage vc,False,up,,0.1,2.4,2.3,0.9583333333333333,False
+498664659_416326831T,initial,raise_now,True,likely_complete,True,early stage vc,False,up,,1.821429,0.579923,1.241506,2.140811797428279,False
+498664659_416326831T,round_1,raise_now,True,likely_complete,True,early stage vc,False,up,,1.892857,0.579923,1.312934,2.2639798731900616,False
+498664659_416326831T,round_2,raise_now,True,likely_complete,True,seed round,True,up,,2.0,0.579923,1.420077,2.4487337111995906,False
+498664659_416326831T,round_3,raise_now,True,likely_complete,True,seed round,True,up,,2.0,0.579923,1.420077,2.4487337111995906,False
+498664659_416326831T,final,raise_now,True,likely_complete,True,seed round,True,up,,2.0,0.579923,1.420077,2.4487337111995906,False
+514864801_404036528T,initial,raise_now,True,likely_complete,True,early stage vc,True,up,,0.6,1.03780083,0.4378008299999999,0.4218543841403557,True
+514864801_404036528T,round_1,raise_now,True,likely_complete,True,early stage vc,True,up,,0.6,1.03780083,0.4378008299999999,0.4218543841403557,True
+514864801_404036528T,round_2,raise_now,True,likely_complete,True,early stage vc,True,up,,0.6,1.03780083,0.4378008299999999,0.4218543841403557,True
+514864801_404036528T,round_3,raise_now,True,likely_complete,True,early stage vc,True,up,,0.6,1.03780083,0.4378008299999999,0.4218543841403557,True
+514864801_404036528T,final,raise_now,True,likely_complete,True,early stage vc,True,up,,0.6,1.03780083,0.4378008299999999,0.4218543841403557,True
+532341497_266608912T,initial,raise_now,True,likely_complete,True,early stage vc,False,up,,1.642857,2.331913,0.6890560000000001,0.295489583016176,True
+532341497_266608912T,round_1,raise_now,True,likely_complete,True,seed round,True,up,,3.571429,2.331913,1.239516,0.5315447017105698,False
+532341497_266608912T,round_2,raise_now,True,likely_complete,True,seed round,True,up,,10.0,2.331913,7.668087,3.288324650190637,False
+532341497_266608912T,round_3,raise_now,True,likely_complete,True,seed round,True,up,,10.0,2.331913,7.668087,3.288324650190637,False
+532341497_266608912T,final,raise_now,True,likely_complete,True,seed round,True,up,,10.0,2.331913,7.668087,3.288324650190637,False
+532476121_916845364T,initial,raise_now,True,likely_complete,True,seed round,False,up,,1.0,2.0,1.0,0.5,True
+532476121_916845364T,round_1,raise_now,True,likely_complete,True,seed round,False,up,,9.357143,2.0,7.357143000000001,3.6785715000000003,False
+532476121_916845364T,round_2,raise_now,True,likely_complete,True,seed round,False,up,,10.0,2.0,8.0,4.0,False
+532476121_916845364T,round_3,raise_now,True,likely_complete,True,seed round,False,up,,10.0,2.0,8.0,4.0,False
+532476121_916845364T,final,raise_now,True,likely_complete,True,seed round,False,up,,10.0,2.0,8.0,4.0,False
+532476121_216082716T,initial,raise_now,True,likely_complete,True,early stage vc,False,up,True,5.0,6.456893,1.456893,0.22563375295207772,True
+532476121_216082716T,round_1,raise_now,True,likely_complete,True,early stage vc,False,up,True,7.142857,6.456893,0.6859640000000002,0.10623747365799623,True
+532476121_216082716T,round_2,raise_now,True,likely_complete,True,early stage vc,False,up,True,8.367347,6.456893,1.9104540000000005,0.29587821882753834,True
+532476121_216082716T,round_3,raise_now,True,likely_complete,True,seed round,False,up,True,8.571429,6.456893,2.114536,0.3274850613135451,True
+532476121_216082716T,final,raise_now,True,likely_complete,True,seed round,False,up,True,8.571429,6.456893,2.114536,0.3274850613135451,True
+547069886_121337813T,initial,raise_now,True,likely_complete,True,later stage vc,True,up,,13.928571,10.0,3.928571,0.39285709999999996,True
+547069886_121337813T,round_1,raise_now,True,likely_complete,True,later stage vc,True,up,,13.846154,10.0,3.8461540000000003,0.38461540000000005,True
+547069886_121337813T,round_2,raise_now,True,likely_complete,True,later stage vc,True,up,,13.846154,10.0,3.8461540000000003,0.38461540000000005,True
+547069886_121337813T,round_3,raise_now,True,likely_complete,True,later stage vc,True,up,,13.846154,10.0,3.8461540000000003,0.38461540000000005,True
+547069886_121337813T,final,raise_now,True,likely_complete,True,later stage vc,True,up,,13.846154,10.0,3.8461540000000003,0.38461540000000005,True
+547069886_421335654T,initial,raise_now,True,likely_complete,True,later stage vc,True,up,,25.0,46.89734952,21.89734952,0.4669208333545925,True
+547069886_421335654T,round_1,raise_now,True,likely_complete,True,later stage vc,True,up,,25.0,46.89734952,21.89734952,0.4669208333545925,True
+547069886_421335654T,round_2,raise_now,True,likely_complete,True,later stage vc,True,up,,25.0,46.89734952,21.89734952,0.4669208333545925,True
+547069886_421335654T,round_3,raise_now,True,likely_complete,True,later stage vc,True,up,,25.0,46.89734952,21.89734952,0.4669208333545925,True
+547069886_421335654T,final,raise_now,True,likely_complete,True,later stage vc,True,up,,25.0,46.89734952,21.89734952,0.4669208333545925,True
+550085105_987629757T,initial,raise_now,True,likely_complete,True,early stage vc,True,up,,8.571429,0.38615282,8.18527618,21.196986674861005,False
+550085105_987629757T,round_1,raise_now,True,likely_complete,True,early stage vc,True,up,,8.928571,0.38615282,8.54241818,22.121858853704605,False
+550085105_987629757T,round_2,raise_now,True,likely_complete,True,early stage vc,True,up,,8.928571,0.38615282,8.54241818,22.121858853704605,False
+550085105_987629757T,round_3,raise_now,True,likely_complete,True,early stage vc,True,up,,8.928571,0.38615282,8.54241818,22.121858853704605,False
+550085105_987629757T,final,raise_now,True,likely_complete,True,early stage vc,True,up,,8.928571,0.38615282,8.54241818,22.121858853704605,False
+550085105_454903106T,initial,raise_now,True,likely_complete,True,early stage vc,False,up,True,1.078571,0.54467497,0.53389603,0.980210326169385,False
+550085105_454903106T,round_1,raise_now,True,likely_complete,True,early stage vc,False,up,True,1.078571,0.54467497,0.53389603,0.980210326169385,False
+550085105_454903106T,round_2,raise_now,True,likely_complete,True,early stage vc,False,up,True,1.078571,0.54467497,0.53389603,0.980210326169385,False
+550085105_454903106T,round_3,raise_now,True,likely_complete,True,early stage vc,False,up,True,1.078571,0.54467497,0.53389603,0.980210326169385,False
+550085105_454903106T,final,raise_now,True,likely_complete,True,early stage vc,False,up,True,1.078571,0.54467497,0.53389603,0.980210326169385,False
+613912775_146007652T,initial,raise_now,True,likely_complete,True,seed round,False,up,,0.964286,0.63061058,0.33367541999999994,0.5291307037696702,False
+613912775_146007652T,round_1,raise_now,True,likely_complete,True,seed round,False,up,,0.964286,0.63061058,0.33367541999999994,0.5291307037696702,False
+613912775_146007652T,round_2,raise_now,True,likely_complete,True,seed round,False,up,,0.964286,0.63061058,0.33367541999999994,0.5291307037696702,False
+613912775_146007652T,round_3,raise_now,True,likely_complete,True,seed round,False,up,,0.964286,0.63061058,0.33367541999999994,0.5291307037696702,False
+613912775_146007652T,final,raise_now,True,likely_complete,True,seed round,False,up,,0.964286,0.63061058,0.33367541999999994,0.5291307037696702,False
+613912775_798380947T,initial,raise_now,True,likely_complete,True,early stage vc,True,up,False,8.571429,2.2426527,6.3287763,2.8220046287149145,False
+613912775_798380947T,round_1,raise_now,True,likely_complete,True,early stage vc,True,up,False,8.571429,2.2426527,6.3287763,2.8220046287149145,False
+613912775_798380947T,round_2,raise_now,True,likely_complete,True,early stage vc,True,up,False,8.571429,2.2426527,6.3287763,2.8220046287149145,False
+613912775_798380947T,round_3,raise_now,True,likely_complete,True,seed round,False,up,False,8.571429,2.2426527,6.3287763,2.8220046287149145,False
+613912775_798380947T,final,raise_now,True,likely_complete,True,seed round,False,up,False,8.571429,2.2426527,6.3287763,2.8220046287149145,False
+625322647_365842370T,initial,raise_now,True,likely_complete,True,early stage vc,False,up,,7.428571,0.42298255,7.005588449999999,16.562358068908516,False
+625322647_365842370T,round_1,raise_now,True,likely_complete,True,seed round,True,up,,9.357143,0.42298255,8.93416045,21.12181802771769,False
+625322647_365842370T,round_2,raise_now,True,likely_complete,True,seed round,True,up,,9.357143,0.42298255,8.93416045,21.12181802771769,False
+625322647_365842370T,round_3,raise_now,True,likely_complete,True,seed round,True,up,,9.357143,0.42298255,8.93416045,21.12181802771769,False
+625322647_365842370T,final,raise_now,True,likely_complete,True,seed round,True,up,,9.357143,0.42298255,8.93416045,21.12181802771769,False
+627018345_056824043T,initial,raise_now,True,likely_complete,True,early stage vc,False,up,,1.821429,1.8825,0.0610710000000001,0.03244143426294826,True
+627018345_056824043T,round_1,raise_now,True,likely_complete,True,early stage vc,False,up,,1.821429,1.8825,0.0610710000000001,0.03244143426294826,True
+627018345_056824043T,round_2,raise_now,True,likely_complete,True,early stage vc,False,up,,1.821429,1.8825,0.0610710000000001,0.03244143426294826,True
+627018345_056824043T,round_3,raise_now,True,likely_complete,True,early stage vc,False,up,,1.821429,1.8825,0.0610710000000001,0.03244143426294826,True
+627018345_056824043T,final,raise_now,True,likely_complete,True,early stage vc,False,up,,1.821429,1.8825,0.0610710000000001,0.03244143426294826,True
+627018345_496692556T,initial,raise_now,True,likely_complete,True,early stage vc,True,up,True,4.142857,0.999999,3.1428580000000004,3.1428611428611433,False
+627018345_496692556T,round_1,raise_now,True,likely_complete,True,early stage vc,True,up,True,4.142857,0.999999,3.1428580000000004,3.1428611428611433,False
+627018345_496692556T,round_2,raise_now,True,likely_complete,True,early stage vc,True,up,True,4.142857,0.999999,3.1428580000000004,3.1428611428611433,False
+627018345_496692556T,round_3,raise_now,True,likely_complete,True,early stage vc,True,up,True,4.142857,0.999999,3.1428580000000004,3.1428611428611433,False
+627018345_496692556T,final,raise_now,True,likely_complete,True,early stage vc,True,up,True,4.142857,0.999999,3.1428580000000004,3.1428611428611433,False
+627018345_377129745T,initial,raise_now,True,likely_complete,True,early stage vc,True,up,True,10.0,7.00014,2.99986,0.4285428577142743,True
+627018345_377129745T,round_1,raise_now,True,likely_complete,True,early stage vc,True,up,True,10.0,7.00014,2.99986,0.4285428577142743,True
+627018345_377129745T,round_2,raise_now,True,likely_complete,True,early stage vc,True,up,True,10.0,7.00014,2.99986,0.4285428577142743,True
+627018345_377129745T,round_3,raise_now,True,likely_complete,True,early stage vc,True,up,True,10.0,7.00014,2.99986,0.4285428577142743,True
+627018345_377129745T,final,raise_now,True,likely_complete,True,early stage vc,True,up,True,10.0,7.00014,2.99986,0.4285428577142743,True
+627018345_449868806T,initial,raise_now,True,likely_complete,True,early stage vc,True,up,True,10.0,9.999934,6.600000000034356e-05,6.600043560321855e-06,True
+627018345_449868806T,round_1,raise_now,True,likely_complete,True,early stage vc,True,up,True,10.0,9.999934,6.600000000034356e-05,6.600043560321855e-06,True
+627018345_449868806T,round_2,raise_now,True,likely_complete,True,early stage vc,True,up,True,10.0,9.999934,6.600000000034356e-05,6.600043560321855e-06,True
+627018345_449868806T,round_3,raise_now,True,likely_complete,True,early stage vc,True,up,True,10.0,9.999934,6.600000000034356e-05,6.600043560321855e-06,True
+627018345_449868806T,final,raise_now,True,likely_complete,True,early stage vc,True,up,True,10.0,9.999934,6.600000000034356e-05,6.600043560321855e-06,True
+641096591_470066679T,initial,raise_now,True,unlikely_complete,False,seed round,True,up,,0.964286,0.72285711,0.24142889,0.33399255075460216,True
+641096591_470066679T,round_1,raise_now,True,unlikely_complete,False,seed round,True,up,,0.964286,0.72285711,0.24142889,0.33399255075460216,True
+641096591_470066679T,round_2,raise_now,True,unlikely_complete,False,seed round,True,up,,0.964286,0.72285711,0.24142889,0.33399255075460216,True
+641096591_470066679T,round_3,raise_now,True,unlikely_complete,False,seed round,True,up,,0.964286,0.72285711,0.24142889,0.33399255075460216,True
+641096591_470066679T,final,raise_now,True,unlikely_complete,False,seed round,True,up,,0.964286,0.72285711,0.24142889,0.33399255075460216,True
+695406116_499898191T,initial,raise_now,True,likely_complete,True,early stage vc,True,up,,6.142857,6.55919033,0.4163333299999996,0.06347328085538259,True
+695406116_499898191T,round_1,raise_now,True,likely_complete,True,early stage vc,True,up,,6.142857,6.55919033,0.4163333299999996,0.06347328085538259,True
+695406116_499898191T,round_2,raise_now,True,likely_complete,True,early stage vc,True,up,,6.142857,6.55919033,0.4163333299999996,0.06347328085538259,True
+695406116_499898191T,round_3,raise_now,True,likely_complete,True,early stage vc,True,up,,6.142857,6.55919033,0.4163333299999996,0.06347328085538259,True
+695406116_499898191T,final,raise_now,True,likely_complete,True,early stage vc,True,up,,6.142857,6.55919033,0.4163333299999996,0.06347328085538259,True
+695406116_977223306T,initial,raise_now,True,likely_complete,True,early stage vc,True,up,False,10.357143,7.64222742,2.7149155800000004,0.35525186974872835,True
+695406116_977223306T,round_1,raise_now,True,likely_complete,True,early stage vc,True,up,False,10.357143,7.64222742,2.7149155800000004,0.35525186974872835,True
+695406116_977223306T,round_2,raise_now,True,likely_complete,True,early stage vc,True,up,False,10.357143,7.64222742,2.7149155800000004,0.35525186974872835,True
+695406116_977223306T,round_3,raise_now,True,likely_complete,True,early stage vc,True,up,False,10.357143,7.64222742,2.7149155800000004,0.35525186974872835,True
+695406116_977223306T,final,raise_now,True,likely_complete,True,early stage vc,True,up,False,10.357143,7.64222742,2.7149155800000004,0.35525186974872835,True
+695406116_843339679T,initial,raise_now,True,likely_complete,True,early stage vc,True,up,False,10.0,12.7034601,2.703460099999999,0.21281289339429652,True
+695406116_843339679T,round_1,raise_now,True,likely_complete,True,early stage vc,True,up,False,10.0,12.7034601,2.703460099999999,0.21281289339429652,True
+695406116_843339679T,round_2,raise_now,True,likely_complete,True,early stage vc,True,up,False,10.0,12.7034601,2.703460099999999,0.21281289339429652,True
+695406116_843339679T,round_3,raise_now,True,likely_complete,True,early stage vc,True,up,False,10.0,12.7034601,2.703460099999999,0.21281289339429652,True
+695406116_843339679T,final,raise_now,True,likely_complete,True,early stage vc,True,up,False,10.0,12.7034601,2.703460099999999,0.21281289339429652,True
+715033945_619516421T,initial,raise_now,True,likely_complete,True,early stage vc,True,up,,1.714286,3.275,1.560714,0.476553893129771,True
+715033945_619516421T,round_1,raise_now,True,likely_complete,True,seed round,False,up,,1.306123,3.275,1.968877,0.6011838167938931,False
+715033945_619516421T,round_2,raise_now,True,likely_complete,True,seed round,False,up,,1.306123,3.275,1.968877,0.6011838167938931,False
+715033945_619516421T,round_3,raise_now,True,likely_complete,True,seed round,False,up,,1.306123,3.275,1.968877,0.6011838167938931,False
+715033945_619516421T,final,raise_now,True,likely_complete,True,seed round,False,up,,1.306123,3.275,1.968877,0.6011838167938931,False
+715033945_181019126T,initial,raise_now,True,likely_complete,True,early stage vc,True,up,True,10.0,15.000002,5.000002,0.3333334222222104,True
+715033945_181019126T,round_1,raise_now,True,likely_complete,True,early stage vc,True,up,True,10.0,15.000002,5.000002,0.3333334222222104,True
+715033945_181019126T,round_2,raise_now,True,likely_complete,True,early stage vc,True,up,True,10.0,15.000002,5.000002,0.3333334222222104,True
+715033945_181019126T,round_3,raise_now,True,likely_complete,True,early stage vc,True,up,True,10.0,15.000002,5.000002,0.3333334222222104,True
+715033945_181019126T,final,raise_now,True,likely_complete,True,early stage vc,True,up,True,10.0,15.000002,5.000002,0.3333334222222104,True
+715033945_782061400T,initial,raise_now,True,likely_complete,True,early stage vc,False,up,True,23.846154,10.000004,13.846149999999998,1.3846144461542214,False
+715033945_782061400T,round_1,raise_now,True,likely_complete,True,early stage vc,False,up,True,23.846154,10.000004,13.846149999999998,1.3846144461542214,False
+715033945_782061400T,round_2,raise_now,True,likely_complete,True,early stage vc,False,up,True,22.923077,10.000004,12.923072999999999,1.2923067830772865,False
+715033945_782061400T,round_3,raise_now,True,likely_complete,True,early stage vc,False,up,True,22.923077,10.000004,12.923072999999999,1.2923067830772865,False
+715033945_782061400T,final,raise_now,True,likely_complete,True,early stage vc,False,up,True,22.923077,10.000004,12.923072999999999,1.2923067830772865,False
+719387351_143471987T,initial,raise_now,True,likely_complete,True,early stage vc,False,up,,10.0,4.170682,5.829318,1.3976893946841307,False
+719387351_143471987T,round_1,raise_now,True,likely_complete,True,early stage vc,False,up,,10.0,4.170682,5.829318,1.3976893946841307,False
+719387351_143471987T,round_2,raise_now,True,likely_complete,True,early stage vc,False,up,,10.0,4.170682,5.829318,1.3976893946841307,False
+719387351_143471987T,round_3,raise_now,True,likely_complete,True,early stage vc,False,up,,10.0,4.170682,5.829318,1.3976893946841307,False
+719387351_143471987T,final,raise_now,True,likely_complete,True,early stage vc,False,up,,10.0,4.170682,5.829318,1.3976893946841307,False
+749494801_557473942T,initial,raise_now,True,likely_complete,True,seed round,True,up,,1.0,3.3,2.3,0.6969696969696969,False
+749494801_557473942T,round_1,raise_now,True,likely_complete,True,seed round,True,up,,1.0,3.3,2.3,0.6969696969696969,False
+749494801_557473942T,round_2,raise_now,True,likely_complete,True,seed round,True,up,,1.0,3.3,2.3,0.6969696969696969,False
+749494801_557473942T,round_3,raise_now,True,likely_complete,True,seed round,True,up,,1.0,3.3,2.3,0.6969696969696969,False
+749494801_557473942T,final,raise_now,True,likely_complete,True,seed round,True,up,,1.0,3.3,2.3,0.6969696969696969,False
+749494801_437639184T,initial,raise_now,True,likely_complete,True,early stage vc,False,up,False,5.0,6.0,1.0,0.16666666666666666,True
+749494801_437639184T,round_1,raise_now,True,likely_complete,True,early stage vc,False,up,False,5.0,6.0,1.0,0.16666666666666666,True
+749494801_437639184T,round_2,raise_now,True,likely_complete,True,seed round,True,up,False,5.0,6.0,1.0,0.16666666666666666,True
+749494801_437639184T,round_3,raise_now,True,likely_complete,True,seed round,True,up,False,5.0,6.0,1.0,0.16666666666666666,True
+749494801_437639184T,final,raise_now,True,likely_complete,True,seed round,True,up,False,5.0,6.0,1.0,0.16666666666666666,True
+811956194_422362760T,initial,raise_now,True,likely_complete,True,early stage vc,True,up,,1.821429,5.07403412,3.25260512,0.6410294142838756,False
+811956194_422362760T,round_1,raise_now,True,likely_complete,True,early stage vc,True,up,,1.821429,5.07403412,3.25260512,0.6410294142838756,False
+811956194_422362760T,round_2,raise_now,True,likely_complete,True,early stage vc,True,up,,1.464286,5.07403412,3.6097481200000003,0.7114158152330281,False
+811956194_422362760T,round_3,raise_now,True,likely_complete,True,early stage vc,True,up,,1.464286,5.07403412,3.6097481200000003,0.7114158152330281,False
+811956194_422362760T,final,raise_now,True,likely_complete,True,early stage vc,True,up,,1.464286,5.07403412,3.6097481200000003,0.7114158152330281,False
+811956194_984457418T,initial,raise_now,True,likely_complete,True,early stage vc,True,up,False,10.0,1.48504446,8.51495554,5.733805127962298,False
+811956194_984457418T,round_1,raise_now,True,likely_complete,True,early stage vc,True,up,False,10.0,1.48504446,8.51495554,5.733805127962298,False
+811956194_984457418T,round_2,raise_now,True,likely_complete,True,early stage vc,True,up,False,10.0,1.48504446,8.51495554,5.733805127962298,False
+811956194_984457418T,round_3,raise_now,True,likely_complete,True,early stage vc,True,up,False,10.0,1.48504446,8.51495554,5.733805127962298,False
+811956194_984457418T,final,raise_now,True,likely_complete,True,early stage vc,True,up,False,10.0,1.48504446,8.51495554,5.733805127962298,False
+814334279_368343132T,initial,raise_now,True,likely_complete,True,early stage vc,False,up,,10.0,1.2616651,8.7383349,6.926033620173848,False
+814334279_368343132T,round_1,raise_now,True,likely_complete,True,early stage vc,False,up,,10.0,1.2616651,8.7383349,6.926033620173848,False
+814334279_368343132T,round_2,raise_now,True,likely_complete,True,early stage vc,False,up,,10.0,1.2616651,8.7383349,6.926033620173848,False
+814334279_368343132T,round_3,raise_now,True,likely_complete,True,early stage vc,False,up,,10.0,1.2616651,8.7383349,6.926033620173848,False
+814334279_368343132T,final,raise_now,True,likely_complete,True,early stage vc,False,up,,10.0,1.2616651,8.7383349,6.926033620173848,False
+814334279_212012873T,initial,raise_now,True,likely_complete,True,later stage vc,True,up,,15.0,4.47705717,10.52294283,2.3504151120768464,False
+814334279_212012873T,round_1,raise_now,True,likely_complete,True,later stage vc,True,up,,15.0,4.47705717,10.52294283,2.3504151120768464,False
+814334279_212012873T,round_2,raise_now,True,likely_complete,True,later stage vc,True,up,,15.0,4.47705717,10.52294283,2.3504151120768464,False
+814334279_212012873T,round_3,raise_now,True,likely_complete,True,later stage vc,True,up,,15.0,4.47705717,10.52294283,2.3504151120768464,False
+814334279_212012873T,final,raise_now,True,likely_complete,True,later stage vc,True,up,,15.0,4.47705717,10.52294283,2.3504151120768464,False
+848991802_308266590T,initial,raise_now,True,unlikely_complete,False,early stage vc,False,up,,6.142857,0.62592494,5.51693206,8.814047352067487,False
+848991802_308266590T,round_1,raise_now,True,unlikely_complete,False,seed round,True,up,,6.142857,0.62592494,5.51693206,8.814047352067487,False
+848991802_308266590T,round_2,raise_now,True,unlikely_complete,False,seed round,True,up,,6.142857,0.62592494,5.51693206,8.814047352067487,False
+848991802_308266590T,round_3,raise_now,True,unlikely_complete,False,seed round,True,up,,6.142857,0.62592494,5.51693206,8.814047352067487,False
+848991802_308266590T,final,raise_now,True,unlikely_complete,False,seed round,True,up,,6.142857,0.62592494,5.51693206,8.814047352067487,False
+848991802_250474858T,initial,raise_now,True,likely_complete,True,early stage vc,True,up,True,1.25,1.89206973,0.64206973,0.3393478156854187,True
+848991802_250474858T,round_1,raise_now,True,likely_complete,True,early stage vc,True,up,True,1.357143,1.89206973,0.53492673,0.282720410098205,True
+848991802_250474858T,round_2,raise_now,True,likely_complete,True,early stage vc,True,up,True,1.223413,1.89206973,0.6686567299999999,0.3533996233849161,True
+848991802_250474858T,round_3,raise_now,True,likely_complete,True,early stage vc,True,up,True,1.223413,1.89206973,0.6686567299999999,0.3533996233849161,True
+848991802_250474858T,final,raise_now,True,likely_complete,True,early stage vc,True,up,True,1.223413,1.89206973,0.6686567299999999,0.3533996233849161,True
+873966444_911177755T,initial,raise_now,True,likely_complete,True,early stage vc,True,up,,1.821429,2.200532,0.37910299999999997,0.17227788552949921,True
+873966444_911177755T,round_1,raise_now,True,likely_complete,True,early stage vc,True,up,,1.821429,2.200532,0.37910299999999997,0.17227788552949921,True
+873966444_911177755T,round_2,raise_now,True,likely_complete,True,seed round,False,up,,2.035714,2.200532,0.1648179999999999,0.0748991607484008,True
+873966444_911177755T,round_3,raise_now,True,likely_complete,True,seed round,False,up,,2.035714,2.200532,0.1648179999999999,0.0748991607484008,True
+873966444_911177755T,final,raise_now,True,likely_complete,True,seed round,False,up,,2.035714,2.200532,0.1648179999999999,0.0748991607484008,True
+873966444_698264161T,initial,raise_now,True,likely_complete,True,early stage vc,True,up,True,6.428571,10.272913,3.844342000000001,0.37422121651375817,True
+873966444_698264161T,round_1,raise_now,True,likely_complete,True,early stage vc,True,up,True,6.428571,10.272913,3.844342000000001,0.37422121651375817,True
+873966444_698264161T,round_2,raise_now,True,likely_complete,True,early stage vc,True,up,True,6.428571,10.272913,3.844342000000001,0.37422121651375817,True
+873966444_698264161T,round_3,raise_now,True,likely_complete,True,early stage vc,True,up,True,6.428571,10.272913,3.844342000000001,0.37422121651375817,True
+873966444_698264161T,final,raise_now,True,likely_complete,True,early stage vc,True,up,True,6.428571,10.272913,3.844342000000001,0.37422121651375817,True
+873966444_329054140T,initial,raise_now,True,likely_complete,True,early stage vc,False,up,True,15.0,25.000002,10.000001999999999,0.4000000479999961,True
+873966444_329054140T,round_1,raise_now,True,likely_complete,True,early stage vc,False,up,True,15.0,25.000002,10.000001999999999,0.4000000479999961,True
+873966444_329054140T,round_2,raise_now,True,likely_complete,True,early stage vc,False,up,True,15.0,25.000002,10.000001999999999,0.4000000479999961,True
+873966444_329054140T,round_3,raise_now,True,likely_complete,True,early stage vc,False,up,True,15.0,25.000002,10.000001999999999,0.4000000479999961,True
+873966444_329054140T,final,raise_now,True,likely_complete,True,early stage vc,False,up,True,15.0,25.000002,10.000001999999999,0.4000000479999961,True
+873966444_915471547T,initial,raise_now,True,likely_complete,True,later stage vc,True,up,True,50.0,60.000002,10.000002000000002,0.16666669444444354,True
+873966444_915471547T,round_1,raise_now,True,likely_complete,True,later stage vc,True,up,True,50.0,60.000002,10.000002000000002,0.16666669444444354,True
+873966444_915471547T,round_2,raise_now,True,likely_complete,True,later stage vc,True,up,True,50.0,60.000002,10.000002000000002,0.16666669444444354,True
+873966444_915471547T,round_3,raise_now,True,likely_complete,True,later stage vc,True,up,True,50.0,60.000002,10.000002000000002,0.16666669444444354,True
+873966444_915471547T,final,raise_now,True,likely_complete,True,later stage vc,True,up,True,50.0,60.000002,10.000002000000002,0.16666669444444354,True
+924462846_581849960T,initial,raise_now,True,likely_complete,True,early stage vc,True,up,,1.857143,1.32954772,0.5275952799999999,0.39682312418240984,True
+924462846_581849960T,round_1,raise_now,True,likely_complete,True,early stage vc,True,up,,1.928571,1.32954772,0.5990232799999999,0.450546656572808,True
+924462846_581849960T,round_2,raise_now,True,likely_complete,True,early stage vc,True,up,,2.035714,1.32954772,0.7061662799999999,0.5311327072938757,False
+924462846_581849960T,round_3,raise_now,True,likely_complete,True,early stage vc,True,up,,2.035714,1.32954772,0.7061662799999999,0.5311327072938757,False
+924462846_581849960T,final,raise_now,True,likely_complete,True,early stage vc,True,up,,2.035714,1.32954772,0.7061662799999999,0.5311327072938757,False
+924462846_585063651T,initial,raise_now,True,likely_complete,True,early stage vc,True,up,True,5.0,2.23332355,2.76667645,1.2388157774989654,False
+924462846_585063651T,round_1,raise_now,True,likely_complete,True,early stage vc,True,up,True,4.821429,2.23332355,2.58810545,1.158858263058212,False
+924462846_585063651T,round_2,raise_now,True,likely_complete,True,early stage vc,True,up,True,4.821429,2.23332355,2.58810545,1.158858263058212,False
+924462846_585063651T,round_3,raise_now,True,likely_complete,True,early stage vc,True,up,True,4.821429,2.23332355,2.58810545,1.158858263058212,False
+924462846_585063651T,final,raise_now,True,likely_complete,True,early stage vc,True,up,True,4.821429,2.23332355,2.58810545,1.158858263058212,False
+924462846_941227886T,initial,raise_now,True,likely_complete,True,early stage vc,True,up,True,10.0,3.87894254,6.121057459999999,1.5780222049899195,False
+924462846_941227886T,round_1,raise_now,True,likely_complete,True,early stage vc,True,up,True,10.0,3.87894254,6.121057459999999,1.5780222049899195,False
+924462846_941227886T,round_2,raise_now,True,likely_complete,True,early stage vc,True,up,True,10.0,3.87894254,6.121057459999999,1.5780222049899195,False
+924462846_941227886T,round_3,raise_now,True,likely_complete,True,early stage vc,True,up,True,10.0,3.87894254,6.121057459999999,1.5780222049899195,False
+924462846_941227886T,final,raise_now,True,likely_complete,True,early stage vc,True,up,True,10.0,3.87894254,6.121057459999999,1.5780222049899195,False
+924462846_205213706T,initial,raise_now,True,likely_complete,True,early stage vc,False,up,False,10.0,2.9322216,7.0677784,2.410383444416343,False
+924462846_205213706T,round_1,raise_now,True,likely_complete,True,early stage vc,False,up,False,10.0,2.9322216,7.0677784,2.410383444416343,False
+924462846_205213706T,round_2,raise_now,True,likely_complete,True,early stage vc,False,up,False,10.0,2.9322216,7.0677784,2.410383444416343,False
+924462846_205213706T,round_3,raise_now,True,likely_complete,True,early stage vc,False,up,False,10.0,2.9322216,7.0677784,2.410383444416343,False
+924462846_205213706T,final,raise_now,True,likely_complete,True,early stage vc,False,up,False,10.0,2.9322216,7.0677784,2.410383444416343,False
+924462846_242496413T,initial,raise_now,True,likely_complete,True,later stage vc,True,up,True,10.357143,4.18117477,6.1759682300000005,1.4770892320293993,False
+924462846_242496413T,round_1,raise_now,True,likely_complete,True,later stage vc,True,up,True,10.357143,4.18117477,6.1759682300000005,1.4770892320293993,False
+924462846_242496413T,round_2,raise_now,True,likely_complete,True,later stage vc,True,up,True,10.357143,4.18117477,6.1759682300000005,1.4770892320293993,False
+924462846_242496413T,round_3,raise_now,True,likely_complete,True,later stage vc,True,up,True,10.357143,4.18117477,6.1759682300000005,1.4770892320293993,False
+924462846_242496413T,final,raise_now,True,likely_complete,True,later stage vc,True,up,True,10.357143,4.18117477,6.1759682300000005,1.4770892320293993,False

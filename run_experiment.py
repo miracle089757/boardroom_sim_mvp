@@ -27,6 +27,12 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--trace-output", type=Path, required=True, help="Path to detailed trace JSON output.")
     parser.add_argument("--bargaining-rounds", type=int, default=3, help="Number of deterministic bargaining rounds.")
     parser.add_argument("--case-limit", type=int, default=None, help="Optional maximum number of input cases to run.")
+    parser.add_argument(
+        "--history-limit",
+        type=int,
+        default=10,
+        help="Maximum number of recent historical records per history field. Use -1 for all history.",
+    )
     parser.add_argument("--api-key", default=None, help="API key. Defaults to BOARDROOM_LLM_API_KEY.")
     parser.add_argument("--api-key-env", default="BOARDROOM_LLM_API_KEY", help="Environment variable containing API key.")
     parser.add_argument("--model", default="GLM-4-Flash-250414", help="LLM model name. Defaults to GLM-4-Flash-250414.")
@@ -38,10 +44,14 @@ def parse_args() -> argparse.Namespace:
     return parser.parse_args()
 
 
-def load_cases(input_path: Path, case_limit: int | None = None) -> List[BoardCase]:
+def load_cases(
+    input_path: Path,
+    case_limit: int | None = None,
+    history_limit: int | None = 10,
+) -> List[BoardCase]:
     """Load cases from either normalized JSONL or the PitchBook workbook."""
     if input_path.suffix.lower() in {".xlsx", ".xlsm"}:
-        return build_cases_from_pitchbook(input_path, limit=case_limit)
+        return build_cases_from_pitchbook(input_path, limit=case_limit, history_limit=history_limit)
     cases = read_cases_jsonl(input_path)
     return cases[:case_limit] if case_limit is not None else cases
 
@@ -51,9 +61,10 @@ def run_experiment(
     bargaining_rounds: int,
     llm_client: LLMClient,
     case_limit: int | None = None,
+    history_limit: int | None = 10,
 ) -> List[SimulationResult]:
     """Load cases and run the boardroom simulator for each case."""
-    cases = load_cases(input_path, case_limit=case_limit)
+    cases = load_cases(input_path, case_limit=case_limit, history_limit=history_limit)
     simulator = BoardroomSimulator(llm_client=llm_client, bargaining_rounds=bargaining_rounds)
     return [simulator.simulate(case) for case in cases]
 
@@ -72,7 +83,13 @@ def main() -> None:
         retry_base_seconds=args.retry_base_seconds,
     )
     llm_client = LLMClient(llm_config)
-    results = run_experiment(args.input, args.bargaining_rounds, llm_client, case_limit=args.case_limit)
+    results = run_experiment(
+        args.input,
+        args.bargaining_rounds,
+        llm_client,
+        case_limit=args.case_limit,
+        history_limit=args.history_limit,
+    )
     write_results_jsonl(args.output, results)
     write_traces_json(args.trace_output, results)
     print(f"Processed {len(results)} cases.")

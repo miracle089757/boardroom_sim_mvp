@@ -195,12 +195,12 @@ def render_final_result(case: Dict[str, Any]) -> str:
             f"最终聚合结果认为，公司融资意向为 {text(case.get('financing_initiation_decision'))}，"
             f"交易完成判断为 {text(case.get('financing_completion_view'))}。"
             f"模拟预测融资额为 {number(case.get('predicted_deal_size_usd_m'))} 百万美元，"
+            f"预测投后估值为 {number(case.get('predicted_post_money_valuation_usd_m'))} 百万美元，"
+            f"预测投资人持股为 {number(case.get('predicted_investor_ownership_pct'))}%，"
             f"交易类型为 {text(case.get('predicted_deal_type'))}，"
             f"估值方向判断为 {text(case.get('valuation_direction'))}，"
-            f"CEO 更换判断为 {text(case.get('ceo_replacement_decision'))}。"
             f"共识分数为 {number(case.get('consensus_score'))}，"
-            f"交易破裂风险为 {text(case.get('deal_break_risk'))}，"
-            f"治理冲突风险为 {text(case.get('governance_conflict_risk'))}。"
+            f"交易破裂风险为 {text(case.get('deal_break_risk'))}。"
         )
     return (
         f"最终聚合结果认为，融资决策为 {text(case.get('financing_decision'))}，"
@@ -243,17 +243,27 @@ def render_similarity(case: Dict[str, Any]) -> List[str]:
     )
     comparisons.append(compare_exact("交易类型", text(case.get("predicted_deal_type"), ""), text(labels.get("real_deal_type"), "")))
     comparisons.append(
+        compare_numeric(
+            "投后估值",
+            to_float(case.get("predicted_post_money_valuation_usd_m")),
+            to_float(labels.get("real_post_money_valuation_usd_m")),
+            unit="百万美元",
+        )
+    )
+    comparisons.append(
+        compare_numeric(
+            "投资人持股",
+            to_float(case.get("predicted_investor_ownership_pct")),
+            to_float(labels.get("real_investor_ownership_pct")),
+            unit="%",
+        )
+    )
+    comparisons.append(
         compare_exact(
             "估值方向",
             text(case.get("valuation_direction"), ""),
             text(labels.get("real_valuation_direction_label"), ""),
             skip_values={"", "unknown"},
-        )
-    )
-    comparisons.append(
-        compare_ceo(
-            text(case.get("ceo_replacement_decision"), ""),
-            text(labels.get("real_ceo_replacement_label"), ""),
         )
     )
 
@@ -278,9 +288,10 @@ def format_stance(decision: Dict[str, Any]) -> str:
             f"融资意向 {text(decision.get('financing_intent'))}，"
             f"完成判断 {text(decision.get('completion_view'))}，"
             f"预计融资额 {number(decision.get('predicted_deal_size_usd_m'))} 百万美元，"
+            f"预计投后估值 {number(decision.get('predicted_post_money_valuation_usd_m'))} 百万美元，"
+            f"预计投资人持股 {number(decision.get('predicted_investor_ownership_pct'))}%，"
             f"交易类型 {text(decision.get('predicted_deal_type'))}，"
             f"估值方向 {text(decision.get('valuation_direction'))}，"
-            f"CEO 更换观点 {text(decision.get('ceo_replacement_view'))}，"
             f"满意度 {number(decision.get('satisfaction_score'))}。"
         )
     return (
