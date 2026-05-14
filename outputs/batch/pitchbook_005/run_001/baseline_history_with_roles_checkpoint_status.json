@@ -1,0 +1,12 @@
+{
+  "updated_at": "2026-05-13T12:40:49",
+  "run_id": "run_001/baseline_history_with_roles",
+  "status": "completed",
+  "expected_count": 50,
+  "completed_count": 50,
+  "remaining_count": 0,
+  "last_case_id": "231347739_136848807T",
+  "total_tokens": 6213713,
+  "total_prompt_tokens": 5952143,
+  "total_completion_tokens": 261570
+}

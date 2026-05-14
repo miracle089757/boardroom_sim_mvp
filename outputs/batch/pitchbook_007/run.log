@@ -1,0 +1,849 @@
+nohup: ignoring input
+Found outputs/batch/pitchbook_007/run_001/results.jsonl with 198 rows; expected 212. Resuming remaining cases.
+Starting run_001: 212 cases.
+run_001: resuming with 198/212 completed cases.
+run_001: skip completed case 1/212 4790087_197130868T
+run_001: skip completed case 2/212 11830986_813677134T
+run_001: skip completed case 3/212 11830986_549655044T
+run_001: skip completed case 4/212 11830986_069610272T
+run_001: skip completed case 5/212 11830986_789374083T
+run_001: skip completed case 6/212 11830986_816183250T
+run_001: skip completed case 7/212 11830986_293087727T
+run_001: skip completed case 8/212 11982935_342853943T
+run_001: skip completed case 9/212 26050294_545686821T
+run_001: skip completed case 10/212 55845274_951718297T
+run_001: skip completed case 11/212 55845274_269156833T
+run_001: skip completed case 12/212 56698470_648838575T
+run_001: skip completed case 13/212 56698470_418076218T
+run_001: skip completed case 14/212 65829781_596811480T
+run_001: skip completed case 15/212 65829781_005051561T
+run_001: skip completed case 16/212 82237047_660939529T
+run_001: skip completed case 17/212 82237047_094939993T
+run_001: skip completed case 18/212 82237047_302141975T
+run_001: skip completed case 19/212 87512028_605122136T
+run_001: skip completed case 20/212 87512028_919782061T
+run_001: skip completed case 21/212 97714444_926438972T
+run_001: skip completed case 22/212 101676742_333240762T
+run_001: skip completed case 23/212 103281360_917957046T
+run_001: skip completed case 24/212 108943275_273554390T
+run_001: skip completed case 25/212 108943275_242536412T
+run_001: skip completed case 26/212 123268600_158462168T
+run_001: skip completed case 27/212 123268600_221012973T
+run_001: skip completed case 28/212 123268600_143058813T
+run_001: skip completed case 29/212 134622385_526904228T
+run_001: skip completed case 30/212 134622385_762593770T
+run_001: skip completed case 31/212 134622385_571168881T
+run_001: skip completed case 32/212 145718938_867839336T
+run_001: skip completed case 33/212 152916478_891084665T
+run_001: skip completed case 34/212 152916478_770543621T
+run_001: skip completed case 35/212 152916478_816603649T
+run_001: skip completed case 36/212 152916478_579647233T
+run_001: skip completed case 37/212 178378902_721357216T
+run_001: skip completed case 38/212 197258275_777840969T
+run_001: skip completed case 39/212 197258275_428207586T
+run_001: skip completed case 40/212 218034134_459544862T
+run_001: skip completed case 41/212 218034134_081995870T
+run_001: skip completed case 42/212 218034134_879239922T
+run_001: skip completed case 43/212 218034134_453064052T
+run_001: skip completed case 44/212 218034134_154346820T
+run_001: skip completed case 45/212 218034134_219205641T
+run_001: skip completed case 46/212 218034134_432173479T
+run_001: skip completed case 47/212 218034134_144126445T
+run_001: skip completed case 48/212 218034134_616369767T
+run_001: skip completed case 49/212 218034134_402957630T
+run_001: skip completed case 50/212 231347739_136848807T
+run_001: skip completed case 51/212 231347739_333822497T
+run_001: skip completed case 52/212 231347739_424651955T
+run_001: skip completed case 53/212 235333785_926885698T
+run_001: skip completed case 54/212 235333785_512198052T
+run_001: skip completed case 55/212 235333785_967381543T
+run_001: skip completed case 56/212 237064839_347016227T
+run_001: skip completed case 57/212 237064839_464653343T
+run_001: skip completed case 58/212 237064839_984415763T
+run_001: skip completed case 59/212 237064839_429896018T
+run_001: skip completed case 60/212 237064839_294402250T
+run_001: skip completed case 61/212 237064839_250030501T
+run_001: skip completed case 62/212 244615093_239723562T
+run_001: skip completed case 63/212 251218500_987004488T
+run_001: skip completed case 64/212 258737782_154380057T
+run_001: skip completed case 65/212 258737782_024706118T
+run_001: skip completed case 66/212 259017326_200002115T
+run_001: skip completed case 67/212 272749505_362847404T
+run_001: skip completed case 68/212 282137071_852523686T
+run_001: skip completed case 69/212 309612945_230497494T
+run_001: skip completed case 70/212 314608694_756469071T
+run_001: skip completed case 71/212 318177349_458794049T
+run_001: skip completed case 72/212 331443735_753371340T
+run_001: skip completed case 73/212 339444541_771219396T
+run_001: skip completed case 74/212 374175356_767844503T
+run_001: skip completed case 75/212 374175356_090165516T
+run_001: skip completed case 76/212 374175356_555208307T
+run_001: skip completed case 77/212 374175356_813472702T
+run_001: skip completed case 78/212 381204631_481335027T
+run_001: skip completed case 79/212 381597158_757264750T
+run_001: skip completed case 80/212 395080535_182107892T
+run_001: skip completed case 81/212 399940332_166825866T
+run_001: skip completed case 82/212 407502233_884022872T
+run_001: skip completed case 83/212 412585624_025651118T
+run_001: skip completed case 84/212 414460303_211651070T
+run_001: skip completed case 85/212 420468035_962848541T
+run_001: skip completed case 86/212 420468035_511690561T
+run_001: skip completed case 87/212 420468035_794461215T
+run_001: skip completed case 88/212 420468035_575477039T
+run_001: skip completed case 89/212 437602468_696873542T
+run_001: skip completed case 90/212 438636443_443797508T
+run_001: skip completed case 91/212 438636443_873703575T
+run_001: skip completed case 92/212 440112243_958212705T
+run_001: skip completed case 93/212 448395548_406056984T
+run_001: skip completed case 94/212 461069674_595078018T
+run_001: skip completed case 95/212 461069674_835937778T
+run_001: skip completed case 96/212 464792275_466392313T
+run_001: skip completed case 97/212 464792275_666771444T
+run_001: skip completed case 98/212 470615116_034207575T
+run_001: skip completed case 99/212 470615116_012605103T
+run_001: skip completed case 100/212 470615116_707165066T
+run_001: skip completed case 101/212 470615116_175642053T
+run_001: skip completed case 102/212 475833516_817945631T
+run_001: skip completed case 103/212 475833516_479374908T
+run_001: skip completed case 104/212 475833516_289782756T
+run_001: skip completed case 105/212 480864606_323992104T
+run_001: skip completed case 106/212 492919674_179212744T
+run_001: skip completed case 107/212 498664659_416326831T
+run_001: skip completed case 108/212 498664659_475788454T
+run_001: skip completed case 109/212 498664659_127876786T
+run_001: skip completed case 110/212 498664659_910413812T
+run_001: skip completed case 111/212 507882550_218425636T
+run_001: skip completed case 112/212 507882550_824010376T
+run_001: skip completed case 113/212 507882550_032913579T
+run_001: skip completed case 114/212 507932721_999705580T
+run_001: skip completed case 115/212 514864801_433459794T
+run_001: skip completed case 116/212 514864801_404036528T
+run_001: skip completed case 117/212 521994069_105951505T
+run_001: skip completed case 118/212 521994069_403809583T
+run_001: skip completed case 119/212 521994069_320669634T
+run_001: skip completed case 120/212 532341497_266608912T
+run_001: skip completed case 121/212 532476121_916845364T
+run_001: skip completed case 122/212 532476121_216082716T
+run_001: skip completed case 123/212 547069886_622250329T
+run_001: skip completed case 124/212 547069886_658647050T
+run_001: skip completed case 125/212 547069886_055905717T
+run_001: skip completed case 126/212 547069886_965135854T
+run_001: skip completed case 127/212 547069886_121337813T
+run_001: skip completed case 128/212 547069886_073546620T
+run_001: skip completed case 129/212 547069886_421335654T
+run_001: skip completed case 130/212 550085105_987629757T
+run_001: skip completed case 131/212 550085105_454903106T
+run_001: skip completed case 132/212 561552348_175210801T
+run_001: skip completed case 133/212 613912775_146007652T
+run_001: skip completed case 134/212 613912775_798380947T
+run_001: skip completed case 135/212 613912775_710184722T
+run_001: skip completed case 136/212 617768550_348397524T
+run_001: skip completed case 137/212 625322647_365842370T
+run_001: skip completed case 138/212 627018345_056824043T
+run_001: skip completed case 139/212 627018345_496692556T
+run_001: skip completed case 140/212 627018345_377129745T
+run_001: skip completed case 141/212 627018345_449868806T
+run_001: skip completed case 142/212 641096591_470066679T
+run_001: skip completed case 143/212 641096591_381168485T
+run_001: skip completed case 144/212 641096591_979600248T
+run_001: skip completed case 145/212 647037600_894423158T
+run_001: skip completed case 146/212 647037600_445584285T
+run_001: skip completed case 147/212 648433679_100432341T
+run_001: skip completed case 148/212 648433679_703984858T
+run_001: skip completed case 149/212 673087256_648833497T
+run_001: skip completed case 150/212 695406116_499898191T
+run_001: skip completed case 151/212 695406116_977223306T
+run_001: skip completed case 152/212 695406116_843339679T
+run_001: skip completed case 153/212 712239740_964247306T
+run_001: skip completed case 154/212 715033945_619516421T
+run_001: skip completed case 155/212 715033945_181019126T
+run_001: skip completed case 156/212 715033945_782061400T
+run_001: skip completed case 157/212 715033945_910469984T
+run_001: skip completed case 158/212 715033945_282542900T
+run_001: skip completed case 159/212 719387351_143471987T
+run_001: skip completed case 160/212 719387351_242303307T
+run_001: skip completed case 161/212 719387351_846635359T
+run_001: skip completed case 162/212 731974964_147367317T
+run_001: skip completed case 163/212 731974964_595520876T
+run_001: skip completed case 164/212 733989984_993110016T
+run_001: skip completed case 165/212 749494801_557473942T
+run_001: skip completed case 166/212 749494801_437639184T
+run_001: skip completed case 167/212 749494801_221812960T
+run_001: skip completed case 168/212 754355015_689328261T
+run_001: skip completed case 169/212 754355015_648577141T
+run_001: skip completed case 170/212 768665878_708711765T
+run_001: skip completed case 171/212 768665878_606222292T
+run_001: skip completed case 172/212 768665878_231525826T
+run_001: skip completed case 173/212 768665878_222850852T
+run_001: skip completed case 174/212 768665878_439073409T
+run_001: skip completed case 175/212 768665878_824569390T
+run_001: skip completed case 176/212 779453397_731083259T
+run_001: skip completed case 177/212 789678521_905192291T
+run_001: skip completed case 178/212 789678521_762830767T
+run_001: skip completed case 179/212 789935900_641432724T
+run_001: skip completed case 180/212 796338848_474364730T
+run_001: skip completed case 181/212 796338848_932102262T
+run_001: skip completed case 182/212 796338848_115375297T
+run_001: skip completed case 183/212 798494909_581539980T
+run_001: skip completed case 184/212 811956194_422362760T
+run_001: skip completed case 185/212 811956194_984457418T
+run_001: skip completed case 186/212 811956194_824711994T
+run_001: skip completed case 187/212 814115206_892905526T
+run_001: skip completed case 188/212 814214500_661024171T
+run_001: skip completed case 189/212 814334279_368343132T
+run_001: skip completed case 190/212 814334279_845233432T
+run_001: skip completed case 191/212 814334279_212012873T
+run_001: skip completed case 192/212 828323548_985935722T
+run_001: skip completed case 193/212 848991802_308266590T
+run_001: skip completed case 194/212 848991802_250474858T
+run_001: skip completed case 195/212 867028076_544582727T
+run_001: skip completed case 196/212 873966444_911177755T
+run_001: skip completed case 197/212 873966444_698264161T
+run_001: skip completed case 198/212 873966444_329054140T
+run_001: case 199/212 873966444_915471547T
+run_001: case 200/212 873966444_327809567T
+run_001: case 201/212 899146717_729809896T
+run_001: case 202/212 899146717_313610711T
+run_001: case 203/212 910525626_600035121T
+run_001: case 204/212 924462846_581849960T
+run_001: case 205/212 924462846_585063651T
+run_001: case 206/212 924462846_941227886T
+run_001: case 207/212 924462846_205213706T
+run_001: case 208/212 924462846_242496413T
+run_001: case 209/212 941501469_299746162T
+run_001: case 210/212 959984288_485286730T
+run_001: case 211/212 959984288_094322396T
+run_001: case 212/212 973263042_325111768T
+Finished run_001; provider-reported tokens this run: 1746551.
+Rows evaluated: 212
+
+Categorical accuracy:
+  financing_initiation: 211/212 = 99.53% (skipped: 0)
+  deal_type: 105/212 = 49.53% (skipped: 0)
+  valuation_direction: 20/28 = 71.43% (skipped: 184)
+
+Numeric error:
+  deal_size:
+    evaluated: 143 (skipped: 69)
+    MAE: 14.686 M USD
+    RMSE: 53.131 M USD
+    MAPE: 3252.45%
+    Median APE: 86.85%
+    within +/-25%: 17.48%
+    within +/-50%: 30.77%
+  post_money_valuation:
+    evaluated: 69 (skipped: 143)
+    MAE: 65.600 M USD
+    RMSE: 200.562 M USD
+    MAPE: 292.23%
+    Median APE: 67.15%
+    within +/-25%: 15.94%
+    within +/-50%: 42.03%
+  investor_ownership:
+    evaluated: 55 (skipped: 157)
+    MAE: 20.058 pct
+    RMSE: 23.914 pct
+    MAPE: 54.86%
+    Median APE: 40.25%
+    within +/-25%: 20.00%
+    within +/-50%: 70.91%
+
+Starting run_001 baseline_history_only: 212 cases.
+run_001 baseline_history_only: case 1/212 4790087_197130868T
+run_001 baseline_history_only: case 2/212 11830986_813677134T
+run_001 baseline_history_only: case 3/212 11830986_549655044T
+run_001 baseline_history_only: case 4/212 11830986_069610272T
+run_001 baseline_history_only: case 5/212 11830986_789374083T
+run_001 baseline_history_only: case 6/212 11830986_816183250T
+run_001 baseline_history_only: case 7/212 11830986_293087727T
+run_001 baseline_history_only: case 8/212 11982935_342853943T
+run_001 baseline_history_only: case 9/212 26050294_545686821T
+run_001 baseline_history_only: case 10/212 55845274_951718297T
+run_001 baseline_history_only: case 11/212 55845274_269156833T
+run_001 baseline_history_only: case 12/212 56698470_648838575T
+run_001 baseline_history_only: case 13/212 56698470_418076218T
+run_001 baseline_history_only: case 14/212 65829781_596811480T
+run_001 baseline_history_only: case 15/212 65829781_005051561T
+run_001 baseline_history_only: case 16/212 82237047_660939529T
+run_001 baseline_history_only: case 17/212 82237047_094939993T
+run_001 baseline_history_only: case 18/212 82237047_302141975T
+run_001 baseline_history_only: case 19/212 87512028_605122136T
+run_001 baseline_history_only: case 20/212 87512028_919782061T
+run_001 baseline_history_only: case 21/212 97714444_926438972T
+run_001 baseline_history_only: case 22/212 101676742_333240762T
+run_001 baseline_history_only: case 23/212 103281360_917957046T
+run_001 baseline_history_only: case 24/212 108943275_273554390T
+run_001 baseline_history_only: case 25/212 108943275_242536412T
+run_001 baseline_history_only: case 26/212 123268600_158462168T
+run_001 baseline_history_only: case 27/212 123268600_221012973T
+run_001 baseline_history_only: case 28/212 123268600_143058813T
+run_001 baseline_history_only: case 29/212 134622385_526904228T
+run_001 baseline_history_only: case 30/212 134622385_762593770T
+run_001 baseline_history_only: case 31/212 134622385_571168881T
+run_001 baseline_history_only: case 32/212 145718938_867839336T
+run_001 baseline_history_only: case 33/212 152916478_891084665T
+run_001 baseline_history_only: case 34/212 152916478_770543621T
+run_001 baseline_history_only: case 35/212 152916478_816603649T
+run_001 baseline_history_only: case 36/212 152916478_579647233T
+run_001 baseline_history_only: case 37/212 178378902_721357216T
+run_001 baseline_history_only: case 38/212 197258275_777840969T
+run_001 baseline_history_only: case 39/212 197258275_428207586T
+run_001 baseline_history_only: case 40/212 218034134_459544862T
+run_001 baseline_history_only: case 41/212 218034134_081995870T
+run_001 baseline_history_only: case 42/212 218034134_879239922T
+run_001 baseline_history_only: case 43/212 218034134_453064052T
+run_001 baseline_history_only: case 44/212 218034134_154346820T
+run_001 baseline_history_only: case 45/212 218034134_219205641T
+run_001 baseline_history_only: case 46/212 218034134_432173479T
+run_001 baseline_history_only: case 47/212 218034134_144126445T
+run_001 baseline_history_only: case 48/212 218034134_616369767T
+run_001 baseline_history_only: case 49/212 218034134_402957630T
+run_001 baseline_history_only: case 50/212 231347739_136848807T
+run_001 baseline_history_only: case 51/212 231347739_333822497T
+run_001 baseline_history_only: case 52/212 231347739_424651955T
+run_001 baseline_history_only: case 53/212 235333785_926885698T
+run_001 baseline_history_only: case 54/212 235333785_512198052T
+run_001 baseline_history_only: case 55/212 235333785_967381543T
+run_001 baseline_history_only: case 56/212 237064839_347016227T
+run_001 baseline_history_only: case 57/212 237064839_464653343T
+run_001 baseline_history_only: case 58/212 237064839_984415763T
+run_001 baseline_history_only: case 59/212 237064839_429896018T
+run_001 baseline_history_only: case 60/212 237064839_294402250T
+run_001 baseline_history_only: case 61/212 237064839_250030501T
+run_001 baseline_history_only: case 62/212 244615093_239723562T
+run_001 baseline_history_only: case 63/212 251218500_987004488T
+run_001 baseline_history_only: case 64/212 258737782_154380057T
+run_001 baseline_history_only: case 65/212 258737782_024706118T
+run_001 baseline_history_only: case 66/212 259017326_200002115T
+run_001 baseline_history_only: case 67/212 272749505_362847404T
+run_001 baseline_history_only: case 68/212 282137071_852523686T
+run_001 baseline_history_only: case 69/212 309612945_230497494T
+run_001 baseline_history_only: case 70/212 314608694_756469071T
+run_001 baseline_history_only: case 71/212 318177349_458794049T
+run_001 baseline_history_only: case 72/212 331443735_753371340T
+run_001 baseline_history_only: case 73/212 339444541_771219396T
+run_001 baseline_history_only: case 74/212 374175356_767844503T
+run_001 baseline_history_only: case 75/212 374175356_090165516T
+run_001 baseline_history_only: case 76/212 374175356_555208307T
+run_001 baseline_history_only: case 77/212 374175356_813472702T
+run_001 baseline_history_only: case 78/212 381204631_481335027T
+run_001 baseline_history_only: case 79/212 381597158_757264750T
+run_001 baseline_history_only: case 80/212 395080535_182107892T
+run_001 baseline_history_only: case 81/212 399940332_166825866T
+run_001 baseline_history_only: case 82/212 407502233_884022872T
+run_001 baseline_history_only: case 83/212 412585624_025651118T
+run_001 baseline_history_only: case 84/212 414460303_211651070T
+run_001 baseline_history_only: case 85/212 420468035_962848541T
+run_001 baseline_history_only: case 86/212 420468035_511690561T
+run_001 baseline_history_only: case 87/212 420468035_794461215T
+run_001 baseline_history_only: case 88/212 420468035_575477039T
+run_001 baseline_history_only: case 89/212 437602468_696873542T
+run_001 baseline_history_only: case 90/212 438636443_443797508T
+run_001 baseline_history_only: case 91/212 438636443_873703575T
+run_001 baseline_history_only: case 92/212 440112243_958212705T
+run_001 baseline_history_only: case 93/212 448395548_406056984T
+run_001 baseline_history_only: case 94/212 461069674_595078018T
+run_001 baseline_history_only: case 95/212 461069674_835937778T
+run_001 baseline_history_only: case 96/212 464792275_466392313T
+run_001 baseline_history_only: case 97/212 464792275_666771444T
+run_001 baseline_history_only: case 98/212 470615116_034207575T
+run_001 baseline_history_only: case 99/212 470615116_012605103T
+run_001 baseline_history_only: case 100/212 470615116_707165066T
+run_001 baseline_history_only: case 101/212 470615116_175642053T
+run_001 baseline_history_only: case 102/212 475833516_817945631T
+run_001 baseline_history_only: case 103/212 475833516_479374908T
+run_001 baseline_history_only: case 104/212 475833516_289782756T
+run_001 baseline_history_only: case 105/212 480864606_323992104T
+run_001 baseline_history_only: case 106/212 492919674_179212744T
+run_001 baseline_history_only: case 107/212 498664659_416326831T
+run_001 baseline_history_only: case 108/212 498664659_475788454T
+run_001 baseline_history_only: case 109/212 498664659_127876786T
+run_001 baseline_history_only: case 110/212 498664659_910413812T
+run_001 baseline_history_only: case 111/212 507882550_218425636T
+run_001 baseline_history_only: case 112/212 507882550_824010376T
+run_001 baseline_history_only: case 113/212 507882550_032913579T
+run_001 baseline_history_only: case 114/212 507932721_999705580T
+run_001 baseline_history_only: case 115/212 514864801_433459794T
+run_001 baseline_history_only: case 116/212 514864801_404036528T
+run_001 baseline_history_only: case 117/212 521994069_105951505T
+run_001 baseline_history_only: case 118/212 521994069_403809583T
+run_001 baseline_history_only: case 119/212 521994069_320669634T
+run_001 baseline_history_only: case 120/212 532341497_266608912T
+run_001 baseline_history_only: case 121/212 532476121_916845364T
+run_001 baseline_history_only: case 122/212 532476121_216082716T
+run_001 baseline_history_only: case 123/212 547069886_622250329T
+run_001 baseline_history_only: case 124/212 547069886_658647050T
+run_001 baseline_history_only: case 125/212 547069886_055905717T
+run_001 baseline_history_only: case 126/212 547069886_965135854T
+run_001 baseline_history_only: case 127/212 547069886_121337813T
+run_001 baseline_history_only: case 128/212 547069886_073546620T
+run_001 baseline_history_only: case 129/212 547069886_421335654T
+run_001 baseline_history_only: case 130/212 550085105_987629757T
+run_001 baseline_history_only: case 131/212 550085105_454903106T
+run_001 baseline_history_only: case 132/212 561552348_175210801T
+run_001 baseline_history_only: case 133/212 613912775_146007652T
+run_001 baseline_history_only: case 134/212 613912775_798380947T
+run_001 baseline_history_only: case 135/212 613912775_710184722T
+run_001 baseline_history_only: case 136/212 617768550_348397524T
+run_001 baseline_history_only: case 137/212 625322647_365842370T
+run_001 baseline_history_only: case 138/212 627018345_056824043T
+run_001 baseline_history_only: case 139/212 627018345_496692556T
+run_001 baseline_history_only: case 140/212 627018345_377129745T
+run_001 baseline_history_only: case 141/212 627018345_449868806T
+run_001 baseline_history_only: case 142/212 641096591_470066679T
+run_001 baseline_history_only: case 143/212 641096591_381168485T
+run_001 baseline_history_only: case 144/212 641096591_979600248T
+run_001 baseline_history_only: case 145/212 647037600_894423158T
+run_001 baseline_history_only: case 146/212 647037600_445584285T
+run_001 baseline_history_only: case 147/212 648433679_100432341T
+run_001 baseline_history_only: case 148/212 648433679_703984858T
+run_001 baseline_history_only: case 149/212 673087256_648833497T
+run_001 baseline_history_only: case 150/212 695406116_499898191T
+run_001 baseline_history_only: case 151/212 695406116_977223306T
+run_001 baseline_history_only: case 152/212 695406116_843339679T
+run_001 baseline_history_only: case 153/212 712239740_964247306T
+run_001 baseline_history_only: case 154/212 715033945_619516421T
+run_001 baseline_history_only: case 155/212 715033945_181019126T
+run_001 baseline_history_only: case 156/212 715033945_782061400T
+run_001 baseline_history_only: case 157/212 715033945_910469984T
+run_001 baseline_history_only: case 158/212 715033945_282542900T
+run_001 baseline_history_only: case 159/212 719387351_143471987T
+run_001 baseline_history_only: case 160/212 719387351_242303307T
+run_001 baseline_history_only: case 161/212 719387351_846635359T
+run_001 baseline_history_only: case 162/212 731974964_147367317T
+run_001 baseline_history_only: case 163/212 731974964_595520876T
+run_001 baseline_history_only: case 164/212 733989984_993110016T
+run_001 baseline_history_only: case 165/212 749494801_557473942T
+run_001 baseline_history_only: case 166/212 749494801_437639184T
+run_001 baseline_history_only: case 167/212 749494801_221812960T
+run_001 baseline_history_only: case 168/212 754355015_689328261T
+run_001 baseline_history_only: case 169/212 754355015_648577141T
+run_001 baseline_history_only: case 170/212 768665878_708711765T
+run_001 baseline_history_only: case 171/212 768665878_606222292T
+run_001 baseline_history_only: case 172/212 768665878_231525826T
+run_001 baseline_history_only: case 173/212 768665878_222850852T
+run_001 baseline_history_only: case 174/212 768665878_439073409T
+run_001 baseline_history_only: case 175/212 768665878_824569390T
+run_001 baseline_history_only: case 176/212 779453397_731083259T
+run_001 baseline_history_only: case 177/212 789678521_905192291T
+run_001 baseline_history_only: case 178/212 789678521_762830767T
+run_001 baseline_history_only: case 179/212 789935900_641432724T
+run_001 baseline_history_only: case 180/212 796338848_474364730T
+run_001 baseline_history_only: case 181/212 796338848_932102262T
+run_001 baseline_history_only: case 182/212 796338848_115375297T
+run_001 baseline_history_only: case 183/212 798494909_581539980T
+run_001 baseline_history_only: case 184/212 811956194_422362760T
+run_001 baseline_history_only: case 185/212 811956194_984457418T
+run_001 baseline_history_only: case 186/212 811956194_824711994T
+run_001 baseline_history_only: case 187/212 814115206_892905526T
+run_001 baseline_history_only: case 188/212 814214500_661024171T
+run_001 baseline_history_only: case 189/212 814334279_368343132T
+run_001 baseline_history_only: case 190/212 814334279_845233432T
+run_001 baseline_history_only: case 191/212 814334279_212012873T
+run_001 baseline_history_only: case 192/212 828323548_985935722T
+run_001 baseline_history_only: case 193/212 848991802_308266590T
+run_001 baseline_history_only: case 194/212 848991802_250474858T
+run_001 baseline_history_only: case 195/212 867028076_544582727T
+run_001 baseline_history_only: case 196/212 873966444_911177755T
+run_001 baseline_history_only: case 197/212 873966444_698264161T
+run_001 baseline_history_only: case 198/212 873966444_329054140T
+run_001 baseline_history_only: case 199/212 873966444_915471547T
+run_001 baseline_history_only: case 200/212 873966444_327809567T
+run_001 baseline_history_only: case 201/212 899146717_729809896T
+run_001 baseline_history_only: case 202/212 899146717_313610711T
+run_001 baseline_history_only: case 203/212 910525626_600035121T
+run_001 baseline_history_only: case 204/212 924462846_581849960T
+run_001 baseline_history_only: case 205/212 924462846_585063651T
+run_001 baseline_history_only: case 206/212 924462846_941227886T
+run_001 baseline_history_only: case 207/212 924462846_205213706T
+run_001 baseline_history_only: case 208/212 924462846_242496413T
+run_001 baseline_history_only: case 209/212 941501469_299746162T
+run_001 baseline_history_only: case 210/212 959984288_485286730T
+run_001 baseline_history_only: case 211/212 959984288_094322396T
+run_001 baseline_history_only: case 212/212 973263042_325111768T
+Finished run_001 baseline_history_only.
+baseline_history_only metrics:
+Rows evaluated: 212
+
+Categorical accuracy:
+  financing_initiation: 212/212 = 100.00% (skipped: 0)
+  deal_type: 106/212 = 50.00% (skipped: 0)
+  valuation_direction: 20/28 = 71.43% (skipped: 184)
+
+Numeric error:
+  deal_size:
+    evaluated: 143 (skipped: 69)
+    MAE: 13.059 M USD
+    RMSE: 41.537 M USD
+    MAPE: 12289.58%
+    Median APE: 185.71%
+    within +/-25%: 11.89%
+    within +/-50%: 23.08%
+  post_money_valuation:
+    evaluated: 69 (skipped: 143)
+    MAE: 73.041 M USD
+    RMSE: 183.783 M USD
+    MAPE: 433.89%
+    Median APE: 105.29%
+    within +/-25%: 15.94%
+    within +/-50%: 24.64%
+  investor_ownership:
+    evaluated: 55 (skipped: 157)
+    MAE: 26.014 pct
+    RMSE: 31.345 pct
+    MAPE: 58.52%
+    Median APE: 59.40%
+    within +/-25%: 18.18%
+    within +/-50%: 34.55%
+
+Starting run_001 baseline_history_with_roles: 212 cases.
+run_001 baseline_history_with_roles: case 1/212 4790087_197130868T
+run_001 baseline_history_with_roles: case 2/212 11830986_813677134T
+run_001 baseline_history_with_roles: case 3/212 11830986_549655044T
+run_001 baseline_history_with_roles: case 4/212 11830986_069610272T
+run_001 baseline_history_with_roles: case 5/212 11830986_789374083T
+run_001 baseline_history_with_roles: case 6/212 11830986_816183250T
+run_001 baseline_history_with_roles: case 7/212 11830986_293087727T
+run_001 baseline_history_with_roles: case 8/212 11982935_342853943T
+run_001 baseline_history_with_roles: case 9/212 26050294_545686821T
+run_001 baseline_history_with_roles: case 10/212 55845274_951718297T
+run_001 baseline_history_with_roles: case 11/212 55845274_269156833T
+run_001 baseline_history_with_roles: case 12/212 56698470_648838575T
+run_001 baseline_history_with_roles: case 13/212 56698470_418076218T
+run_001 baseline_history_with_roles: case 14/212 65829781_596811480T
+run_001 baseline_history_with_roles: case 15/212 65829781_005051561T
+run_001 baseline_history_with_roles: case 16/212 82237047_660939529T
+run_001 baseline_history_with_roles: case 17/212 82237047_094939993T
+run_001 baseline_history_with_roles: case 18/212 82237047_302141975T
+run_001 baseline_history_with_roles: case 19/212 87512028_605122136T
+run_001 baseline_history_with_roles: case 20/212 87512028_919782061T
+run_001 baseline_history_with_roles: case 21/212 97714444_926438972T
+run_001 baseline_history_with_roles: case 22/212 101676742_333240762T
+run_001 baseline_history_with_roles: case 23/212 103281360_917957046T
+run_001 baseline_history_with_roles: case 24/212 108943275_273554390T
+run_001 baseline_history_with_roles: case 25/212 108943275_242536412T
+run_001 baseline_history_with_roles: case 26/212 123268600_158462168T
+run_001 baseline_history_with_roles: case 27/212 123268600_221012973T
+run_001 baseline_history_with_roles: case 28/212 123268600_143058813T
+run_001 baseline_history_with_roles: case 29/212 134622385_526904228T
+run_001 baseline_history_with_roles: case 30/212 134622385_762593770T
+run_001 baseline_history_with_roles: case 31/212 134622385_571168881T
+run_001 baseline_history_with_roles: case 32/212 145718938_867839336T
+run_001 baseline_history_with_roles: case 33/212 152916478_891084665T
+run_001 baseline_history_with_roles: case 34/212 152916478_770543621T
+run_001 baseline_history_with_roles: case 35/212 152916478_816603649T
+run_001 baseline_history_with_roles: case 36/212 152916478_579647233T
+run_001 baseline_history_with_roles: case 37/212 178378902_721357216T
+run_001 baseline_history_with_roles: case 38/212 197258275_777840969T
+run_001 baseline_history_with_roles: case 39/212 197258275_428207586T
+run_001 baseline_history_with_roles: case 40/212 218034134_459544862T
+run_001 baseline_history_with_roles: case 41/212 218034134_081995870T
+run_001 baseline_history_with_roles: case 42/212 218034134_879239922T
+run_001 baseline_history_with_roles: case 43/212 218034134_453064052T
+run_001 baseline_history_with_roles: case 44/212 218034134_154346820T
+run_001 baseline_history_with_roles: case 45/212 218034134_219205641T
+run_001 baseline_history_with_roles: case 46/212 218034134_432173479T
+run_001 baseline_history_with_roles: case 47/212 218034134_144126445T
+run_001 baseline_history_with_roles: case 48/212 218034134_616369767T
+run_001 baseline_history_with_roles: case 49/212 218034134_402957630T
+run_001 baseline_history_with_roles: case 50/212 231347739_136848807T
+run_001 baseline_history_with_roles: case 51/212 231347739_333822497T
+run_001 baseline_history_with_roles: case 52/212 231347739_424651955T
+run_001 baseline_history_with_roles: case 53/212 235333785_926885698T
+run_001 baseline_history_with_roles: case 54/212 235333785_512198052T
+run_001 baseline_history_with_roles: case 55/212 235333785_967381543T
+run_001 baseline_history_with_roles: case 56/212 237064839_347016227T
+run_001 baseline_history_with_roles: case 57/212 237064839_464653343T
+run_001 baseline_history_with_roles: case 58/212 237064839_984415763T
+run_001 baseline_history_with_roles: case 59/212 237064839_429896018T
+run_001 baseline_history_with_roles: case 60/212 237064839_294402250T
+run_001 baseline_history_with_roles: case 61/212 237064839_250030501T
+run_001 baseline_history_with_roles: case 62/212 244615093_239723562T
+run_001 baseline_history_with_roles: case 63/212 251218500_987004488T
+run_001 baseline_history_with_roles: case 64/212 258737782_154380057T
+run_001 baseline_history_with_roles: case 65/212 258737782_024706118T
+run_001 baseline_history_with_roles: case 66/212 259017326_200002115T
+run_001 baseline_history_with_roles: case 67/212 272749505_362847404T
+run_001 baseline_history_with_roles: case 68/212 282137071_852523686T
+run_001 baseline_history_with_roles: case 69/212 309612945_230497494T
+run_001 baseline_history_with_roles: case 70/212 314608694_756469071T
+run_001 baseline_history_with_roles: case 71/212 318177349_458794049T
+run_001 baseline_history_with_roles: case 72/212 331443735_753371340T
+run_001 baseline_history_with_roles: case 73/212 339444541_771219396T
+run_001 baseline_history_with_roles: case 74/212 374175356_767844503T
+run_001 baseline_history_with_roles: case 75/212 374175356_090165516T
+run_001 baseline_history_with_roles: case 76/212 374175356_555208307T
+run_001 baseline_history_with_roles: case 77/212 374175356_813472702T
+run_001 baseline_history_with_roles: case 78/212 381204631_481335027T
+run_001 baseline_history_with_roles: case 79/212 381597158_757264750T
+run_001 baseline_history_with_roles: case 80/212 395080535_182107892T
+run_001 baseline_history_with_roles: case 81/212 399940332_166825866T
+run_001 baseline_history_with_roles: case 82/212 407502233_884022872T
+run_001 baseline_history_with_roles: case 83/212 412585624_025651118T
+run_001 baseline_history_with_roles: case 84/212 414460303_211651070T
+run_001 baseline_history_with_roles: case 85/212 420468035_962848541T
+run_001 baseline_history_with_roles: case 86/212 420468035_511690561T
+run_001 baseline_history_with_roles: case 87/212 420468035_794461215T
+run_001 baseline_history_with_roles: case 88/212 420468035_575477039T
+run_001 baseline_history_with_roles: case 89/212 437602468_696873542T
+run_001 baseline_history_with_roles: case 90/212 438636443_443797508T
+run_001 baseline_history_with_roles: case 91/212 438636443_873703575T
+run_001 baseline_history_with_roles: case 92/212 440112243_958212705T
+run_001 baseline_history_with_roles: case 93/212 448395548_406056984T
+run_001 baseline_history_with_roles: case 94/212 461069674_595078018T
+run_001 baseline_history_with_roles: case 95/212 461069674_835937778T
+run_001 baseline_history_with_roles: case 96/212 464792275_466392313T
+run_001 baseline_history_with_roles: case 97/212 464792275_666771444T
+run_001 baseline_history_with_roles: case 98/212 470615116_034207575T
+run_001 baseline_history_with_roles: case 99/212 470615116_012605103T
+run_001 baseline_history_with_roles: case 100/212 470615116_707165066T
+run_001 baseline_history_with_roles: case 101/212 470615116_175642053T
+run_001 baseline_history_with_roles: case 102/212 475833516_817945631T
+run_001 baseline_history_with_roles: case 103/212 475833516_479374908T
+run_001 baseline_history_with_roles: case 104/212 475833516_289782756T
+run_001 baseline_history_with_roles: case 105/212 480864606_323992104T
+run_001 baseline_history_with_roles: case 106/212 492919674_179212744T
+run_001 baseline_history_with_roles: case 107/212 498664659_416326831T
+run_001 baseline_history_with_roles: case 108/212 498664659_475788454T
+run_001 baseline_history_with_roles: case 109/212 498664659_127876786T
+run_001 baseline_history_with_roles: case 110/212 498664659_910413812T
+run_001 baseline_history_with_roles: case 111/212 507882550_218425636T
+run_001 baseline_history_with_roles: case 112/212 507882550_824010376T
+run_001 baseline_history_with_roles: case 113/212 507882550_032913579T
+run_001 baseline_history_with_roles: case 114/212 507932721_999705580T
+run_001 baseline_history_with_roles: case 115/212 514864801_433459794T
+run_001 baseline_history_with_roles: case 116/212 514864801_404036528T
+run_001 baseline_history_with_roles: case 117/212 521994069_105951505T
+run_001 baseline_history_with_roles: case 118/212 521994069_403809583T
+run_001 baseline_history_with_roles: case 119/212 521994069_320669634T
+run_001 baseline_history_with_roles: case 120/212 532341497_266608912T
+run_001 baseline_history_with_roles: case 121/212 532476121_916845364T
+run_001 baseline_history_with_roles: case 122/212 532476121_216082716T
+run_001 baseline_history_with_roles: case 123/212 547069886_622250329T
+run_001 baseline_history_with_roles: case 124/212 547069886_658647050T
+run_001 baseline_history_with_roles: case 125/212 547069886_055905717T
+run_001 baseline_history_with_roles: case 126/212 547069886_965135854T
+run_001 baseline_history_with_roles: case 127/212 547069886_121337813T
+run_001 baseline_history_with_roles: case 128/212 547069886_073546620T
+run_001 baseline_history_with_roles: case 129/212 547069886_421335654T
+run_001 baseline_history_with_roles: case 130/212 550085105_987629757T
+run_001 baseline_history_with_roles: case 131/212 550085105_454903106T
+run_001 baseline_history_with_roles: case 132/212 561552348_175210801T
+run_001 baseline_history_with_roles: case 133/212 613912775_146007652T
+run_001 baseline_history_with_roles: case 134/212 613912775_798380947T
+run_001 baseline_history_with_roles: case 135/212 613912775_710184722T
+run_001 baseline_history_with_roles: case 136/212 617768550_348397524T
+run_001 baseline_history_with_roles: case 137/212 625322647_365842370T
+run_001 baseline_history_with_roles: case 138/212 627018345_056824043T
+run_001 baseline_history_with_roles: case 139/212 627018345_496692556T
+run_001 baseline_history_with_roles: case 140/212 627018345_377129745T
+run_001 baseline_history_with_roles: case 141/212 627018345_449868806T
+run_001 baseline_history_with_roles: case 142/212 641096591_470066679T
+run_001 baseline_history_with_roles: case 143/212 641096591_381168485T
+run_001 baseline_history_with_roles: case 144/212 641096591_979600248T
+run_001 baseline_history_with_roles: case 145/212 647037600_894423158T
+run_001 baseline_history_with_roles: case 146/212 647037600_445584285T
+run_001 baseline_history_with_roles: case 147/212 648433679_100432341T
+run_001 baseline_history_with_roles: case 148/212 648433679_703984858T
+run_001 baseline_history_with_roles: case 149/212 673087256_648833497T
+run_001 baseline_history_with_roles: case 150/212 695406116_499898191T
+run_001 baseline_history_with_roles: case 151/212 695406116_977223306T
+run_001 baseline_history_with_roles: case 152/212 695406116_843339679T
+run_001 baseline_history_with_roles: case 153/212 712239740_964247306T
+run_001 baseline_history_with_roles: case 154/212 715033945_619516421T
+run_001 baseline_history_with_roles: case 155/212 715033945_181019126T
+run_001 baseline_history_with_roles: case 156/212 715033945_782061400T
+run_001 baseline_history_with_roles: case 157/212 715033945_910469984T
+run_001 baseline_history_with_roles: case 158/212 715033945_282542900T
+run_001 baseline_history_with_roles: case 159/212 719387351_143471987T
+run_001 baseline_history_with_roles: case 160/212 719387351_242303307T
+run_001 baseline_history_with_roles: case 161/212 719387351_846635359T
+run_001 baseline_history_with_roles: case 162/212 731974964_147367317T
+run_001 baseline_history_with_roles: case 163/212 731974964_595520876T
+run_001 baseline_history_with_roles: case 164/212 733989984_993110016T
+run_001 baseline_history_with_roles: case 165/212 749494801_557473942T
+run_001 baseline_history_with_roles: case 166/212 749494801_437639184T
+run_001 baseline_history_with_roles: case 167/212 749494801_221812960T
+run_001 baseline_history_with_roles: case 168/212 754355015_689328261T
+run_001 baseline_history_with_roles: case 169/212 754355015_648577141T
+run_001 baseline_history_with_roles: case 170/212 768665878_708711765T
+run_001 baseline_history_with_roles: case 171/212 768665878_606222292T
+run_001 baseline_history_with_roles: case 172/212 768665878_231525826T
+run_001 baseline_history_with_roles: case 173/212 768665878_222850852T
+run_001 baseline_history_with_roles: case 174/212 768665878_439073409T
+run_001 baseline_history_with_roles: case 175/212 768665878_824569390T
+run_001 baseline_history_with_roles: case 176/212 779453397_731083259T
+run_001 baseline_history_with_roles: case 177/212 789678521_905192291T
+run_001 baseline_history_with_roles: case 178/212 789678521_762830767T
+run_001 baseline_history_with_roles: case 179/212 789935900_641432724T
+run_001 baseline_history_with_roles: case 180/212 796338848_474364730T
+run_001 baseline_history_with_roles: case 181/212 796338848_932102262T
+run_001 baseline_history_with_roles: case 182/212 796338848_115375297T
+run_001 baseline_history_with_roles: case 183/212 798494909_581539980T
+run_001 baseline_history_with_roles: case 184/212 811956194_422362760T
+run_001 baseline_history_with_roles: case 185/212 811956194_984457418T
+run_001 baseline_history_with_roles: case 186/212 811956194_824711994T
+run_001 baseline_history_with_roles: case 187/212 814115206_892905526T
+run_001 baseline_history_with_roles: case 188/212 814214500_661024171T
+run_001 baseline_history_with_roles: case 189/212 814334279_368343132T
+run_001 baseline_history_with_roles: case 190/212 814334279_845233432T
+run_001 baseline_history_with_roles: case 191/212 814334279_212012873T
+run_001 baseline_history_with_roles: case 192/212 828323548_985935722T
+run_001 baseline_history_with_roles: case 193/212 848991802_308266590T
+run_001 baseline_history_with_roles: case 194/212 848991802_250474858T
+run_001 baseline_history_with_roles: case 195/212 867028076_544582727T
+run_001 baseline_history_with_roles: case 196/212 873966444_911177755T
+run_001 baseline_history_with_roles: case 197/212 873966444_698264161T
+run_001 baseline_history_with_roles: case 198/212 873966444_329054140T
+run_001 baseline_history_with_roles: case 199/212 873966444_915471547T
+run_001 baseline_history_with_roles: case 200/212 873966444_327809567T
+run_001 baseline_history_with_roles: case 201/212 899146717_729809896T
+run_001 baseline_history_with_roles: case 202/212 899146717_313610711T
+run_001 baseline_history_with_roles: case 203/212 910525626_600035121T
+run_001 baseline_history_with_roles: case 204/212 924462846_581849960T
+run_001 baseline_history_with_roles: case 205/212 924462846_585063651T
+run_001 baseline_history_with_roles: case 206/212 924462846_941227886T
+run_001 baseline_history_with_roles: case 207/212 924462846_205213706T
+run_001 baseline_history_with_roles: case 208/212 924462846_242496413T
+run_001 baseline_history_with_roles: case 209/212 941501469_299746162T
+run_001 baseline_history_with_roles: case 210/212 959984288_485286730T
+run_001 baseline_history_with_roles: case 211/212 959984288_094322396T
+run_001 baseline_history_with_roles: case 212/212 973263042_325111768T
+Finished run_001 baseline_history_with_roles.
+baseline_history_with_roles metrics:
+Rows evaluated: 212
+
+Categorical accuracy:
+  financing_initiation: 212/212 = 100.00% (skipped: 0)
+  deal_type: 111/212 = 52.36% (skipped: 0)
+  valuation_direction: 20/28 = 71.43% (skipped: 184)
+
+Numeric error:
+  deal_size:
+    evaluated: 143 (skipped: 69)
+    MAE: 13.614 M USD
+    RMSE: 52.192 M USD
+    MAPE: 2327.19%
+    Median APE: 100.00%
+    within +/-25%: 16.08%
+    within +/-50%: 31.47%
+  post_money_valuation:
+    evaluated: 69 (skipped: 143)
+    MAE: 61.331 M USD
+    RMSE: 168.150 M USD
+    MAPE: 259.62%
+    Median APE: 70.51%
+    within +/-25%: 13.04%
+    within +/-50%: 28.99%
+  investor_ownership:
+    evaluated: 55 (skipped: 157)
+    MAE: 25.559 pct
+    RMSE: 30.409 pct
+    MAPE: 60.93%
+    Median APE: 60.09%
+    within +/-25%: 18.18%
+    within +/-50%: 40.00%
+
+Wrote debate accuracy report to outputs/batch/pitchbook_007/run_001/debate_accuracy_report.md.
+Aggregate metrics across all runs:
+Rows evaluated: 212
+
+Categorical accuracy:
+  financing_initiation: 211/212 = 99.53% (skipped: 0)
+  deal_type: 105/212 = 49.53% (skipped: 0)
+  valuation_direction: 20/28 = 71.43% (skipped: 184)
+
+Numeric error:
+  deal_size:
+    evaluated: 143 (skipped: 69)
+    MAE: 14.686 M USD
+    RMSE: 53.131 M USD
+    MAPE: 3252.45%
+    Median APE: 86.85%
+    within +/-25%: 17.48%
+    within +/-50%: 30.77%
+  post_money_valuation:
+    evaluated: 69 (skipped: 143)
+    MAE: 65.600 M USD
+    RMSE: 200.562 M USD
+    MAPE: 292.23%
+    Median APE: 67.15%
+    within +/-25%: 15.94%
+    within +/-50%: 42.03%
+  investor_ownership:
+    evaluated: 55 (skipped: 157)
+    MAE: 20.058 pct
+    RMSE: 23.914 pct
+    MAPE: 54.86%
+    Median APE: 40.25%
+    within +/-25%: 20.00%
+    within +/-50%: 70.91%
+Aggregate baseline_history_only metrics:
+Rows evaluated: 212
+
+Categorical accuracy:
+  financing_initiation: 212/212 = 100.00% (skipped: 0)
+  deal_type: 106/212 = 50.00% (skipped: 0)
+  valuation_direction: 20/28 = 71.43% (skipped: 184)
+
+Numeric error:
+  deal_size:
+    evaluated: 143 (skipped: 69)
+    MAE: 13.059 M USD
+    RMSE: 41.537 M USD
+    MAPE: 12289.58%
+    Median APE: 185.71%
+    within +/-25%: 11.89%
+    within +/-50%: 23.08%
+  post_money_valuation:
+    evaluated: 69 (skipped: 143)
+    MAE: 73.041 M USD
+    RMSE: 183.783 M USD
+    MAPE: 433.89%
+    Median APE: 105.29%
+    within +/-25%: 15.94%
+    within +/-50%: 24.64%
+  investor_ownership:
+    evaluated: 55 (skipped: 157)
+    MAE: 26.014 pct
+    RMSE: 31.345 pct
+    MAPE: 58.52%
+    Median APE: 59.40%
+    within +/-25%: 18.18%
+    within +/-50%: 34.55%
+Aggregate baseline_history_with_roles metrics:
+Rows evaluated: 212
+
+Categorical accuracy:
+  financing_initiation: 212/212 = 100.00% (skipped: 0)
+  deal_type: 111/212 = 52.36% (skipped: 0)
+  valuation_direction: 20/28 = 71.43% (skipped: 184)
+
+Numeric error:
+  deal_size:
+    evaluated: 143 (skipped: 69)
+    MAE: 13.614 M USD
+    RMSE: 52.192 M USD
+    MAPE: 2327.19%
+    Median APE: 100.00%
+    within +/-25%: 16.08%
+    within +/-50%: 31.47%
+  post_money_valuation:
+    evaluated: 69 (skipped: 143)
+    MAE: 61.331 M USD
+    RMSE: 168.150 M USD
+    MAPE: 259.62%
+    Median APE: 70.51%
+    within +/-25%: 13.04%
+    within +/-50%: 28.99%
+  investor_ownership:
+    evaluated: 55 (skipped: 157)
+    MAE: 25.559 pct
+    RMSE: 30.409 pct
+    MAPE: 60.93%
+    Median APE: 60.09%
+    within +/-25%: 18.18%
+    within +/-50%: 40.00%
+Wrote aggregate metrics to outputs/batch/pitchbook_007/aggregate_metrics.json.
+Wrote aggregate per-case metrics to outputs/batch/pitchbook_007/case_metrics.csv.
+LLM total tokens reported by provider: 2907434.

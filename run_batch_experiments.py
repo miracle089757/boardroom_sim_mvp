@@ -4,9 +4,10 @@ from __future__ import annotations
 
 import argparse
 import json
+import os
 from datetime import datetime
 from pathlib import Path
-from typing import Any, Dict, List
+from typing import Any, Dict, List, Tuple
 
 from analyze_debate_accuracy import (
     analyze_baseline_rows,
@@ -14,7 +15,7 @@ from analyze_debate_accuracy import (
     render_report as render_debate_accuracy_report,
     write_case_stage_csv,
 )
-from boardroom_sim.baselines import run_single_agent_baseline
+from boardroom_sim.baselines import predict_single_case
 from boardroom_sim.evaluation import (
     evaluate_results,
     metrics_summary,
@@ -22,7 +23,6 @@ from boardroom_sim.evaluation import (
     write_case_metrics_csv,
     write_metrics_json,
 )
-from boardroom_sim.io import write_results_jsonl, write_traces_json
 from boardroom_sim.llm import LLMClient, LLMConfig
 from boardroom_sim.models import BoardCase, SimulationResult
 from boardroom_sim.simulator import BoardroomSimulator
@@ -116,13 +116,16 @@ def main() -> None:
         if rows is None:
             print(f"Starting {run_id}: {len(cases)} cases.")
             tokens_before = llm_client.total_tokens
-            results = _run_cases(cases, llm_client, args.bargaining_rounds, run_id)
+            rows, trace_cases = _run_cases_with_checkpoints(
+                cases=cases,
+                llm_client=llm_client,
+                bargaining_rounds=args.bargaining_rounds,
+                run_dir=run_dir,
+                run_id=run_id,
+                resume=args.resume,
+                skip_traces=args.skip_traces,
+            )
             token_delta = llm_client.total_tokens - tokens_before
-            write_results_jsonl(results_path, results)
-            if not args.skip_traces:
-                write_traces_json(traces_path, results)
-            rows = _result_rows(results, results_path, run_id)
-            trace_cases = [result.to_dict(include_trace=True) for result in results]
             print(f"Finished {run_id}; provider-reported tokens this run: {token_delta}.")
         else:
             print(f"Skipping {run_id}; found completed results at {results_path}.")
@@ -197,9 +200,88 @@ def _run_cases(
     simulator = BoardroomSimulator(llm_client=llm_client, bargaining_rounds=bargaining_rounds)
     results: List[SimulationResult] = []
     for index, case in enumerate(cases, start=1):
-        print(f"{run_id}: case {index}/{len(cases)} {case.case_id}")
+        print(f"{run_id}: case {index}/{len(cases)} {case.case_id}", flush=True)
         results.append(simulator.simulate(case))
     return results
+
+
+def _run_cases_with_checkpoints(
+    *,
+    cases: List[BoardCase],
+    llm_client: LLMClient,
+    bargaining_rounds: int,
+    run_dir: Path,
+    run_id: str,
+    resume: bool,
+    skip_traces: bool,
+) -> Tuple[List[Dict[str, Any]], List[Dict[str, Any]] | None]:
+    """Run main simulation and persist results after every completed case."""
+    simulator = BoardroomSimulator(llm_client=llm_client, bargaining_rounds=bargaining_rounds)
+    results_path = run_dir / "results.jsonl"
+    traces_jsonl_path = run_dir / "traces.jsonl"
+    traces_path = run_dir / "traces.json"
+    metrics_path = run_dir / "metrics.json"
+    case_metrics_path = run_dir / "case_metrics.csv"
+    status_path = run_dir / "checkpoint_status.json"
+
+    if resume:
+        rows = _read_existing_rows(results_path, run_id=run_id)
+        trace_cases = _read_existing_trace_cases(traces_jsonl_path, traces_path) if not skip_traces else None
+    else:
+        _truncate_file(results_path)
+        if not skip_traces:
+            _truncate_file(traces_jsonl_path)
+        rows = []
+        trace_cases = [] if not skip_traces else None
+
+    completed_case_ids = {str(row.get("case_id", "")) for row in rows if row.get("case_id")}
+    if completed_case_ids:
+        print(f"{run_id}: resuming with {len(completed_case_ids)}/{len(cases)} completed cases.", flush=True)
+
+    for index, case in enumerate(cases, start=1):
+        if case.case_id in completed_case_ids:
+            print(f"{run_id}: skip completed case {index}/{len(cases)} {case.case_id}", flush=True)
+            continue
+
+        print(f"{run_id}: case {index}/{len(cases)} {case.case_id}", flush=True)
+        result = simulator.simulate(case)
+        row_payload = result.to_dict(include_trace=False)
+        _append_jsonl_row(results_path, row_payload)
+        row = dict(row_payload)
+        row["_source_file"] = str(results_path)
+        row["_run_id"] = run_id
+        rows.append(row)
+
+        if not skip_traces:
+            trace_payload = result.to_dict(include_trace=True)
+            _append_jsonl_row(traces_jsonl_path, trace_payload)
+            if trace_cases is not None:
+                trace_cases.append(trace_payload)
+
+        _write_partial_run_outputs(
+            rows=rows,
+            metrics_path=metrics_path,
+            case_metrics_path=case_metrics_path,
+            status_path=status_path,
+            run_id=run_id,
+            expected_count=len(cases),
+            completed_count=len(rows),
+            last_case_id=case.case_id,
+            llm_client=llm_client,
+        )
+
+    if not skip_traces and trace_cases is not None:
+        _write_trace_cases_json(traces_path, trace_cases)
+    _write_checkpoint_status(
+        status_path,
+        run_id=run_id,
+        expected_count=len(cases),
+        completed_count=len(rows),
+        last_case_id=rows[-1].get("case_id", "") if rows else "",
+        llm_client=llm_client,
+        status="completed" if len(rows) == len(cases) else "partial",
+    )
+    return rows, trace_cases
 
 
 def _maybe_read_completed_run(results_path: Path, *, expected_count: int, resume: bool) -> List[Dict[str, Any]] | None:
@@ -208,7 +290,7 @@ def _maybe_read_completed_run(results_path: Path, *, expected_count: int, resume
     rows = read_result_rows([results_path])
     if len(rows) == expected_count:
         return rows
-    print(f"Found {results_path} with {len(rows)} rows; expected {expected_count}. Rerunning this run.")
+    print(f"Found {results_path} with {len(rows)} rows; expected {expected_count}. Resuming remaining cases.")
     return None
 
 
@@ -235,20 +317,66 @@ def _run_or_resume_baseline(
     results_path = run_dir / f"{baseline_name}_results.jsonl"
     existing_rows = _maybe_read_completed_run(results_path, expected_count=len(cases), resume=resume)
     if existing_rows is not None:
+        for row in existing_rows:
+            row["_run_id"] = f"{run_id}/{baseline_name}"
         print(f"Skipping {run_id} {baseline_name}; found completed results at {results_path}.")
         return existing_rows
 
     print(f"Starting {run_id} {baseline_name}: {len(cases)} cases.")
-    rows = run_single_agent_baseline(
-        cases,
-        llm_client,
-        include_role_rules=include_role_rules,
-        baseline_name=baseline_name,
-    )
-    for row in rows:
+    metrics_path = run_dir / f"{baseline_name}_metrics.json"
+    case_metrics_path = run_dir / f"{baseline_name}_case_metrics.csv"
+    status_path = run_dir / f"{baseline_name}_checkpoint_status.json"
+    baseline_run_id = f"{run_id}/{baseline_name}"
+    if resume:
+        rows = _read_existing_rows(results_path, run_id=baseline_run_id)
+    else:
+        _truncate_file(results_path)
+        rows = []
+
+    completed_case_ids = {str(row.get("case_id", "")) for row in rows if row.get("case_id")}
+    if completed_case_ids:
+        print(
+            f"{run_id} {baseline_name}: resuming with {len(completed_case_ids)}/{len(cases)} completed cases.",
+            flush=True,
+        )
+
+    for index, case in enumerate(cases, start=1):
+        if case.case_id in completed_case_ids:
+            print(f"{run_id} {baseline_name}: skip completed case {index}/{len(cases)} {case.case_id}", flush=True)
+            continue
+        print(f"{run_id} {baseline_name}: case {index}/{len(cases)} {case.case_id}", flush=True)
+        row_payload = predict_single_case(
+            case,
+            llm_client,
+            include_role_rules=include_role_rules,
+            baseline_name=baseline_name,
+        )
+        _append_jsonl_row(results_path, row_payload)
+        row = dict(row_payload)
         row["_source_file"] = str(results_path)
-        row["_run_id"] = f"{run_id}/{baseline_name}"
-    _write_rows_jsonl(results_path, rows)
+        row["_run_id"] = baseline_run_id
+        rows.append(row)
+        _write_partial_run_outputs(
+            rows=rows,
+            metrics_path=metrics_path,
+            case_metrics_path=case_metrics_path,
+            status_path=status_path,
+            run_id=baseline_run_id,
+            expected_count=len(cases),
+            completed_count=len(rows),
+            last_case_id=case.case_id,
+            llm_client=llm_client,
+        )
+
+    _write_checkpoint_status(
+        status_path,
+        run_id=baseline_run_id,
+        expected_count=len(cases),
+        completed_count=len(rows),
+        last_case_id=rows[-1].get("case_id", "") if rows else "",
+        llm_client=llm_client,
+        status="completed" if len(rows) == len(cases) else "partial",
+    )
     print(f"Finished {run_id} {baseline_name}.")
     return rows
 
@@ -258,6 +386,127 @@ def _write_rows_jsonl(path: Path, rows: List[Dict[str, Any]]) -> None:
     with path.open("w", encoding="utf-8") as handle:
         for row in rows:
             handle.write(json.dumps(row, ensure_ascii=False, allow_nan=False) + "\n")
+
+
+def _read_existing_rows(results_path: Path, *, run_id: str) -> List[Dict[str, Any]]:
+    if not results_path.exists():
+        return []
+    rows = read_result_rows([results_path])
+    for row in rows:
+        row["_source_file"] = str(results_path)
+        row["_run_id"] = run_id
+    return _dedupe_rows_by_case(rows)
+
+
+def _dedupe_rows_by_case(rows: List[Dict[str, Any]]) -> List[Dict[str, Any]]:
+    """Keep the first completed row for each case id, preserving file order."""
+    seen = set()
+    deduped = []
+    for row in rows:
+        case_id = str(row.get("case_id", ""))
+        if not case_id or case_id in seen:
+            continue
+        seen.add(case_id)
+        deduped.append(row)
+    return deduped
+
+
+def _read_existing_trace_cases(traces_jsonl_path: Path, traces_path: Path) -> List[Dict[str, Any]]:
+    if traces_jsonl_path.exists():
+        return _read_jsonl_objects(traces_jsonl_path)
+    if traces_path.exists():
+        return _read_trace_cases(traces_path)
+    return []
+
+
+def _read_jsonl_objects(path: Path) -> List[Dict[str, Any]]:
+    rows: List[Dict[str, Any]] = []
+    with path.open("r", encoding="utf-8") as handle:
+        for line_number, line in enumerate(handle, start=1):
+            stripped = line.strip()
+            if not stripped:
+                continue
+            try:
+                item = json.loads(stripped)
+            except json.JSONDecodeError as exc:
+                raise ValueError(f"Invalid JSON on line {line_number} of {path}") from exc
+            if not isinstance(item, dict):
+                raise ValueError(f"Expected object on line {line_number} of {path}")
+            rows.append(item)
+    return _dedupe_rows_by_case(rows)
+
+
+def _append_jsonl_row(path: Path, row: Dict[str, Any]) -> None:
+    path.parent.mkdir(parents=True, exist_ok=True)
+    with path.open("a", encoding="utf-8") as handle:
+        handle.write(json.dumps(row, ensure_ascii=False, allow_nan=False) + "\n")
+        handle.flush()
+        os.fsync(handle.fileno())
+
+
+def _truncate_file(path: Path) -> None:
+    path.parent.mkdir(parents=True, exist_ok=True)
+    path.write_text("", encoding="utf-8")
+
+
+def _write_trace_cases_json(path: Path, trace_cases: List[Dict[str, Any]]) -> None:
+    path.parent.mkdir(parents=True, exist_ok=True)
+    with path.open("w", encoding="utf-8") as handle:
+        json.dump(trace_cases, handle, ensure_ascii=False, indent=2, allow_nan=False)
+
+
+def _write_partial_run_outputs(
+    *,
+    rows: List[Dict[str, Any]],
+    metrics_path: Path,
+    case_metrics_path: Path,
+    status_path: Path,
+    run_id: str,
+    expected_count: int,
+    completed_count: int,
+    last_case_id: str,
+    llm_client: LLMClient,
+) -> None:
+    metrics = evaluate_results(rows)
+    write_metrics_json(metrics_path, metrics)
+    write_case_metrics_csv(case_metrics_path, metrics["case_metrics"])
+    _write_checkpoint_status(
+        status_path,
+        run_id=run_id,
+        expected_count=expected_count,
+        completed_count=completed_count,
+        last_case_id=last_case_id,
+        llm_client=llm_client,
+        status="running",
+    )
+
+
+def _write_checkpoint_status(
+    path: Path,
+    *,
+    run_id: str,
+    expected_count: int,
+    completed_count: int,
+    last_case_id: str,
+    llm_client: LLMClient,
+    status: str,
+) -> None:
+    payload = {
+        "updated_at": datetime.now().isoformat(timespec="seconds"),
+        "run_id": run_id,
+        "status": status,
+        "expected_count": expected_count,
+        "completed_count": completed_count,
+        "remaining_count": max(0, expected_count - completed_count),
+        "last_case_id": last_case_id,
+        "total_tokens": llm_client.total_tokens,
+        "total_prompt_tokens": llm_client.total_prompt_tokens,
+        "total_completion_tokens": llm_client.total_completion_tokens,
+    }
+    path.parent.mkdir(parents=True, exist_ok=True)
+    with path.open("w", encoding="utf-8") as handle:
+        json.dump(payload, handle, ensure_ascii=False, indent=2, allow_nan=False)
+        handle.write("\n")
 
 
 def _write_debate_accuracy_report_from_results(

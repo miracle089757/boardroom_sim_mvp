@@ -144,7 +144,9 @@ class BoardAgent:
             "You are an LLM agent in a controlled social simulation of startup boardroom governance. "
             "You must strictly follow the assigned four-layer role policy. This is a point-in-time "
             "positive-sample backtest: the current target transaction outcomes are hidden from you. "
-            "Use only visible pre-decision fields, role policy, and prior board context. Return valid JSON only."
+            "Use only visible pre-decision fields, role policy, and prior board context. Your JSON prediction "
+            "fields are role-informed forecasts of the likely realized next financing outcome, not the role's "
+            "preferred negotiation demand. Return valid JSON only."
         )
 
     def _role_policy_text(self) -> str:
@@ -185,35 +187,64 @@ Data handling rule:
 Prior board context from roles that have already spoken:
 {json.dumps(context_payload, ensure_ascii=False, indent=2)}
 
+Context discipline:
+- Prior board context is not factual evidence. Use it only to understand other role forecasts and disagreements.
+- Your private assessment must be independently derived from your visible fields and role policy; do not copy another role's prediction unless your own evidence supports it.
+
 Task:
-Predict this role's point-in-time board stance. Do not assume or reveal current target-deal labels.
+Produce this role-informed point-in-time forecast of the likely realized next financing outcome.
+Do not output your preferred negotiation demand as the prediction.
+Use the role policy to decide which evidence to emphasize, but the output fields must remain a best forecast of the likely market transaction.
+If your role preference differs from the likely outcome, explain that difference in rationale and satisfaction_score; keep the prediction as the likely outcome.
+Do not assume or reveal current target-deal labels.
 
 Hard consistency rules:
 - If financing_intent is "raise_now", predicted_deal_size_usd_m must be greater than 0.
 - If financing_intent is "wait" or "avoid", predicted_deal_size_usd_m may be 0.
-- When financing_intent is "raise_now" and exact amount is not clear, estimate a plausible positive amount from visible prior_deal_size_usd_m, prior_raised_to_date_usd_m, prior_vc_round, company age, and role policy. Do not use hidden current-deal labels.
-- predicted_post_money_valuation_usd_m is the expected post-money valuation in million USD. Estimate it from visible prior valuation, valuation direction, company stage, and role policy; use 0 only when no defensible estimate is possible.
-- predicted_investor_ownership_pct is the expected investor ownership percentage after the financing. It must be between 0 and 100; use 0 only when no defensible estimate is possible.
+- When financing_intent is "raise_now" and exact amount is not clear, estimate a plausible positive amount from visible historical trajectory, round progression, investor structure, company maturity, operating signals, and role policy. Do not use hidden current-deal labels.
+- predicted_post_money_valuation_usd_m is the expected post-money valuation in million USD. Estimate it from visible valuation history, deal size, valuation direction, round stage, raised-to-date, company maturity, and role policy; use 0 only when no defensible estimate is possible.
+- predicted_investor_ownership_pct is the expected post-financing investor ownership percentage. It must be between 0 and 100; use prior ownership when available, otherwise make it directionally consistent with deal size, valuation scale, stage, and investor participation.
 - satisfaction_score must be a 0-100 score, where 0 means completely unacceptable, 50 means neutral or not enough information, and 100 means fully aligned with this role's goals.
-- Do not copy numeric placeholders from the schema. Return values that are consistent with your own rationale.
+- Return numeric fields as JSON numbers, not strings. Do not use any template/default number as a fallback. Return values that are consistent with your own rationale.
+
+Deal type calibration:
+- Do not infer "Seed Round" merely because the company is young or uses early-stage language.
+- Do not infer "Early Stage VC" merely because prior_deal_type is "Early Stage VC"; PitchBook stage labels can be broad.
+- If prior_deal_type is "Early Stage VC" and prior_vc_round exists, treat "Early Stage VC" as a strong signal, but not an automatic default.
+- Seed Round remains plausible when the visible history shows very early financing context: no prior VC round, 1st round, very small prior_deal_size_usd_m, low prior_raised_to_date_usd_m, young company age, few investors, no lead investor, or sparse financing history.
+- If prior_deal_type is "Early Stage VC" but prior_vc_round is "1st Round" and the visible deal sizes or raised-to-date are small, Seed Round can still be the better forecast.
+- Consider "Later Stage VC" when prior_vc_round, prior_raised_to_date_usd_m, prior_deal_size_usd_m, company age, or deal history indicates a mature financing path.
+- Use "Bridge" only when evidence suggests interim financing, insider support, weak momentum, or a short interval after the prior round.
+- Use "Debt" only when visible evidence specifically points to debt-like financing.
+- If the evidence is mixed between Seed Round and Early Stage VC, choose the label best supported by round progression and observed financing scale, and state the tie-breaker in rationale.
+
+Numeric calibration method:
+1. Do not blindly copy the most recent prior deal size. Treat it as one anchor among several.
+2. First classify the likely financing regime: step_up_round, flat_follow_on, small_bridge, strategic_large_round, or reset_or_downside_round.
+3. Use visible historical trajectory, including any visible prior_company_deal_history or investor deal history, prior_deal_size_usd_m, prior_raised_to_date_usd_m, prior_vc_round, prior_deal_type, investor counts, lead/follow-on signals, company age, employee growth, and industry context.
+4. If prior deal sizes vary widely, prefer a range-based estimate from the full visible history rather than the latest round alone.
+5. If the company appears to be progressing to a larger institutional or growth round, allow predicted_deal_size_usd_m to be materially larger than the prior round.
+6. If evidence suggests bridge, insider support, weak momentum, or a short interval after the prior round, allow predicted_deal_size_usd_m to be materially smaller than the prior round.
+7. For predicted_post_money_valuation_usd_m, anchor on visible prior valuation when available. If unavailable, estimate from deal size, stage, valuation_direction, raised-to-date, and company maturity.
+8. For predicted_investor_ownership_pct, treat it as expected post-financing investor ownership, not necessarily only new-money dilution. Check that it is directionally plausible relative to deal size and valuation.
+9. In rationale, state which numeric anchors were used: latest prior round, full deal history, raised-to-date, round progression, investor structure, company operating signals, or role policy.
+10. Before returning JSON, check that deal size, post-money valuation, ownership percentage, deal type, and valuation direction are mutually plausible.
 
 Allowed labels:
 - financing_intent: raise_now, wait, avoid
 - completion_view: likely_complete, unlikely_complete
 - valuation_direction: up, flat, down
 
-Return one JSON object only with this schema:
-{{
-  "financing_intent": "raise_now|wait|avoid",
-  "completion_view": "likely_complete|unlikely_complete",
-  "predicted_deal_size_usd_m": 10.0,
-  "predicted_post_money_valuation_usd_m": 50.0,
-  "predicted_investor_ownership_pct": 20.0,
-  "predicted_deal_type": "Seed Round|Early Stage VC|Later Stage VC|Bridge|Debt|Other",
-  "valuation_direction": "up|flat|down",
-  "satisfaction_score": 50,
-  "rationale": ["short reason 1", "short reason 2"]
-}}
+Return one JSON object only with exactly these keys and types:
+- "financing_intent": string, one of the allowed financing_intent labels.
+- "completion_view": string, one of the allowed completion_view labels.
+- "predicted_deal_size_usd_m": number, expected deal size in million USD.
+- "predicted_post_money_valuation_usd_m": number, expected post-money valuation in million USD.
+- "predicted_investor_ownership_pct": number, expected post-financing investor ownership percentage from 0 to 100.
+- "predicted_deal_type": string, one of Seed Round, Early Stage VC, Later Stage VC, Bridge, Debt, Other.
+- "valuation_direction": string, one of the allowed valuation_direction labels.
+- "satisfaction_score": number from 0 to 100.
+- "rationale": array of short strings.
 """
 
     def _bargaining_prompt(
@@ -228,6 +259,22 @@ Return one JSON object only with this schema:
     ) -> str:
         """Build the prompt for one bargaining-round utterance and decision update."""
         context_payload = {role: self._decision_payload(item) for role, item in context.items()}
+        round_tasks = [
+            (
+                "Round 1: Identify the weakest assumption in the current aggregated proposal or board "
+                "context. Challenge it using your visible fields, role policy, or a stronger interpretation "
+                "of visible evidence."
+            ),
+            (
+                "Round 2: Re-evaluate your forecast after the challenges. Update only fields where the "
+                "evidence weighting, deal-type calibration, or numeric calibration changed."
+            ),
+            (
+                "Round 3: Produce a final forecast. Prioritize prediction accuracy over negotiation posture, "
+                "and do not introduce new concessions unless they improve the forecast."
+            ),
+        ]
+        round_specific_task = round_tasks[min(round_index, len(round_tasks) - 1)]
         return f"""
 You are now acting as role: {self.role_name}.
 
@@ -253,35 +300,74 @@ Data handling rule:
 - JSON null means the value is missing or unobserved. Do not interpret null as zero.
 - Treat PitchBook snapshot company status fields as unavailable unless they appear in your visible fields.
 
+Evidence discipline:
+- Current aggregated proposal is an intermediate model estimate, not factual evidence and not ground truth.
+- Prior bargaining messages are role opinions unless they cite visible pre-decision fields.
+- Do not move toward consensus merely to sound cooperative.
+- You may update your forecast when the discussion introduces concrete visible evidence you had not emphasized, a stronger interpretation of visible evidence, or a correction to deal-type/numeric calibration.
+- If you change predicted_deal_type or any numeric field, rationale must cite the specific visible evidence or inference that caused the change.
+- If you do not change any field, rationale must briefly state why the current forecast remains stronger than the alternatives.
+- Your JSON prediction fields are forecasts of the likely realized next financing outcome, not your preferred negotiation demand.
+
+Round-specific task:
+{round_specific_task}
+
+Update reporting:
+- In rationale, include one short item starting with "update_status: no_change" if no forecast field changed.
+- If any forecast field changed, include one short item starting with "update_status: changed_fields=" followed by the changed field names.
+- Then state the evidence, reweighted evidence, or calibration correction that caused the update decision.
+
 Hard consistency rules:
 - If financing_intent is "raise_now", predicted_deal_size_usd_m must be greater than 0.
 - If financing_intent is "wait" or "avoid", predicted_deal_size_usd_m may be 0.
-- When financing_intent is "raise_now" and exact amount is not clear, estimate a plausible positive amount from visible prior_deal_size_usd_m, prior_raised_to_date_usd_m, prior_vc_round, company age, current proposal, bargaining history, and role policy. Do not use hidden current-deal labels.
-- predicted_post_money_valuation_usd_m is the expected post-money valuation in million USD. Estimate it from visible prior valuation, valuation direction, company stage, current proposal, bargaining history, and role policy; use 0 only when no defensible estimate is possible.
-- predicted_investor_ownership_pct is the expected investor ownership percentage after the financing. It must be between 0 and 100; use 0 only when no defensible estimate is possible.
+- When financing_intent is "raise_now" and exact amount is not clear, estimate a plausible positive amount from visible historical trajectory, round progression, investor structure, company maturity, operating signals, and role policy. Do not use hidden current-deal labels.
+- predicted_post_money_valuation_usd_m is the expected post-money valuation in million USD. Estimate it from visible valuation history, deal size, valuation direction, round stage, raised-to-date, company maturity, and role policy; use 0 only when no defensible estimate is possible.
+- predicted_investor_ownership_pct is the expected post-financing investor ownership percentage. It must be between 0 and 100; use prior ownership when available, otherwise make it directionally consistent with deal size, valuation scale, stage, and investor participation.
 - satisfaction_score must be a 0-100 score, where 0 means completely unacceptable, 50 means neutral or not enough information, and 100 means fully aligned with this role's goals.
-- Do not copy numeric placeholders from the schema. Return values that are consistent with your updated rationale.
+- Return numeric fields as JSON numbers, not strings. Do not use any template/default number as a fallback. Return values that are consistent with your updated rationale.
 
-Write one concise boardroom bargaining message for round {round_index + 1}, then update your prediction if the discussion changes your stance.
+Deal type calibration:
+- Do not infer "Seed Round" merely because the company is young or uses early-stage language.
+- Do not infer "Early Stage VC" merely because prior_deal_type is "Early Stage VC"; PitchBook stage labels can be broad.
+- If prior_deal_type is "Early Stage VC" and prior_vc_round exists, treat "Early Stage VC" as a strong signal, but not an automatic default.
+- Seed Round remains plausible when the visible history shows very early financing context: no prior VC round, 1st round, very small prior_deal_size_usd_m, low prior_raised_to_date_usd_m, young company age, few investors, no lead investor, or sparse financing history.
+- If prior_deal_type is "Early Stage VC" but prior_vc_round is "1st Round" and the visible deal sizes or raised-to-date are small, Seed Round can still be the better forecast.
+- Consider "Later Stage VC" when prior_vc_round, prior_raised_to_date_usd_m, prior_deal_size_usd_m, company age, or deal history indicates a mature financing path.
+- Use "Bridge" only when evidence suggests interim financing, insider support, weak momentum, or a short interval after the prior round.
+- Use "Debt" only when visible evidence specifically points to debt-like financing.
+- If the evidence is mixed between Seed Round and Early Stage VC, choose the label best supported by round progression and observed financing scale, and state the tie-breaker in rationale.
+- During bargaining, you may change predicted_deal_type when another role gives a stronger interpretation of visible stage, round progression, or financing-scale evidence; do not change only for consensus.
+
+Numeric calibration method:
+1. Do not blindly copy the most recent prior deal size. Treat it as one anchor among several.
+2. First classify the likely financing regime: step_up_round, flat_follow_on, small_bridge, strategic_large_round, or reset_or_downside_round.
+3. Use visible historical trajectory, including any visible prior_company_deal_history or investor deal history, prior_deal_size_usd_m, prior_raised_to_date_usd_m, prior_vc_round, prior_deal_type, investor counts, lead/follow-on signals, company age, employee growth, and industry context.
+4. If prior deal sizes vary widely, prefer a range-based estimate from the full visible history rather than the latest round alone.
+5. If the company appears to be progressing to a larger institutional or growth round, allow predicted_deal_size_usd_m to be materially larger than the prior round.
+6. If evidence suggests bridge, insider support, weak momentum, or a short interval after the prior round, allow predicted_deal_size_usd_m to be materially smaller than the prior round.
+7. For predicted_post_money_valuation_usd_m, anchor on visible prior valuation when available. If unavailable, estimate from deal size, stage, valuation_direction, raised-to-date, and company maturity.
+8. For predicted_investor_ownership_pct, treat it as expected post-financing investor ownership, not necessarily only new-money dilution. Check that it is directionally plausible relative to deal size and valuation.
+9. In rationale, state which numeric anchors were used: latest prior round, full deal history, raised-to-date, round progression, investor structure, company operating signals, or role policy.
+10. Before returning JSON, check that deal size, post-money valuation, ownership percentage, deal type, and valuation direction are mutually plausible.
+
+Write one concise boardroom bargaining message for round {round_index + 1}, then update your forecast if the discussion changes the likely financing outcome.
 The message must:
 - focus on financing timing, financing amount, deal type, valuation direction, or investor protections;
 - reflect your role's L1 goals, L2 attention, L3 heuristics, and L4 protocol;
 - avoid generic corporate slogans;
 - be one to three sentences.
 
-Return one JSON object only:
-{{
-  "message": "your boardroom message",
-  "financing_intent": "raise_now|wait|avoid",
-  "completion_view": "likely_complete|unlikely_complete",
-  "predicted_deal_size_usd_m": 10.0,
-  "predicted_post_money_valuation_usd_m": 50.0,
-  "predicted_investor_ownership_pct": 20.0,
-  "predicted_deal_type": "Seed Round|Early Stage VC|Later Stage VC|Bridge|Debt|Other",
-  "valuation_direction": "up|flat|down",
-  "satisfaction_score": 50,
-  "rationale": ["short reason 1", "short reason 2"]
-}}
+Return one JSON object only with exactly these keys and types:
+- "message": string, one to three concise boardroom sentences.
+- "financing_intent": string, one of raise_now, wait, avoid.
+- "completion_view": string, one of likely_complete, unlikely_complete.
+- "predicted_deal_size_usd_m": number, expected deal size in million USD.
+- "predicted_post_money_valuation_usd_m": number, expected post-money valuation in million USD.
+- "predicted_investor_ownership_pct": number, expected post-financing investor ownership percentage from 0 to 100.
+- "predicted_deal_type": string, one of Seed Round, Early Stage VC, Later Stage VC, Bridge, Debt, Other.
+- "valuation_direction": string, one of up, flat, down.
+- "satisfaction_score": number from 0 to 100.
+- "rationale": array of short strings.
 """
 
     def _decision_from_json(

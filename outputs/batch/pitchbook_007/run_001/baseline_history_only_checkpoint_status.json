@@ -1,0 +1,12 @@
+{
+  "updated_at": "2026-05-14T02:12:37",
+  "run_id": "run_001/baseline_history_only",
+  "status": "completed",
+  "expected_count": 212,
+  "completed_count": 212,
+  "remaining_count": 0,
+  "last_case_id": "973263042_325111768T",
+  "total_tokens": 2112202,
+  "total_prompt_tokens": 2005520,
+  "total_completion_tokens": 106682
+}

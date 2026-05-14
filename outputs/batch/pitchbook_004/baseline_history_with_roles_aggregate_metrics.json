@@ -1,0 +1,147 @@
+{
+  "row_count": 212,
+  "categorical": {
+    "financing_initiation": {
+      "prediction_field": "financing_initiation_decision",
+      "label_field": "true_financing_initiated_label",
+      "evaluated_count": 212,
+      "skipped_count": 0,
+      "correct_count": 212,
+      "accuracy": 1.0,
+      "confusion": {
+        "raise_now": {
+          "raise_now": 212
+        }
+      }
+    },
+    "deal_type": {
+      "prediction_field": "predicted_deal_type",
+      "label_field": "real_deal_type",
+      "evaluated_count": 212,
+      "skipped_count": 0,
+      "correct_count": 109,
+      "accuracy": 0.5141509433962265,
+      "confusion": {
+        "seed round": {
+          "early stage vc": 46,
+          "seed round": 13
+        },
+        "early stage vc": {
+          "early stage vc": 74,
+          "seed round": 12
+        },
+        "later stage vc": {
+          "early stage vc": 35,
+          "later stage vc": 22,
+          "seed round": 1
+        },
+        "secondary transaction private": {
+          "early stage vc": 6,
+          "seed round": 1
+        },
+        "buyout/lbo": {
+          "early stage vc": 1
+        },
+        "bankruptcy: liquidation": {
+          "early stage vc": 1
+        }
+      }
+    },
+    "valuation_direction": {
+      "prediction_field": "valuation_direction",
+      "label_field": "real_valuation_direction_label",
+      "evaluated_count": 28,
+      "skipped_count": 184,
+      "correct_count": 20,
+      "accuracy": 0.7142857142857143,
+      "confusion": {
+        "up": {
+          "up": 20
+        },
+        "down": {
+          "up": 5
+        },
+        "flat": {
+          "up": 3
+        }
+      }
+    }
+  },
+  "numeric": {
+    "deal_size": {
+      "prediction_field": "predicted_deal_size_usd_m",
+      "label_field": "real_deal_size_usd_m",
+      "unit": "M USD",
+      "evaluated_count": 143,
+      "skipped_count": 69,
+      "mae": 13.708640590979021,
+      "rmse": 52.13267690631708,
+      "mape": 23.3866490581938,
+      "median_ape": 1.2336100747178977,
+      "within_25pct_rate": 0.13286713286713286,
+      "within_50pct_rate": 0.27972027972027974,
+      "mean_predicted": 15.658391608391609,
+      "mean_true": 12.118447532797203,
+      "mae_usd_m": 13.708640590979021,
+      "rmse_usd_m": 52.13267690631708,
+      "mean_predicted_usd_m": 15.658391608391609,
+      "mean_true_usd_m": 12.118447532797203
+    },
+    "post_money_valuation": {
+      "prediction_field": "predicted_post_money_valuation_usd_m",
+      "label_field": "real_post_money_valuation_usd_m",
+      "unit": "M USD",
+      "evaluated_count": 69,
+      "skipped_count": 143,
+      "mae": 59.293928523333335,
+      "rmse": 162.3754897398484,
+      "mape": 2.6883555579127103,
+      "median_ape": 0.7526161345454545,
+      "within_25pct_rate": 0.15942028985507245,
+      "within_50pct_rate": 0.2898550724637681,
+      "mean_predicted": 73.66843843478262,
+      "mean_true": 106.18999569202899
+    },
+    "investor_ownership": {
+      "prediction_field": "predicted_investor_ownership_pct",
+      "label_field": "real_investor_ownership_pct",
+      "unit": "pct",
+      "evaluated_count": 55,
+      "skipped_count": 157,
+      "mae": 25.831548280363634,
+      "rmse": 30.688082332921894,
+      "mape": 0.6145502952471026,
+      "median_ape": 0.6126312184670365,
+      "within_25pct_rate": 0.18181818181818182,
+      "within_50pct_rate": 0.38181818181818183,
+      "mean_predicted": 23.045454545454547,
+      "mean_true": 44.817918825090906
+    }
+  },
+  "deal_size": {
+    "prediction_field": "predicted_deal_size_usd_m",
+    "label_field": "real_deal_size_usd_m",
+    "unit": "M USD",
+    "evaluated_count": 143,
+    "skipped_count": 69,
+    "mae": 13.708640590979021,
+    "rmse": 52.13267690631708,
+    "mape": 23.3866490581938,
+    "median_ape": 1.2336100747178977,
+    "within_25pct_rate": 0.13286713286713286,
+    "within_50pct_rate": 0.27972027972027974,
+    "mean_predicted": 15.658391608391609,
+    "mean_true": 12.118447532797203,
+    "mae_usd_m": 13.708640590979021,
+    "rmse_usd_m": 52.13267690631708,
+    "mean_predicted_usd_m": 15.658391608391609,
+    "mean_true_usd_m": 12.118447532797203
+  },
+  "notes": [
+    "Current data is positive-sample VC backtesting; financing initiation accuracy is a positive-sample hit rate unless negative samples are added.",
+    "Financing completion is not counted in accuracy because almost all current target events are completed transactions.",
+    "Valuation direction excludes rows whose true label is missing or unknown.",
+    "Numeric metrics skip rows whose true numeric label is missing or non-positive.",
+    "CEO replacement is intentionally excluded from current evaluation."
+  ]
+}

@@ -1,0 +1,361 @@
+nohup: ignoring input
+Starting run_001: 50 cases.
+run_001: case 1/50 4790087_197130868T
+run_001: case 2/50 11830986_813677134T
+run_001: case 3/50 11830986_549655044T
+run_001: case 4/50 11830986_069610272T
+run_001: case 5/50 11830986_789374083T
+run_001: case 6/50 11830986_816183250T
+run_001: case 7/50 11830986_293087727T
+run_001: case 8/50 11982935_342853943T
+run_001: case 9/50 26050294_545686821T
+run_001: case 10/50 55845274_951718297T
+run_001: case 11/50 55845274_269156833T
+run_001: case 12/50 56698470_648838575T
+run_001: case 13/50 56698470_418076218T
+run_001: case 14/50 65829781_596811480T
+run_001: case 15/50 65829781_005051561T
+run_001: case 16/50 82237047_660939529T
+run_001: case 17/50 82237047_094939993T
+run_001: case 18/50 82237047_302141975T
+run_001: case 19/50 87512028_605122136T
+run_001: case 20/50 87512028_919782061T
+run_001: case 21/50 97714444_926438972T
+run_001: case 22/50 101676742_333240762T
+run_001: case 23/50 103281360_917957046T
+run_001: case 24/50 108943275_273554390T
+run_001: case 25/50 108943275_242536412T
+run_001: case 26/50 123268600_158462168T
+run_001: case 27/50 123268600_221012973T
+run_001: case 28/50 123268600_143058813T
+run_001: case 29/50 134622385_526904228T
+run_001: case 30/50 134622385_762593770T
+run_001: case 31/50 134622385_571168881T
+run_001: case 32/50 145718938_867839336T
+run_001: case 33/50 152916478_891084665T
+run_001: case 34/50 152916478_770543621T
+run_001: case 35/50 152916478_816603649T
+run_001: case 36/50 152916478_579647233T
+run_001: case 37/50 178378902_721357216T
+run_001: case 38/50 197258275_777840969T
+run_001: case 39/50 197258275_428207586T
+run_001: case 40/50 218034134_459544862T
+run_001: case 41/50 218034134_081995870T
+run_001: case 42/50 218034134_879239922T
+run_001: case 43/50 218034134_453064052T
+run_001: case 44/50 218034134_154346820T
+run_001: case 45/50 218034134_219205641T
+run_001: case 46/50 218034134_432173479T
+run_001: case 47/50 218034134_144126445T
+run_001: case 48/50 218034134_616369767T
+run_001: case 49/50 218034134_402957630T
+run_001: case 50/50 231347739_136848807T
+Finished run_001; provider-reported tokens this run: 6315114.
+Rows evaluated: 50
+
+Categorical accuracy:
+  financing_initiation: 50/50 = 100.00% (skipped: 0)
+  deal_type: 27/50 = 54.00% (skipped: 0)
+  valuation_direction: 6/7 = 85.71% (skipped: 43)
+
+Numeric error:
+  deal_size:
+    evaluated: 34 (skipped: 16)
+    MAE: 42.308 M USD
+    RMSE: 107.908 M USD
+    MAPE: 974.92%
+    Median APE: 89.10%
+    within +/-25%: 14.71%
+    within +/-50%: 17.65%
+  post_money_valuation:
+    evaluated: 17 (skipped: 33)
+    MAE: 119.306 M USD
+    RMSE: 284.188 M USD
+    MAPE: 55.30%
+    Median APE: 53.49%
+    within +/-25%: 29.41%
+    within +/-50%: 41.18%
+  investor_ownership:
+    evaluated: 13 (skipped: 37)
+    MAE: 26.208 pct
+    RMSE: 29.448 pct
+    MAPE: 42.07%
+    Median APE: 42.36%
+    within +/-25%: 15.38%
+    within +/-50%: 84.62%
+
+Starting run_001 baseline_history_only: 50 cases.
+run_001 baseline_history_only: case 1/50 4790087_197130868T
+run_001 baseline_history_only: case 2/50 11830986_813677134T
+run_001 baseline_history_only: case 3/50 11830986_549655044T
+run_001 baseline_history_only: case 4/50 11830986_069610272T
+run_001 baseline_history_only: case 5/50 11830986_789374083T
+run_001 baseline_history_only: case 6/50 11830986_816183250T
+run_001 baseline_history_only: case 7/50 11830986_293087727T
+run_001 baseline_history_only: case 8/50 11982935_342853943T
+run_001 baseline_history_only: case 9/50 26050294_545686821T
+run_001 baseline_history_only: case 10/50 55845274_951718297T
+run_001 baseline_history_only: case 11/50 55845274_269156833T
+run_001 baseline_history_only: case 12/50 56698470_648838575T
+run_001 baseline_history_only: case 13/50 56698470_418076218T
+run_001 baseline_history_only: case 14/50 65829781_596811480T
+run_001 baseline_history_only: case 15/50 65829781_005051561T
+run_001 baseline_history_only: case 16/50 82237047_660939529T
+run_001 baseline_history_only: case 17/50 82237047_094939993T
+run_001 baseline_history_only: case 18/50 82237047_302141975T
+run_001 baseline_history_only: case 19/50 87512028_605122136T
+run_001 baseline_history_only: case 20/50 87512028_919782061T
+run_001 baseline_history_only: case 21/50 97714444_926438972T
+run_001 baseline_history_only: case 22/50 101676742_333240762T
+run_001 baseline_history_only: case 23/50 103281360_917957046T
+run_001 baseline_history_only: case 24/50 108943275_273554390T
+run_001 baseline_history_only: case 25/50 108943275_242536412T
+run_001 baseline_history_only: case 26/50 123268600_158462168T
+run_001 baseline_history_only: case 27/50 123268600_221012973T
+run_001 baseline_history_only: case 28/50 123268600_143058813T
+run_001 baseline_history_only: case 29/50 134622385_526904228T
+run_001 baseline_history_only: case 30/50 134622385_762593770T
+run_001 baseline_history_only: case 31/50 134622385_571168881T
+run_001 baseline_history_only: case 32/50 145718938_867839336T
+run_001 baseline_history_only: case 33/50 152916478_891084665T
+run_001 baseline_history_only: case 34/50 152916478_770543621T
+run_001 baseline_history_only: case 35/50 152916478_816603649T
+run_001 baseline_history_only: case 36/50 152916478_579647233T
+run_001 baseline_history_only: case 37/50 178378902_721357216T
+run_001 baseline_history_only: case 38/50 197258275_777840969T
+run_001 baseline_history_only: case 39/50 197258275_428207586T
+run_001 baseline_history_only: case 40/50 218034134_459544862T
+run_001 baseline_history_only: case 41/50 218034134_081995870T
+run_001 baseline_history_only: case 42/50 218034134_879239922T
+run_001 baseline_history_only: case 43/50 218034134_453064052T
+run_001 baseline_history_only: case 44/50 218034134_154346820T
+run_001 baseline_history_only: case 45/50 218034134_219205641T
+run_001 baseline_history_only: case 46/50 218034134_432173479T
+run_001 baseline_history_only: case 47/50 218034134_144126445T
+run_001 baseline_history_only: case 48/50 218034134_616369767T
+run_001 baseline_history_only: case 49/50 218034134_402957630T
+run_001 baseline_history_only: case 50/50 231347739_136848807T
+Finished run_001 baseline_history_only.
+baseline_history_only metrics:
+Rows evaluated: 50
+
+Categorical accuracy:
+  financing_initiation: 50/50 = 100.00% (skipped: 0)
+  deal_type: 24/50 = 48.00% (skipped: 0)
+  valuation_direction: 6/7 = 85.71% (skipped: 43)
+
+Numeric error:
+  deal_size:
+    evaluated: 34 (skipped: 16)
+    MAE: 36.712 M USD
+    RMSE: 84.072 M USD
+    MAPE: 1196.21%
+    Median APE: 203.85%
+    within +/-25%: 8.82%
+    within +/-50%: 14.71%
+  post_money_valuation:
+    evaluated: 17 (skipped: 33)
+    MAE: 176.977 M USD
+    RMSE: 351.064 M USD
+    MAPE: 286.23%
+    Median APE: 84.09%
+    within +/-25%: 11.76%
+    within +/-50%: 23.53%
+  investor_ownership:
+    evaluated: 13 (skipped: 37)
+    MAE: 41.116 pct
+    RMSE: 44.372 pct
+    MAPE: 63.94%
+    Median APE: 68.04%
+    within +/-25%: 7.69%
+    within +/-50%: 7.69%
+
+Starting run_001 baseline_history_with_roles: 50 cases.
+run_001 baseline_history_with_roles: case 1/50 4790087_197130868T
+run_001 baseline_history_with_roles: case 2/50 11830986_813677134T
+run_001 baseline_history_with_roles: case 3/50 11830986_549655044T
+run_001 baseline_history_with_roles: case 4/50 11830986_069610272T
+run_001 baseline_history_with_roles: case 5/50 11830986_789374083T
+run_001 baseline_history_with_roles: case 6/50 11830986_816183250T
+run_001 baseline_history_with_roles: case 7/50 11830986_293087727T
+run_001 baseline_history_with_roles: case 8/50 11982935_342853943T
+run_001 baseline_history_with_roles: case 9/50 26050294_545686821T
+run_001 baseline_history_with_roles: case 10/50 55845274_951718297T
+run_001 baseline_history_with_roles: case 11/50 55845274_269156833T
+run_001 baseline_history_with_roles: case 12/50 56698470_648838575T
+run_001 baseline_history_with_roles: case 13/50 56698470_418076218T
+run_001 baseline_history_with_roles: case 14/50 65829781_596811480T
+run_001 baseline_history_with_roles: case 15/50 65829781_005051561T
+run_001 baseline_history_with_roles: case 16/50 82237047_660939529T
+run_001 baseline_history_with_roles: case 17/50 82237047_094939993T
+run_001 baseline_history_with_roles: case 18/50 82237047_302141975T
+run_001 baseline_history_with_roles: case 19/50 87512028_605122136T
+run_001 baseline_history_with_roles: case 20/50 87512028_919782061T
+run_001 baseline_history_with_roles: case 21/50 97714444_926438972T
+run_001 baseline_history_with_roles: case 22/50 101676742_333240762T
+run_001 baseline_history_with_roles: case 23/50 103281360_917957046T
+run_001 baseline_history_with_roles: case 24/50 108943275_273554390T
+run_001 baseline_history_with_roles: case 25/50 108943275_242536412T
+run_001 baseline_history_with_roles: case 26/50 123268600_158462168T
+run_001 baseline_history_with_roles: case 27/50 123268600_221012973T
+run_001 baseline_history_with_roles: case 28/50 123268600_143058813T
+run_001 baseline_history_with_roles: case 29/50 134622385_526904228T
+run_001 baseline_history_with_roles: case 30/50 134622385_762593770T
+run_001 baseline_history_with_roles: case 31/50 134622385_571168881T
+run_001 baseline_history_with_roles: case 32/50 145718938_867839336T
+run_001 baseline_history_with_roles: case 33/50 152916478_891084665T
+run_001 baseline_history_with_roles: case 34/50 152916478_770543621T
+run_001 baseline_history_with_roles: case 35/50 152916478_816603649T
+run_001 baseline_history_with_roles: case 36/50 152916478_579647233T
+run_001 baseline_history_with_roles: case 37/50 178378902_721357216T
+run_001 baseline_history_with_roles: case 38/50 197258275_777840969T
+run_001 baseline_history_with_roles: case 39/50 197258275_428207586T
+run_001 baseline_history_with_roles: case 40/50 218034134_459544862T
+run_001 baseline_history_with_roles: case 41/50 218034134_081995870T
+run_001 baseline_history_with_roles: case 42/50 218034134_879239922T
+run_001 baseline_history_with_roles: case 43/50 218034134_453064052T
+run_001 baseline_history_with_roles: case 44/50 218034134_154346820T
+run_001 baseline_history_with_roles: case 45/50 218034134_219205641T
+run_001 baseline_history_with_roles: case 46/50 218034134_432173479T
+run_001 baseline_history_with_roles: case 47/50 218034134_144126445T
+run_001 baseline_history_with_roles: case 48/50 218034134_616369767T
+run_001 baseline_history_with_roles: case 49/50 218034134_402957630T
+run_001 baseline_history_with_roles: case 50/50 231347739_136848807T
+Finished run_001 baseline_history_with_roles.
+baseline_history_with_roles metrics:
+Rows evaluated: 50
+
+Categorical accuracy:
+  financing_initiation: 50/50 = 100.00% (skipped: 0)
+  deal_type: 27/50 = 54.00% (skipped: 0)
+  valuation_direction: 6/7 = 85.71% (skipped: 43)
+
+Numeric error:
+  deal_size:
+    evaluated: 34 (skipped: 16)
+    MAE: 42.506 M USD
+    RMSE: 105.965 M USD
+    MAPE: 1115.47%
+    Median APE: 125.00%
+    within +/-25%: 5.88%
+    within +/-50%: 17.65%
+  post_money_valuation:
+    evaluated: 17 (skipped: 33)
+    MAE: 136.231 M USD
+    RMSE: 305.287 M USD
+    MAPE: 112.94%
+    Median APE: 52.89%
+    within +/-25%: 29.41%
+    within +/-50%: 41.18%
+  investor_ownership:
+    evaluated: 13 (skipped: 37)
+    MAE: 38.344 pct
+    RMSE: 41.335 pct
+    MAPE: 60.63%
+    Median APE: 63.68%
+    within +/-25%: 7.69%
+    within +/-50%: 23.08%
+
+Wrote debate accuracy report to outputs/batch/pitchbook_006/run_001/debate_accuracy_report.md.
+Aggregate metrics across all runs:
+Rows evaluated: 50
+
+Categorical accuracy:
+  financing_initiation: 50/50 = 100.00% (skipped: 0)
+  deal_type: 27/50 = 54.00% (skipped: 0)
+  valuation_direction: 6/7 = 85.71% (skipped: 43)
+
+Numeric error:
+  deal_size:
+    evaluated: 34 (skipped: 16)
+    MAE: 42.308 M USD
+    RMSE: 107.908 M USD
+    MAPE: 974.92%
+    Median APE: 89.10%
+    within +/-25%: 14.71%
+    within +/-50%: 17.65%
+  post_money_valuation:
+    evaluated: 17 (skipped: 33)
+    MAE: 119.306 M USD
+    RMSE: 284.188 M USD
+    MAPE: 55.30%
+    Median APE: 53.49%
+    within +/-25%: 29.41%
+    within +/-50%: 41.18%
+  investor_ownership:
+    evaluated: 13 (skipped: 37)
+    MAE: 26.208 pct
+    RMSE: 29.448 pct
+    MAPE: 42.07%
+    Median APE: 42.36%
+    within +/-25%: 15.38%
+    within +/-50%: 84.62%
+Aggregate baseline_history_only metrics:
+Rows evaluated: 50
+
+Categorical accuracy:
+  financing_initiation: 50/50 = 100.00% (skipped: 0)
+  deal_type: 24/50 = 48.00% (skipped: 0)
+  valuation_direction: 6/7 = 85.71% (skipped: 43)
+
+Numeric error:
+  deal_size:
+    evaluated: 34 (skipped: 16)
+    MAE: 36.712 M USD
+    RMSE: 84.072 M USD
+    MAPE: 1196.21%
+    Median APE: 203.85%
+    within +/-25%: 8.82%
+    within +/-50%: 14.71%
+  post_money_valuation:
+    evaluated: 17 (skipped: 33)
+    MAE: 176.977 M USD
+    RMSE: 351.064 M USD
+    MAPE: 286.23%
+    Median APE: 84.09%
+    within +/-25%: 11.76%
+    within +/-50%: 23.53%
+  investor_ownership:
+    evaluated: 13 (skipped: 37)
+    MAE: 41.116 pct
+    RMSE: 44.372 pct
+    MAPE: 63.94%
+    Median APE: 68.04%
+    within +/-25%: 7.69%
+    within +/-50%: 7.69%
+Aggregate baseline_history_with_roles metrics:
+Rows evaluated: 50
+
+Categorical accuracy:
+  financing_initiation: 50/50 = 100.00% (skipped: 0)
+  deal_type: 27/50 = 54.00% (skipped: 0)
+  valuation_direction: 6/7 = 85.71% (skipped: 43)
+
+Numeric error:
+  deal_size:
+    evaluated: 34 (skipped: 16)
+    MAE: 42.506 M USD
+    RMSE: 105.965 M USD
+    MAPE: 1115.47%
+    Median APE: 125.00%
+    within +/-25%: 5.88%
+    within +/-50%: 17.65%
+  post_money_valuation:
+    evaluated: 17 (skipped: 33)
+    MAE: 136.231 M USD
+    RMSE: 305.287 M USD
+    MAPE: 112.94%
+    Median APE: 52.89%
+    within +/-25%: 29.41%
+    within +/-50%: 41.18%
+  investor_ownership:
+    evaluated: 13 (skipped: 37)
+    MAE: 38.344 pct
+    RMSE: 41.335 pct
+    MAPE: 60.63%
+    Median APE: 63.68%
+    within +/-25%: 7.69%
+    within +/-50%: 23.08%
+Wrote aggregate metrics to outputs/batch/pitchbook_006/aggregate_metrics.json.
+Wrote aggregate per-case metrics to outputs/batch/pitchbook_006/case_metrics.csv.
+LLM total tokens reported by provider: 6619859.

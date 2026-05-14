@@ -4,6 +4,10 @@
 
 本次修改给案例增加了三类历史记录字段，并支持在命令行中控制每类历史记录最多保留多少条。
 
+后续 Prompt 更新进一步调整了 MAD 部分的预测约束：多智能体输出字段现在被明确为“角色视角下对下一次真实融资结果的预测”，而不是角色偏好的谈判诉求；辩论轮次中的当前聚合提案只作为中间模型估计，不能当作事实或 ground truth；数值预测从“参考上一轮融资额”改为“多锚点 + 融资情境 regime”校准，暂不引入 empirical priors。
+
+最新 Prompt 调整进一步把 deal type 规则从硬默认改为软信号，允许 Seed Round 在第一轮、小额、低累计融资或稀疏历史等早期融资语境下重新成为合理预测；同时把辩论更新条件从“只有新证据才改”扩展为“新证据、重新加权可见证据、校准纠正均可改”，并给三轮 bargaining 分配不同任务。
+
 命令行参数：
 
 ```bash
@@ -191,7 +195,9 @@ Followon_VC_Director 主要关注 pro-rata、跟投纪律、被领投方稀释�
 You are an LLM agent in a controlled social simulation of startup boardroom governance.
 You must strictly follow the assigned four-layer role policy. This is a point-in-time
 positive-sample backtest: the current target transaction outcomes are hidden from you.
-Use only visible pre-decision fields, role policy, and prior board context. Return valid JSON only.
+Use only visible pre-decision fields, role policy, and prior board context. Your JSON prediction
+fields are role-informed forecasts of the likely realized next financing outcome, not the role's
+preferred negotiation demand. Return valid JSON only.
 ```
 
 中文翻译：
@@ -200,7 +206,7 @@ Use only visible pre-decision fields, role policy, and prior board context. Retu
 你是一个用于初创公司董事会治理社会模拟的 LLM 智能体。
 你必须严格遵守被分配的四层角色规则。本实验是一个基于决策时点的正样本回测：
 当前目标交易的真实结果对你隐藏。
-你只能使用可见的决策前字段、角色规则和已有董事会上下文。只返回合法 JSON。
+你只能使用可见的决策前字段、角色规则和已有董事会上下文。JSON 预测字段应是角色视角下对下一次真实融资结果的预测，而不是该角色偏好的谈判诉求。只返回合法 JSON。
 ```
 
 ### 4.2 初始角色判断 prompt
@@ -226,35 +232,64 @@ Data handling rule:
 Prior board context from roles that have already spoken:
 {context_payload_json}
 
+Context discipline:
+- Prior board context is not factual evidence. Use it only to understand other role forecasts and disagreements.
+- Your private assessment must be independently derived from your visible fields and role policy; do not copy another role's prediction unless your own evidence supports it.
+
 Task:
-Predict this role's point-in-time board stance. Do not assume or reveal current target-deal labels.
+Produce this role-informed point-in-time forecast of the likely realized next financing outcome.
+Do not output your preferred negotiation demand as the prediction.
+Use the role policy to decide which evidence to emphasize, but the output fields must remain a best forecast of the likely market transaction.
+If your role preference differs from the likely outcome, explain that difference in rationale and satisfaction_score; keep the prediction as the likely outcome.
+Do not assume or reveal current target-deal labels.
 
 Hard consistency rules:
 - If financing_intent is "raise_now", predicted_deal_size_usd_m must be greater than 0.
 - If financing_intent is "wait" or "avoid", predicted_deal_size_usd_m may be 0.
-- When financing_intent is "raise_now" and exact amount is not clear, estimate a plausible positive amount from visible prior_deal_size_usd_m, prior_raised_to_date_usd_m, prior_vc_round, company age, and role policy. Do not use hidden current-deal labels.
-- predicted_post_money_valuation_usd_m is the expected post-money valuation in million USD. Estimate it from visible prior valuation, valuation direction, company stage, and role policy; use 0 only when no defensible estimate is possible.
-- predicted_investor_ownership_pct is the expected investor ownership percentage after the financing. It must be between 0 and 100; use 0 only when no defensible estimate is possible.
+- When financing_intent is "raise_now" and exact amount is not clear, estimate a plausible positive amount from visible historical trajectory, round progression, investor structure, company maturity, operating signals, and role policy. Do not use hidden current-deal labels.
+- predicted_post_money_valuation_usd_m is the expected post-money valuation in million USD. Estimate it from visible valuation history, deal size, valuation direction, round stage, raised-to-date, company maturity, and role policy; use 0 only when no defensible estimate is possible.
+- predicted_investor_ownership_pct is the expected post-financing investor ownership percentage. It must be between 0 and 100; use prior ownership when available, otherwise make it directionally consistent with deal size, valuation scale, stage, and investor participation.
 - satisfaction_score must be a 0-100 score, where 0 means completely unacceptable, 50 means neutral or not enough information, and 100 means fully aligned with this role's goals.
-- Do not copy numeric placeholders from the schema. Return values that are consistent with your own rationale.
+- Return numeric fields as JSON numbers, not strings. Do not use any template/default number as a fallback. Return values that are consistent with your own rationale.
+
+Deal type calibration:
+- Do not infer "Seed Round" merely because the company is young or uses early-stage language.
+- Do not infer "Early Stage VC" merely because prior_deal_type is "Early Stage VC"; PitchBook stage labels can be broad.
+- If prior_deal_type is "Early Stage VC" and prior_vc_round exists, treat "Early Stage VC" as a strong signal, but not an automatic default.
+- Seed Round remains plausible when the visible history shows very early financing context: no prior VC round, 1st round, very small prior_deal_size_usd_m, low prior_raised_to_date_usd_m, young company age, few investors, no lead investor, or sparse financing history.
+- If prior_deal_type is "Early Stage VC" but prior_vc_round is "1st Round" and the visible deal sizes or raised-to-date are small, Seed Round can still be the better forecast.
+- Consider "Later Stage VC" when prior_vc_round, prior_raised_to_date_usd_m, prior_deal_size_usd_m, company age, or deal history indicates a mature financing path.
+- Use "Bridge" only when evidence suggests interim financing, insider support, weak momentum, or a short interval after the prior round.
+- Use "Debt" only when visible evidence specifically points to debt-like financing.
+- If the evidence is mixed between Seed Round and Early Stage VC, choose the label best supported by round progression and observed financing scale, and state the tie-breaker in rationale.
+
+Numeric calibration method:
+1. Do not blindly copy the most recent prior deal size. Treat it as one anchor among several.
+2. First classify the likely financing regime: step_up_round, flat_follow_on, small_bridge, strategic_large_round, or reset_or_downside_round.
+3. Use visible historical trajectory, including any visible prior_company_deal_history or investor deal history, prior_deal_size_usd_m, prior_raised_to_date_usd_m, prior_vc_round, prior_deal_type, investor counts, lead/follow-on signals, company age, employee growth, and industry context.
+4. If prior deal sizes vary widely, prefer a range-based estimate from the full visible history rather than the latest round alone.
+5. If the company appears to be progressing to a larger institutional or growth round, allow predicted_deal_size_usd_m to be materially larger than the prior round.
+6. If evidence suggests bridge, insider support, weak momentum, or a short interval after the prior round, allow predicted_deal_size_usd_m to be materially smaller than the prior round.
+7. For predicted_post_money_valuation_usd_m, anchor on visible prior valuation when available. If unavailable, estimate from deal size, stage, valuation_direction, raised-to-date, and company maturity.
+8. For predicted_investor_ownership_pct, treat it as expected post-financing investor ownership, not necessarily only new-money dilution. Check that it is directionally plausible relative to deal size and valuation.
+9. In rationale, state which numeric anchors were used: latest prior round, full deal history, raised-to-date, round progression, investor structure, company operating signals, or role policy.
+10. Before returning JSON, check that deal size, post-money valuation, ownership percentage, deal type, and valuation direction are mutually plausible.
 
 Allowed labels:
 - financing_intent: raise_now, wait, avoid
 - completion_view: likely_complete, unlikely_complete
 - valuation_direction: up, flat, down
 
-Return one JSON object only with this schema:
-{
-  "financing_intent": "raise_now|wait|avoid",
-  "completion_view": "likely_complete|unlikely_complete",
-  "predicted_deal_size_usd_m": 10.0,
-  "predicted_post_money_valuation_usd_m": 50.0,
-  "predicted_investor_ownership_pct": 20.0,
-  "predicted_deal_type": "Seed Round|Early Stage VC|Later Stage VC|Bridge|Debt|Other",
-  "valuation_direction": "up|flat|down",
-  "satisfaction_score": 50,
-  "rationale": ["short reason 1", "short reason 2"]
-}
+Return one JSON object only with exactly these keys and types:
+- "financing_intent": string, one of the allowed financing_intent labels.
+- "completion_view": string, one of the allowed completion_view labels.
+- "predicted_deal_size_usd_m": number, expected deal size in million USD.
+- "predicted_post_money_valuation_usd_m": number, expected post-money valuation in million USD.
+- "predicted_investor_ownership_pct": number, expected post-financing investor ownership percentage from 0 to 100.
+- "predicted_deal_type": string, one of Seed Round, Early Stage VC, Later Stage VC, Bridge, Debt, Other.
+- "valuation_direction": string, one of the allowed valuation_direction labels.
+- "satisfaction_score": number from 0 to 100.
+- "rationale": array of short strings.
 ```
 
 中文翻译：
@@ -278,38 +313,73 @@ Return one JSON object only with this schema:
 此前已经发言角色带来的董事会上下文：
 {context_payload_json}
 
+上下文使用纪律：
+- 此前董事会上下文不是事实证据，只能用于理解其他角色的预测和分歧。
+- 你的私有判断必须独立来自你的可见字段和角色规则；除非你自己的证据支持，否则不要复制其他角色的预测。
+
 任务：
-预测该角色在当前决策时点的董事会立场。不要假设或泄露当前目标交易的真实标签。
+生成该角色视角下、基于当前决策时点的下一次真实融资结果预测。
+不要把该角色偏好的谈判诉求当成预测结果。
+角色规则用于决定强调哪些证据，但输出字段必须保持为对可能市场交易结果的最佳预测。
+如果角色偏好和可能结果不同，应在 rationale 和 satisfaction_score 中说明差异；预测字段仍应填写可能结果。
+不要假设或泄露当前目标交易的真实标签。
 
 硬性一致性规则：
 - 如果 financing_intent 是 "raise_now"，predicted_deal_size_usd_m 必须大于 0。
 - 如果 financing_intent 是 "wait" 或 "avoid"，predicted_deal_size_usd_m 可以为 0。
-- 当 financing_intent 是 "raise_now" 且确切金额不清楚时，应根据可见的上一轮融资额、累计融资额、VC 轮次、公司年龄和角色规则估计一个合理的正数。不要使用隐藏的当前交易标签。
-- predicted_post_money_valuation_usd_m 是预期投后估值，单位百万美元。应根据可见历史估值、估值方向、公司阶段和角色规则估计；只有在无法给出可辩护估计时才用 0。
-- predicted_investor_ownership_pct 是融资后预期投资人持股比例，必须在 0 到 100 之间；只有在无法给出可辩护估计时才用 0。
+- 当 financing_intent 是 "raise_now" 且确切金额不清楚时，应根据可见历史轨迹、轮次推进、投资人结构、公司成熟度、经营信号和角色规则估计合理正数。不要使用隐藏的当前交易标签。
+- predicted_post_money_valuation_usd_m 是预期投后估值，单位百万美元。应根据可见估值历史、融资额、估值方向、轮次阶段、累计融资额、公司成熟度和角色规则估计；只有在无法给出可辩护估计时才用 0。
+- predicted_investor_ownership_pct 是融资后预期投资人持股比例，必须在 0 到 100 之间；如果有历史持股则使用历史持股作为参考，否则要和融资额、估值规模、阶段以及投资人参与情况在方向上保持合理。
 - satisfaction_score 必须是 0 到 100 之间的分数，0 表示完全不可接受，50 表示中性或信息不足，100 表示完全符合该角色目标。
-- 不要照抄 schema 中的数字占位符。返回值必须和你的理由一致。
+- 数值字段必须作为 JSON number 返回，不要用字符串。不要使用任何模板或默认数字作为兜底值。返回值必须和你的理由一致。
+
+交易类型校准：
+- 不要仅仅因为公司年轻或文本中出现 early-stage 语义就推断为 "Seed Round"。
+- 不要仅仅因为 prior_deal_type 是 "Early Stage VC" 就推断为 "Early Stage VC"；PitchBook 阶段标签可能比较宽泛。
+- 如果 prior_deal_type 是 "Early Stage VC" 且 prior_vc_round 存在，把 "Early Stage VC" 视为强信号，但不是自动默认值。
+- 当可见历史显示非常早期融资语境时，Seed Round 仍然合理：没有 prior VC round、1st round、prior_deal_size_usd_m 很小、prior_raised_to_date_usd_m 较低、公司年龄较小、投资人较少、没有领投方或融资历史稀疏。
+- 如果 prior_deal_type 是 "Early Stage VC"，但 prior_vc_round 是 "1st Round" 且可见融资额或累计融资额较小，Seed Round 仍可能是更好的预测。
+- 当 prior_vc_round、prior_raised_to_date_usd_m、prior_deal_size_usd_m、公司年龄或历史交易轨迹显示公司已进入更成熟融资路径时，应考虑 "Later Stage VC"。
+- 只有在证据显示临时融资、内部支持、动能较弱或距上一轮间隔很短时，才使用 "Bridge"。
+- 只有在可见证据明确指向债务型融资时，才使用 "Debt"。
+- 如果 Seed Round 和 Early Stage VC 证据混合，应选择更受轮次推进和可见融资规模支持的标签，并在 rationale 中说明分界依据。
+
+数值校准方法：
+1. 不要机械复制最近一轮 prior deal size，它只是多个锚点之一。
+2. 先判断可能融资情境：step_up_round、flat_follow_on、small_bridge、strategic_large_round 或 reset_or_downside_round。
+3. 使用可见历史轨迹，包括任何可见的 prior_company_deal_history 或投资人历史、prior_deal_size_usd_m、prior_raised_to_date_usd_m、prior_vc_round、prior_deal_type、投资人数量、领投/跟投信号、公司年龄、员工增长和行业上下文。
+4. 如果历史融资额波动很大，应优先根据完整可见历史做区间估计，而不是只看最近一轮。
+5. 如果公司看起来正在进入更大的机构轮或增长轮，允许 predicted_deal_size_usd_m 明显高于上一轮。
+6. 如果证据显示过桥、内部支持、动能较弱，或距离上一轮间隔很短，允许 predicted_deal_size_usd_m 明显低于上一轮。
+7. predicted_post_money_valuation_usd_m 有可见历史估值时应以历史估值为锚；没有历史估值时，根据融资额、阶段、valuation_direction、累计融资额和公司成熟度估计。
+8. predicted_investor_ownership_pct 视为融资后投资人持股，不一定只是新钱稀释；需要检查它相对融资额和估值是否方向合理。
+9. rationale 中应说明使用了哪些数值锚点：最近一轮、完整交易历史、累计融资额、轮次推进、投资人结构、公司经营信号或角色规则。
+10. 返回 JSON 前，检查融资额、投后估值、持股比例、交易类型和估值方向是否彼此合理。
 
 允许的标签：
 - financing_intent: raise_now, wait, avoid
 - completion_view: likely_complete, unlikely_complete
 - valuation_direction: up, flat, down
 
-只返回一个 JSON 对象，结构如下：
-{
-  "financing_intent": "raise_now|wait|avoid",
-  "completion_view": "likely_complete|unlikely_complete",
-  "predicted_deal_size_usd_m": 10.0,
-  "predicted_post_money_valuation_usd_m": 50.0,
-  "predicted_investor_ownership_pct": 20.0,
-  "predicted_deal_type": "Seed Round|Early Stage VC|Later Stage VC|Bridge|Debt|Other",
-  "valuation_direction": "up|flat|down",
-  "satisfaction_score": 50,
-  "rationale": ["简短理由 1", "简短理由 2"]
-}
+只返回一个 JSON 对象，且必须包含以下键和值类型：
+- "financing_intent": 字符串，取允许的 financing_intent 标签之一。
+- "completion_view": 字符串，取允许的 completion_view 标签之一。
+- "predicted_deal_size_usd_m": 数字，预期融资额，单位百万美元。
+- "predicted_post_money_valuation_usd_m": 数字，预期投后估值，单位百万美元。
+- "predicted_investor_ownership_pct": 数字，融资后预期投资人持股比例，范围 0 到 100。
+- "predicted_deal_type": 字符串，取 Seed Round、Early Stage VC、Later Stage VC、Bridge、Debt、Other 之一。
+- "valuation_direction": 字符串，取允许的 valuation_direction 标签之一。
+- "satisfaction_score": 数字，范围 0 到 100。
+- "rationale": 简短字符串数组。
 ```
 
 ### 4.3 辩论轮次 prompt
+
+其中 `{round_specific_task}` 会按轮次替换为：
+
+- Round 1：指出当前聚合提案或董事会上下文中最弱的一个假设，并用可见字段、角色规则或对可见证据的更强解释提出挑战。
+- Round 2：根据前一轮挑战重新评估 forecast，只更新证据权重、交易类型校准或数值校准确实发生变化的字段。
+- Round 3：生成最终 forecast，预测准确性优先于谈判姿态；除非能改善 forecast，否则不再引入新的让步。
 
 英文模板：
 
@@ -338,35 +408,74 @@ Data handling rule:
 - JSON null means the value is missing or unobserved. Do not interpret null as zero.
 - Treat PitchBook snapshot company status fields as unavailable unless they appear in your visible fields.
 
+Evidence discipline:
+- Current aggregated proposal is an intermediate model estimate, not factual evidence and not ground truth.
+- Prior bargaining messages are role opinions unless they cite visible pre-decision fields.
+- Do not move toward consensus merely to sound cooperative.
+- You may update your forecast when the discussion introduces concrete visible evidence you had not emphasized, a stronger interpretation of visible evidence, or a correction to deal-type/numeric calibration.
+- If you change predicted_deal_type or any numeric field, rationale must cite the specific visible evidence or inference that caused the change.
+- If you do not change any field, rationale must briefly state why the current forecast remains stronger than the alternatives.
+- Your JSON prediction fields are forecasts of the likely realized next financing outcome, not your preferred negotiation demand.
+
+Round-specific task:
+{round_specific_task}
+
+Update reporting:
+- In rationale, include one short item starting with "update_status: no_change" if no forecast field changed.
+- If any forecast field changed, include one short item starting with "update_status: changed_fields=" followed by the changed field names.
+- Then state the evidence, reweighted evidence, or calibration correction that caused the update decision.
+
 Hard consistency rules:
 - If financing_intent is "raise_now", predicted_deal_size_usd_m must be greater than 0.
 - If financing_intent is "wait" or "avoid", predicted_deal_size_usd_m may be 0.
-- When financing_intent is "raise_now" and exact amount is not clear, estimate a plausible positive amount from visible prior_deal_size_usd_m, prior_raised_to_date_usd_m, prior_vc_round, company age, current proposal, bargaining history, and role policy. Do not use hidden current-deal labels.
-- predicted_post_money_valuation_usd_m is the expected post-money valuation in million USD. Estimate it from visible prior valuation, valuation direction, company stage, current proposal, bargaining history, and role policy; use 0 only when no defensible estimate is possible.
-- predicted_investor_ownership_pct is the expected investor ownership percentage after the financing. It must be between 0 and 100; use 0 only when no defensible estimate is possible.
+- When financing_intent is "raise_now" and exact amount is not clear, estimate a plausible positive amount from visible historical trajectory, round progression, investor structure, company maturity, operating signals, and role policy. Do not use hidden current-deal labels.
+- predicted_post_money_valuation_usd_m is the expected post-money valuation in million USD. Estimate it from visible valuation history, deal size, valuation direction, round stage, raised-to-date, company maturity, and role policy; use 0 only when no defensible estimate is possible.
+- predicted_investor_ownership_pct is the expected post-financing investor ownership percentage. It must be between 0 and 100; use prior ownership when available, otherwise make it directionally consistent with deal size, valuation scale, stage, and investor participation.
 - satisfaction_score must be a 0-100 score, where 0 means completely unacceptable, 50 means neutral or not enough information, and 100 means fully aligned with this role's goals.
-- Do not copy numeric placeholders from the schema. Return values that are consistent with your updated rationale.
+- Return numeric fields as JSON numbers, not strings. Do not use any template/default number as a fallback. Return values that are consistent with your updated rationale.
 
-Write one concise boardroom bargaining message for round {round_index}, then update your prediction if the discussion changes your stance.
+Deal type calibration:
+- Do not infer "Seed Round" merely because the company is young or uses early-stage language.
+- Do not infer "Early Stage VC" merely because prior_deal_type is "Early Stage VC"; PitchBook stage labels can be broad.
+- If prior_deal_type is "Early Stage VC" and prior_vc_round exists, treat "Early Stage VC" as a strong signal, but not an automatic default.
+- Seed Round remains plausible when the visible history shows very early financing context: no prior VC round, 1st round, very small prior_deal_size_usd_m, low prior_raised_to_date_usd_m, young company age, few investors, no lead investor, or sparse financing history.
+- If prior_deal_type is "Early Stage VC" but prior_vc_round is "1st Round" and the visible deal sizes or raised-to-date are small, Seed Round can still be the better forecast.
+- Consider "Later Stage VC" when prior_vc_round, prior_raised_to_date_usd_m, prior_deal_size_usd_m, company age, or deal history indicates a mature financing path.
+- Use "Bridge" only when evidence suggests interim financing, insider support, weak momentum, or a short interval after the prior round.
+- Use "Debt" only when visible evidence specifically points to debt-like financing.
+- If the evidence is mixed between Seed Round and Early Stage VC, choose the label best supported by round progression and observed financing scale, and state the tie-breaker in rationale.
+- During bargaining, you may change predicted_deal_type when another role gives a stronger interpretation of visible stage, round progression, or financing-scale evidence; do not change only for consensus.
+
+Numeric calibration method:
+1. Do not blindly copy the most recent prior deal size. Treat it as one anchor among several.
+2. First classify the likely financing regime: step_up_round, flat_follow_on, small_bridge, strategic_large_round, or reset_or_downside_round.
+3. Use visible historical trajectory, including any visible prior_company_deal_history or investor deal history, prior_deal_size_usd_m, prior_raised_to_date_usd_m, prior_vc_round, prior_deal_type, investor counts, lead/follow-on signals, company age, employee growth, and industry context.
+4. If prior deal sizes vary widely, prefer a range-based estimate from the full visible history rather than the latest round alone.
+5. If the company appears to be progressing to a larger institutional or growth round, allow predicted_deal_size_usd_m to be materially larger than the prior round.
+6. If evidence suggests bridge, insider support, weak momentum, or a short interval after the prior round, allow predicted_deal_size_usd_m to be materially smaller than the prior round.
+7. For predicted_post_money_valuation_usd_m, anchor on visible prior valuation when available. If unavailable, estimate from deal size, stage, valuation_direction, raised-to-date, and company maturity.
+8. For predicted_investor_ownership_pct, treat it as expected post-financing investor ownership, not necessarily only new-money dilution. Check that it is directionally plausible relative to deal size and valuation.
+9. In rationale, state which numeric anchors were used: latest prior round, full deal history, raised-to-date, round progression, investor structure, company operating signals, or role policy.
+10. Before returning JSON, check that deal size, post-money valuation, ownership percentage, deal type, and valuation direction are mutually plausible.
+
+Write one concise boardroom bargaining message for round {round_index}, then update your forecast if the discussion changes the likely financing outcome.
 The message must:
 - focus on financing timing, financing amount, deal type, valuation direction, or investor protections;
 - reflect your role's L1 goals, L2 attention, L3 heuristics, and L4 protocol;
 - avoid generic corporate slogans;
 - be one to three sentences.
 
-Return one JSON object only:
-{
-  "message": "your boardroom message",
-  "financing_intent": "raise_now|wait|avoid",
-  "completion_view": "likely_complete|unlikely_complete",
-  "predicted_deal_size_usd_m": 10.0,
-  "predicted_post_money_valuation_usd_m": 50.0,
-  "predicted_investor_ownership_pct": 20.0,
-  "predicted_deal_type": "Seed Round|Early Stage VC|Later Stage VC|Bridge|Debt|Other",
-  "valuation_direction": "up|flat|down",
-  "satisfaction_score": 50,
-  "rationale": ["short reason 1", "short reason 2"]
-}
+Return one JSON object only with exactly these keys and types:
+- "message": string, one to three concise boardroom sentences.
+- "financing_intent": string, one of raise_now, wait, avoid.
+- "completion_view": string, one of likely_complete, unlikely_complete.
+- "predicted_deal_size_usd_m": number, expected deal size in million USD.
+- "predicted_post_money_valuation_usd_m": number, expected post-money valuation in million USD.
+- "predicted_investor_ownership_pct": number, expected post-financing investor ownership percentage from 0 to 100.
+- "predicted_deal_type": string, one of Seed Round, Early Stage VC, Later Stage VC, Bridge, Debt, Other.
+- "valuation_direction": string, one of up, flat, down.
+- "satisfaction_score": number from 0 to 100.
+- "rationale": array of short strings.
 ```
 
 中文翻译：
@@ -396,35 +505,74 @@ Return one JSON object only:
 - JSON null 表示该值缺失或未观测到，不要把 null 理解为 0。
 - 除非 PitchBook 快照状态字段出现在你的可见字段中，否则应视为不可用。
 
+证据使用纪律：
+- 当前聚合提案只是中间模型估计，不是事实证据，也不是 ground truth。
+- 此前辩论发言只是角色意见，除非它引用了可见的决策前字段。
+- 不要只是为了显得合作而向共识靠拢。
+- 当讨论引入你此前没有强调的具体可见证据、对可见证据更强的解释，或对交易类型/数值校准的纠正时，你可以更新预测。
+- 如果你改变 predicted_deal_type 或任何数值字段，rationale 必须说明导致变化的具体可见证据或推理。
+- 如果你没有改变任何字段，rationale 必须简要说明为什么当前预测仍强于其他备选解释。
+- JSON 预测字段是对下一次真实融资结果的预测，不是你的偏好谈判诉求。
+
+分轮任务：
+{round_specific_task}
+
+更新状态记录：
+- 如果没有任何预测字段改变，rationale 中应包含一个以 "update_status: no_change" 开头的简短条目。
+- 如果任何预测字段改变，rationale 中应包含一个以 "update_status: changed_fields=" 开头的简短条目，并列出改变的字段名。
+- 然后说明导致更新决策的证据、被重新加权的证据或校准纠正。
+
 硬性一致性规则：
 - 如果 financing_intent 是 "raise_now"，predicted_deal_size_usd_m 必须大于 0。
 - 如果 financing_intent 是 "wait" 或 "avoid"，predicted_deal_size_usd_m 可以为 0。
-- 当 financing_intent 是 "raise_now" 且确切金额不清楚时，应根据可见的上一轮融资额、累计融资额、VC 轮次、公司年龄、当前提案、辩论历史和角色规则估计一个合理的正数。不要使用隐藏的当前交易标签。
-- predicted_post_money_valuation_usd_m 是预期投后估值，单位百万美元。应根据可见历史估值、估值方向、公司阶段、当前提案、辩论历史和角色规则估计；只有在无法给出可辩护估计时才用 0。
-- predicted_investor_ownership_pct 是融资后预期投资人持股比例，必须在 0 到 100 之间；只有在无法给出可辩护估计时才用 0。
+- 当 financing_intent 是 "raise_now" 且确切金额不清楚时，应根据可见历史轨迹、轮次推进、投资人结构、公司成熟度、经营信号和角色规则估计合理正数。不要使用隐藏的当前交易标签。
+- predicted_post_money_valuation_usd_m 是预期投后估值，单位百万美元。应根据可见估值历史、融资额、估值方向、轮次阶段、累计融资额、公司成熟度和角色规则估计；只有在无法给出可辩护估计时才用 0。
+- predicted_investor_ownership_pct 是融资后预期投资人持股比例，必须在 0 到 100 之间；如果有历史持股则使用历史持股作为参考，否则要和融资额、估值规模、阶段以及投资人参与情况在方向上保持合理。
 - satisfaction_score 必须是 0 到 100 之间的分数，0 表示完全不可接受，50 表示中性或信息不足，100 表示完全符合该角色目标。
-- 不要照抄 schema 中的数字占位符。返回值必须和你更新后的理由一致。
+- 数值字段必须作为 JSON number 返回，不要用字符串。不要使用任何模板或默认数字作为兜底值。返回值必须和你更新后的理由一致。
 
-请为第 {round_index} 轮写一句简洁的董事会辩论发言；如果讨论改变了你的立场，请更新你的预测。
+交易类型校准：
+- 不要仅仅因为公司年轻或文本中出现 early-stage 语义就推断为 "Seed Round"。
+- 不要仅仅因为 prior_deal_type 是 "Early Stage VC" 就推断为 "Early Stage VC"；PitchBook 阶段标签可能比较宽泛。
+- 如果 prior_deal_type 是 "Early Stage VC" 且 prior_vc_round 存在，把 "Early Stage VC" 视为强信号，但不是自动默认值。
+- 当可见历史显示非常早期融资语境时，Seed Round 仍然合理：没有 prior VC round、1st round、prior_deal_size_usd_m 很小、prior_raised_to_date_usd_m 较低、公司年龄较小、投资人较少、没有领投方或融资历史稀疏。
+- 如果 prior_deal_type 是 "Early Stage VC"，但 prior_vc_round 是 "1st Round" 且可见融资额或累计融资额较小，Seed Round 仍可能是更好的预测。
+- 当 prior_vc_round、prior_raised_to_date_usd_m、prior_deal_size_usd_m、公司年龄或历史交易轨迹显示公司已进入更成熟融资路径时，应考虑 "Later Stage VC"。
+- 只有在证据显示临时融资、内部支持、动能较弱或距上一轮间隔很短时，才使用 "Bridge"。
+- 只有在可见证据明确指向债务型融资时，才使用 "Debt"。
+- 如果 Seed Round 和 Early Stage VC 证据混合，应选择更受轮次推进和可见融资规模支持的标签，并在 rationale 中说明分界依据。
+- 辩论期间，如果其他角色给出了对可见阶段、轮次推进或融资规模证据的更强解释，可以改变 predicted_deal_type；不要仅仅为了达成共识而改变。
+
+数值校准方法：
+1. 不要机械复制最近一轮 prior deal size，它只是多个锚点之一。
+2. 先判断可能融资情境：step_up_round、flat_follow_on、small_bridge、strategic_large_round 或 reset_or_downside_round。
+3. 使用可见历史轨迹，包括任何可见的 prior_company_deal_history 或投资人历史、prior_deal_size_usd_m、prior_raised_to_date_usd_m、prior_vc_round、prior_deal_type、投资人数量、领投/跟投信号、公司年龄、员工增长和行业上下文。
+4. 如果历史融资额波动很大，应优先根据完整可见历史做区间估计，而不是只看最近一轮。
+5. 如果公司看起来正在进入更大的机构轮或增长轮，允许 predicted_deal_size_usd_m 明显高于上一轮。
+6. 如果证据显示过桥、内部支持、动能较弱，或距离上一轮间隔很短，允许 predicted_deal_size_usd_m 明显低于上一轮。
+7. predicted_post_money_valuation_usd_m 有可见历史估值时应以历史估值为锚；没有历史估值时，根据融资额、阶段、valuation_direction、累计融资额和公司成熟度估计。
+8. predicted_investor_ownership_pct 视为融资后投资人持股，不一定只是新钱稀释；需要检查它相对融资额和估值是否方向合理。
+9. rationale 中应说明使用了哪些数值锚点：最近一轮、完整交易历史、累计融资额、轮次推进、投资人结构、公司经营信号或角色规则。
+10. 返回 JSON 前，检查融资额、投后估值、持股比例、交易类型和估值方向是否彼此合理。
+
+请为第 {round_index} 轮写一句简洁的董事会辩论发言；如果讨论改变了可能融资结果判断，请更新你的预测。
 发言必须：
 - 聚焦融资时机、融资金额、交易类型、估值方向或投资人保护；
 - 体现你的 L1 目标、L2 注意力字段、L3 启发式规则和 L4 交互协议；
 - 避免泛泛的企业口号；
 - 长度为一到三句话。
 
-只返回一个 JSON 对象：
-{
-  "message": "你的董事会发言",
-  "financing_intent": "raise_now|wait|avoid",
-  "completion_view": "likely_complete|unlikely_complete",
-  "predicted_deal_size_usd_m": 10.0,
-  "predicted_post_money_valuation_usd_m": 50.0,
-  "predicted_investor_ownership_pct": 20.0,
-  "predicted_deal_type": "Seed Round|Early Stage VC|Later Stage VC|Bridge|Debt|Other",
-  "valuation_direction": "up|flat|down",
-  "satisfaction_score": 50,
-  "rationale": ["简短理由 1", "简短理由 2"]
-}
+只返回一个 JSON 对象，且必须包含以下键和值类型：
+- "message": 字符串，一到三句简洁董事会发言。
+- "financing_intent": 字符串，取 raise_now、wait、avoid 之一。
+- "completion_view": 字符串，取 likely_complete、unlikely_complete 之一。
+- "predicted_deal_size_usd_m": 数字，预期融资额，单位百万美元。
+- "predicted_post_money_valuation_usd_m": 数字，预期投后估值，单位百万美元。
+- "predicted_investor_ownership_pct": 数字，融资后预期投资人持股比例，范围 0 到 100。
+- "predicted_deal_type": 字符串，取 Seed Round、Early Stage VC、Later Stage VC、Bridge、Debt、Other 之一。
+- "valuation_direction": 字符串，取 up、flat、down 之一。
+- "satisfaction_score": 数字，范围 0 到 100。
+- "rationale": 简短字符串数组。
 ```
 
 ### 4.4 单 agent baseline system prompt
@@ -546,9 +694,9 @@ Your previous answer was not valid JSON. Return one JSON object only.
 5. 为每个案例生成 `BoardCase`，真实目标交易结果只放入 `notes.labels`，不进入角色可见字段。
 6. 依照固定发言顺序创建四个角色：Founder_CEO、CTO、Lead_VC_Director、Followon_VC_Director。
 7. 每个角色只读取自己的 L2 attention fields 和最小共享元数据。
-8. 每个角色先做一次 private assessment，输出融资意向、完成判断、融资额、投后估值、投资人持股、交易类型、估值方向、满意度和理由。
+8. 每个角色先做一次 private assessment，输出角色视角下的融资结果预测，包括融资意向、完成判断、融资额、投后估值、投资人持股、交易类型、估值方向、满意度和理由；预测字段应代表可能真实结果，而不是角色偏好诉求。
 9. 系统根据角色预测聚合出初始融资提案。
-10. 进入若干轮 bargaining。每轮中，各角色看到当前提案、自己的当前预测、其他角色上下文和历史发言，然后给出一段发言并更新预测。
+10. 进入若干轮 bargaining。每轮中，各角色看到当前提案、自己的当前预测、其他角色上下文和历史发言，然后按轮次分别执行“挑战弱假设、重新评估、最终预测”任务；当讨论带来新证据、对可见证据的更强解释或交易类型/数值校准纠正时可以更新预测。当前提案和其他角色发言不能被直接当作事实标签。
 11. 每轮结束后，系统重新聚合提案。
 12. 所有轮次结束后，系统聚合最终预测并写入 `results.jsonl` 和 `traces.json`。
 13. 评估脚本读取真实标签，统计可评估字段的准确率和数值误差；缺失真实数值标签的样本会跳过对应指标。
