@@ -2,12 +2,74 @@
 
 from __future__ import annotations
 
-from typing import Dict, List
+from pathlib import Path
+from typing import Any, Dict, List, Sequence
 
+import tomllib
+
+from boardroom_sim.config import DEFAULT_ROLE_ORDER, PROJECT_ROOT
 from boardroom_sim.models import RolePolicy
 
 
-def build_role_policies() -> Dict[str, RolePolicy]:
+DEFAULT_ROLE_POLICY_DIR = PROJECT_ROOT / "policies" / "roles"
+
+
+def build_role_policies(
+    policy_dir: Path | str | None = None,
+    role_order: Sequence[str] | None = None,
+) -> Dict[str, RolePolicy]:
+    """Create role policies from TOML files, with a built-in fallback."""
+    resolved_policy_dir = Path(policy_dir) if policy_dir is not None else DEFAULT_ROLE_POLICY_DIR
+    if resolved_policy_dir.exists():
+        loaded = _load_role_policies_from_dir(resolved_policy_dir)
+        if loaded:
+            return _ordered_policy_dict(loaded, role_order)
+    return _ordered_policy_dict(_build_builtin_role_policies(), role_order)
+
+
+def _load_role_policies_from_dir(policy_dir: Path) -> Dict[str, RolePolicy]:
+    policies: Dict[str, RolePolicy] = {}
+    for path in sorted(policy_dir.glob("*.toml")):
+        with path.open("rb") as handle:
+            raw = tomllib.load(handle)
+        policy = _policy_from_toml(raw, source_path=path)
+        policies[policy.role_name] = policy
+    return policies
+
+
+def _policy_from_toml(raw: Dict[str, Any], *, source_path: Path) -> RolePolicy:
+    role_name = str(raw.get("role_name", "")).strip()
+    if not role_name:
+        raise ValueError(f"Missing role_name in {source_path}")
+    return RolePolicy(
+        role_name=role_name,
+        layer_1_goals=_string_list(raw.get("layer_1_goals")),
+        layer_2_attention_fields=_string_list(raw.get("layer_2_attention_fields")),
+        layer_2_ignored_fields=_string_list(raw.get("layer_2_ignored_fields")),
+        layer_3_heuristics=_string_list(raw.get("layer_3_heuristics")),
+        layer_4_interaction_protocol=dict(raw.get("layer_4_interaction_protocol", {})),
+    )
+
+
+def _string_list(value: Any) -> List[str]:
+    if not isinstance(value, list):
+        return []
+    return [str(item) for item in value if str(item)]
+
+
+def _ordered_policy_dict(
+    policies: Dict[str, RolePolicy],
+    role_order: Sequence[str] | None,
+) -> Dict[str, RolePolicy]:
+    order = list(role_order or DEFAULT_ROLE_ORDER)
+    ordered = {role_name: policies[role_name] for role_name in order if role_name in policies}
+    for role_name, policy in policies.items():
+        if role_name not in ordered:
+            ordered[role_name] = policy
+    return ordered
+
+
+def _build_builtin_role_policies() -> Dict[str, RolePolicy]:
     """Create the four strict role policies with the required four layers."""
     policies = [
         RolePolicy(
@@ -198,4 +260,4 @@ def build_role_policies() -> Dict[str, RolePolicy]:
 
 def ordered_role_names() -> List[str]:
     """Return the fixed speaking order specified by the role-design document."""
-    return ["Founder_CEO", "CTO", "Lead_VC_Director", "Followon_VC_Director"]
+    return list(DEFAULT_ROLE_ORDER)

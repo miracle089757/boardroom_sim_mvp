@@ -6,6 +6,7 @@ from collections import Counter
 from typing import Any, Dict, List
 
 from boardroom_sim.agents import build_agents
+from boardroom_sim.config import DEFAULT_ROLE_WEIGHTS, ExperimentConfig, load_experiment_config
 from boardroom_sim.llm import LLMClient
 from boardroom_sim.models import (
     BoardCase,
@@ -17,27 +18,48 @@ from boardroom_sim.models import (
     TermSheetProposal,
     ValuationDirection,
 )
-from boardroom_sim.roles import build_role_policies, ordered_role_names
+from boardroom_sim.process import BoardProcessController, changed_fields
+from boardroom_sim.prompts import PromptRenderer
+from boardroom_sim.roles import build_role_policies
 
 
-ROLE_WEIGHTS = {
-    "Founder_CEO": 2.0,
-    "CTO": 0.5,
-    "Lead_VC_Director": 3.0,
-    "Followon_VC_Director": 1.5,
-}
+ROLE_WEIGHTS = dict(DEFAULT_ROLE_WEIGHTS)
 
 
 class BoardroomSimulator:
     """Run a deterministic multi-agent boardroom simulation."""
 
-    def __init__(self, llm_client: LLMClient, bargaining_rounds: int = 2) -> None:
+    def __init__(
+        self,
+        llm_client: LLMClient,
+        bargaining_rounds: int | None = None,
+        config: ExperimentConfig | None = None,
+    ) -> None:
         """Create a simulator with fixed role policies, LLM agents, and a round count."""
-        self.bargaining_rounds = bargaining_rounds
-        self.policies = build_role_policies()
+        self.config = config or load_experiment_config()
+        if self.config.discussion_paradigm != "memory":
+            raise ValueError(
+                f"Unsupported discussion paradigm for this implementation: {self.config.discussion_paradigm}. "
+                "Currently supported: memory."
+            )
+        if self.config.decision_protocol != "weighted_vote":
+            raise ValueError(
+                f"Unsupported decision protocol for this implementation: {self.config.decision_protocol}. "
+                "Currently supported: weighted_vote."
+        )
+        self.bargaining_rounds = bargaining_rounds if bargaining_rounds is not None else self.config.bargaining_rounds
+        self.role_order = list(self.config.role_order)
+        self.process = BoardProcessController(self.config.board_process, self.role_order)
+        self.base_role_weights = dict(self.config.role_weights)
+        self.role_weights = self.process.effective_role_weights(self.base_role_weights)
+        self.policies = build_role_policies(self.config.role_policy_dir, self.role_order)
         self.llm_client = llm_client
-        self.agents = build_agents(self.policies, llm_client)
-        self.role_order = ordered_role_names()
+        prompt_renderer = PromptRenderer(
+            prompts_dir=self.config.prompts_dir,
+            response_generator=self.config.response_generator,
+        )
+        prompt_renderer.round_tasks = list(self.config.round_tasks)
+        self.agents = build_agents(self.policies, llm_client, prompt_renderer=prompt_renderer)
 
     def simulate(self, case: BoardCase) -> SimulationResult:
         """Run one full point-in-time boardroom simulation case."""
@@ -47,6 +69,17 @@ class BoardroomSimulator:
 
         self._record(trace, "preliminary", "system", self._background_summary(case), {})
         self._record(trace, "role_policy", "system", "Loaded strict four-layer role policies.", self._policy_snapshot())
+        self._record(
+            trace,
+            "board_process",
+            "system",
+            "Loaded configurable board process settings.",
+            {
+                "process": self.process.to_trace_payload(),
+                "base_role_weights": self.base_role_weights,
+                "effective_role_weights": self.role_weights,
+            },
+        )
 
         for role_name in self.role_order:
             decision = self.agents[role_name].evaluate(case, context)
@@ -182,20 +215,56 @@ class BoardroomSimulator:
         round_index: int,
     ) -> TermSheetProposal:
         """Run one bargaining round and let roles update their predictions."""
-        for role_name in self.role_order:
+        speakers = self.process.speaking_order_for_round(round_index, self.role_weights)
+        round_payload = {
+            "round": round_index + 1,
+            "speaking_order": speakers,
+            "base_role_weights": self.base_role_weights,
+            "effective_role_weights": self.role_weights,
+            "process": self.process.to_trace_payload(),
+        }
+        self._record(
+            trace,
+            f"process_round_{round_index + 1}",
+            "system",
+            "Board process controller selected the round speakers and process constraints.",
+            round_payload,
+        )
+        if not speakers:
+            self._record(
+                trace,
+                f"bargaining_round_{round_index + 1}",
+                "system",
+                "No role speaks in this round under the configured board process.",
+                {"case_id": case.case_id, **round_payload},
+            )
+
+        for role_name in speakers:
+            process_context = self.process.prompt_context(
+                role_name=role_name,
+                round_index=round_index,
+                speakers=speakers,
+                effective_weights=self.role_weights,
+            )
+            visible_history = self.process.visible_history(bargaining_history, round_index + 1)
+            previous_decision = context[role_name]
             message, updated_decision = self.agents[role_name].bargaining_step(
                 case=case,
-                decision=context[role_name],
+                decision=previous_decision,
                 proposal=proposal,
                 round_index=round_index,
                 context=context,
-                prior_messages=bargaining_history,
+                prior_messages=visible_history,
+                process_context=process_context,
             )
             context[role_name] = updated_decision
+            changed = changed_fields(previous_decision, updated_decision)
             event = {
                 "round": round_index + 1,
                 "role": role_name,
                 "message": message,
+                "changed_fields": changed,
+                "process_context": process_context,
                 "updated_decision": updated_decision.to_dict(),
             }
             bargaining_history.append(event)
@@ -207,6 +276,9 @@ class BoardroomSimulator:
                 {
                     "case_id": case.case_id,
                     "proposal_before_message": proposal.to_dict(),
+                    "process_context": process_context,
+                    "visible_history_count": len(visible_history),
+                    "changed_fields": changed,
                     "updated_decision": updated_decision.to_dict(),
                 },
             )
@@ -240,7 +312,7 @@ class BoardroomSimulator:
             value = getattr(decision, attr, 0.0)
             if value <= 0 or decision.financing_intent == "avoid":
                 continue
-            weight = ROLE_WEIGHTS.get(role, 1.0)
+            weight = self.role_weights.get(role, 1.0)
             weighted_total += value * weight
             weight_total += weight
         if weight_total <= 0:
@@ -262,7 +334,7 @@ class BoardroomSimulator:
             value = getattr(decision, attr, default)
             if not value:
                 continue
-            score[str(value)] += ROLE_WEIGHTS.get(role, 1.0)
+            score[str(value)] += self.role_weights.get(role, 1.0)
         if not score:
             return default
         return score.most_common(1)[0][0]

@@ -1,0 +1,56 @@
+[experiment]
+name = "boardroom_default"
+bargaining_rounds = 3
+history_limit = 10
+
+[paths]
+role_policy_dir = "policies/roles"
+prompts_dir = "prompts"
+
+[agents]
+role_order = [
+  "Founder_CEO",
+  "CTO",
+  "Lead_VC_Director",
+  "Followon_VC_Director",
+]
+
+[board]
+# 可选值：aunt, barbarian, clan, value_creating。
+# archetype 会默认带出 L5 文化层、讨论流程、主导模式、挑战要求、记忆范围和角色权重乘数。
+archetype = "value_creating"
+
+# 如需覆盖 archetype 的默认 L5 文化层，可取消注释并只改需要的维度。
+# [board.culture]
+# criticality = 0.75
+# creativity = 0.70
+# cohesiveness = 0.70
+# openness_generosity = 0.80
+# preparation_involvement = 0.85
+#
+# 如需覆盖 archetype 的默认角色影响力乘数，可取消注释。
+# [board.role_weight_multipliers]
+# Founder_CEO = 1.0
+# CTO = 1.0
+# Lead_VC_Director = 1.0
+# Followon_VC_Director = 1.0
+
+[discussion]
+paradigm = "memory"
+response_generator = "critical"
+# protocol、dominance_pattern、challenge_required、memory_scope、memory_window
+# 默认由 board.archetype 决定；只在做消融实验时显式覆盖。
+round_tasks = [
+  "第 1 轮：指出当前聚合提案或董事会上下文里最薄弱的一个假设，并用你的可见字段、角色规则或对可见证据的更强解释提出挑战。",
+  "第 2 轮：根据上一轮挑战重新评估预测；只更新证据权重、交易类型校准或数值校准确实发生变化的字段。",
+  "第 3 轮：给出最终预测；预测准确性优先于谈判姿态，除非能改善预测，否则不要引入新的让步。",
+]
+
+[decision]
+protocol = "weighted_vote"
+
+[decision.weights]
+Founder_CEO = 2.0
+CTO = 0.5
+Lead_VC_Director = 3.0
+Followon_VC_Director = 1.5

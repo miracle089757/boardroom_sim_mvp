@@ -3,7 +3,8 @@
 from __future__ import annotations
 
 import json
-from typing import Any, Dict, Iterable, List, Optional
+from pathlib import Path
+from typing import Any, Dict, Iterable, List
 
 from boardroom_sim.agents import (
     COMPLETION_VIEWS,
@@ -16,6 +17,7 @@ from boardroom_sim.agents import (
 )
 from boardroom_sim.llm import LLMClient
 from boardroom_sim.models import BoardCase
+from boardroom_sim.prompts import PromptRenderer
 from boardroom_sim.roles import build_role_policies
 
 
@@ -78,11 +80,22 @@ def run_single_agent_baseline(
     *,
     include_role_rules: bool,
     baseline_name: str,
+    role_policy_dir: Path | None = None,
+    prompts_dir: Path | None = None,
 ) -> List[Dict[str, Any]]:
     """Run a single-call baseline for each case."""
     rows: List[Dict[str, Any]] = []
     for case in cases:
-        rows.append(predict_single_case(case, llm_client, include_role_rules=include_role_rules, baseline_name=baseline_name))
+        rows.append(
+            predict_single_case(
+                case,
+                llm_client,
+                include_role_rules=include_role_rules,
+                baseline_name=baseline_name,
+                role_policy_dir=role_policy_dir,
+                prompts_dir=prompts_dir,
+            )
+        )
     return rows
 
 
@@ -92,9 +105,18 @@ def predict_single_case(
     *,
     include_role_rules: bool,
     baseline_name: str,
+    role_policy_dir: Path | None = None,
+    prompts_dir: Path | None = None,
 ) -> Dict[str, Any]:
     """Ask one LLM call to produce the same core prediction fields as the simulator."""
-    raw = llm_client.complete_json(_baseline_messages(case, include_role_rules=include_role_rules))
+    raw = llm_client.complete_json(
+        _baseline_messages(
+            case,
+            include_role_rules=include_role_rules,
+            role_policy_dir=role_policy_dir,
+            prompts_dir=prompts_dir,
+        )
+    )
     prediction = _coerce_prediction(raw)
     return {
         "case_id": case.case_id,
@@ -114,60 +136,35 @@ def predict_single_case(
     }
 
 
-def _baseline_messages(case: BoardCase, *, include_role_rules: bool) -> List[Dict[str, str]]:
+def _baseline_messages(
+    case: BoardCase,
+    *,
+    include_role_rules: bool,
+    role_policy_dir: Path | None = None,
+    prompts_dir: Path | None = None,
+) -> List[Dict[str, str]]:
     role_rules = (
         json.dumps(
-            {name: policy.to_dict() for name, policy in build_role_policies().items()},
+            {name: policy.to_dict() for name, policy in build_role_policies(policy_dir=role_policy_dir).items()},
             ensure_ascii=False,
             indent=2,
         )
         if include_role_rules
-        else "Not provided. Make a direct prediction from historical case fields only."
+        else "未提供。请只根据历史时点字段做直接预测。"
     )
+    renderer = PromptRenderer(prompts_dir=prompts_dir)
     return [
         {
             "role": "system",
-            "content": (
-                "You are a single-agent baseline for a controlled startup financing backtest. "
-                "Use only the provided historical point-in-time fields. Do not infer or reveal hidden labels. "
-                "Return valid JSON only."
-            ),
+            "content": renderer.render("baseline_system"),
         },
         {
             "role": "user",
-            "content": f"""
-Historical point-in-time case fields:
-{json.dumps(_historical_payload(case), ensure_ascii=False, indent=2)}
-
-Role policy rules:
-{role_rules}
-
-Task:
-Predict the financing outcome for this case. If role policy rules are provided, synthesize them in one single-agent judgment; do not simulate a debate.
-
-Data handling rule:
-- JSON null means missing or unobserved. Do not interpret null as zero.
-- Do not use current target-deal labels; they are not included in the payload.
-- predicted_post_money_valuation_usd_m is the expected post-money valuation in million USD.
-- predicted_investor_ownership_pct is the expected investor ownership percentage after the financing, from 0 to 100.
-
-Allowed labels:
-- financing_intent: raise_now, wait, avoid
-- completion_view: likely_complete, unlikely_complete
-- valuation_direction: up, flat, down
-
-Return one JSON object only with this schema:
-{{
-  "financing_intent": "raise_now|wait|avoid",
-  "completion_view": "likely_complete|unlikely_complete",
-  "predicted_deal_size_usd_m": 10.0,
-  "predicted_post_money_valuation_usd_m": 50.0,
-  "predicted_investor_ownership_pct": 20.0,
-  "predicted_deal_type": "Seed Round|Early Stage VC|Later Stage VC|Bridge|Debt|Other",
-  "valuation_direction": "up|flat|down",
-  "rationale": ["short reason 1", "short reason 2"]
-}}
-""",
+            "content": renderer.render(
+                "baseline_single_agent",
+                historical_payload_json=json.dumps(_historical_payload(case), ensure_ascii=False, indent=2),
+                role_rules_json=role_rules,
+            ),
         },
     ]
 

@@ -9,6 +9,7 @@ from datetime import datetime
 from pathlib import Path
 from typing import Any, Dict, List, Tuple
 
+import analyze_debate_accuracy as debate_accuracy_module
 from analyze_debate_accuracy import (
     analyze_baseline_rows,
     analyze_cases,
@@ -16,6 +17,7 @@ from analyze_debate_accuracy import (
     write_case_stage_csv,
 )
 from boardroom_sim.baselines import predict_single_case
+from boardroom_sim.config import ExperimentConfig, load_experiment_config
 from boardroom_sim.evaluation import (
     evaluate_results,
     metrics_summary,
@@ -34,20 +36,20 @@ def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(description="Run repeated boardroom simulation experiments.")
     parser.add_argument(
         "--input",
-        default="data/sample_cases.jsonl",
+        default="input/260524_02_03_pitchbook_sample_100_shared.xlsx",
         type=Path,
-        required=True,
         help="Path to input JSONL cases or PitchBook XLSX workbook.",
     )
     parser.add_argument("--output-dir", type=Path, required=True, help="Directory for batch outputs.")
     parser.add_argument("--repeats", type=int, default=1, help="Number of repeated full experiment runs.")
-    parser.add_argument("--bargaining-rounds", type=int, default=3, help="Number of bargaining rounds per case.")
+    parser.add_argument("--config", type=Path, default=None, help="Path to experiment TOML config.")
+    parser.add_argument("--bargaining-rounds", type=int, default=None, help="Override bargaining rounds from config.")
     parser.add_argument("--case-limit", type=int, default=None, help="Optional maximum number of input cases to run.")
     parser.add_argument(
         "--history-limit",
         type=int,
-        default=10,
-        help="Maximum number of recent historical records per history field. Use -1 for all history.",
+        default=None,
+        help="Override config history limit. Use -1 for all history.",
     )
     parser.add_argument("--resume", action="store_true", help="Skip completed run directories with full result files.")
     parser.add_argument("--skip-traces", action="store_true", help="Do not write detailed trace JSON files.")
@@ -80,8 +82,17 @@ def main() -> None:
     if args.repeats < 1:
         raise ValueError("--repeats must be at least 1.")
 
+    experiment_config = load_experiment_config(args.config)
+    debate_accuracy_module.ROLE_WEIGHTS = dict(experiment_config.role_weights)
+    bargaining_rounds = (
+        args.bargaining_rounds if args.bargaining_rounds is not None else experiment_config.bargaining_rounds
+    )
+    history_limit = args.history_limit if args.history_limit is not None else experiment_config.history_limit
+    args.bargaining_rounds = bargaining_rounds
+    args.history_limit = history_limit
+
     args.output_dir.mkdir(parents=True, exist_ok=True)
-    cases = load_cases(args.input, case_limit=args.case_limit, history_limit=args.history_limit)
+    cases = load_cases(args.input, case_limit=args.case_limit, history_limit=history_limit)
     if not cases:
         raise ValueError(f"No cases loaded from {args.input}.")
 
@@ -97,7 +108,7 @@ def main() -> None:
     )
     llm_client = LLMClient(llm_config)
 
-    _write_manifest(args.output_dir / "manifest.json", args, cases, llm_config)
+    _write_manifest(args.output_dir / "manifest.json", args, cases, llm_config, experiment_config)
 
     all_rows: List[Dict[str, Any]] = []
     baseline_rows_by_name: Dict[str, List[Dict[str, Any]]] = {
@@ -119,7 +130,8 @@ def main() -> None:
             rows, trace_cases = _run_cases_with_checkpoints(
                 cases=cases,
                 llm_client=llm_client,
-                bargaining_rounds=args.bargaining_rounds,
+                bargaining_rounds=bargaining_rounds,
+                experiment_config=experiment_config,
                 run_dir=run_dir,
                 run_id=run_id,
                 resume=args.resume,
@@ -152,6 +164,8 @@ def main() -> None:
                     run_id=run_id,
                     baseline_name=baseline_name,
                     include_role_rules=include_role_rules,
+                    role_policy_dir=experiment_config.role_policy_dir,
+                    prompts_dir=experiment_config.prompts_dir,
                     resume=args.resume,
                 )
                 baseline_metrics = evaluate_results(baseline_rows)
@@ -195,9 +209,14 @@ def _run_cases(
     cases: List[BoardCase],
     llm_client: LLMClient,
     bargaining_rounds: int,
+    experiment_config: ExperimentConfig,
     run_id: str,
 ) -> List[SimulationResult]:
-    simulator = BoardroomSimulator(llm_client=llm_client, bargaining_rounds=bargaining_rounds)
+    simulator = BoardroomSimulator(
+        llm_client=llm_client,
+        bargaining_rounds=bargaining_rounds,
+        config=experiment_config,
+    )
     results: List[SimulationResult] = []
     for index, case in enumerate(cases, start=1):
         print(f"{run_id}: case {index}/{len(cases)} {case.case_id}", flush=True)
@@ -210,13 +229,18 @@ def _run_cases_with_checkpoints(
     cases: List[BoardCase],
     llm_client: LLMClient,
     bargaining_rounds: int,
+    experiment_config: ExperimentConfig,
     run_dir: Path,
     run_id: str,
     resume: bool,
     skip_traces: bool,
 ) -> Tuple[List[Dict[str, Any]], List[Dict[str, Any]] | None]:
     """Run main simulation and persist results after every completed case."""
-    simulator = BoardroomSimulator(llm_client=llm_client, bargaining_rounds=bargaining_rounds)
+    simulator = BoardroomSimulator(
+        llm_client=llm_client,
+        bargaining_rounds=bargaining_rounds,
+        config=experiment_config,
+    )
     results_path = run_dir / "results.jsonl"
     traces_jsonl_path = run_dir / "traces.jsonl"
     traces_path = run_dir / "traces.json"
@@ -312,6 +336,8 @@ def _run_or_resume_baseline(
     run_id: str,
     baseline_name: str,
     include_role_rules: bool,
+    role_policy_dir: Path | None,
+    prompts_dir: Path | None,
     resume: bool,
 ) -> List[Dict[str, Any]]:
     results_path = run_dir / f"{baseline_name}_results.jsonl"
@@ -350,6 +376,8 @@ def _run_or_resume_baseline(
             llm_client,
             include_role_rules=include_role_rules,
             baseline_name=baseline_name,
+            role_policy_dir=role_policy_dir,
+            prompts_dir=prompts_dir,
         )
         _append_jsonl_row(results_path, row_payload)
         row = dict(row_payload)
@@ -562,7 +590,13 @@ def _write_debate_accuracy_report(
     print(f"Wrote debate accuracy report to {report_path}.")
 
 
-def _write_manifest(output_path: Path, args: argparse.Namespace, cases: List[BoardCase], llm_config: LLMConfig) -> None:
+def _write_manifest(
+    output_path: Path,
+    args: argparse.Namespace,
+    cases: List[BoardCase],
+    llm_config: LLMConfig,
+    experiment_config: ExperimentConfig,
+) -> None:
     payload = {
         "created_at": datetime.now().isoformat(timespec="seconds"),
         "input": str(args.input),
@@ -572,6 +606,7 @@ def _write_manifest(output_path: Path, args: argparse.Namespace, cases: List[Boa
         "history_limit": args.history_limit,
         "repeats": args.repeats,
         "bargaining_rounds": args.bargaining_rounds,
+        "experiment_config": experiment_config.to_manifest_dict(),
         "resume": args.resume,
         "skip_traces": args.skip_traces,
         "skip_baselines": args.skip_baselines,

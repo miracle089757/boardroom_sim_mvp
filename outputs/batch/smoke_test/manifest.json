@@ -1,0 +1,79 @@
+{
+  "created_at": "2026-05-29T14:45:43",
+  "input": "input\\260524_02_03_pitchbook_sample_100_shared.xlsx",
+  "output_dir": "outputs\\batch\\smoke_test",
+  "case_count": 5,
+  "case_limit": 5,
+  "history_limit": 10,
+  "repeats": 1,
+  "bargaining_rounds": 3,
+  "experiment_config": {
+    "name": "boardroom_default",
+    "config_path": "D:\\work\\学习库\\学习\\🔬 科研\\社会模拟实验\\代码\\boardroom_sim_mvp\\configs\\boardroom_default.toml",
+    "role_policy_dir": "D:\\work\\学习库\\学习\\🔬 科研\\社会模拟实验\\代码\\boardroom_sim_mvp\\policies\\roles",
+    "prompts_dir": "D:\\work\\学习库\\学习\\🔬 科研\\社会模拟实验\\代码\\boardroom_sim_mvp\\prompts",
+    "role_order": [
+      "Founder_CEO",
+      "CTO",
+      "Lead_VC_Director",
+      "Followon_VC_Director"
+    ],
+    "role_weights": {
+      "Founder_CEO": 2.0,
+      "CTO": 0.5,
+      "Lead_VC_Director": 3.0,
+      "Followon_VC_Director": 1.5
+    },
+    "bargaining_rounds": 3,
+    "history_limit": 10,
+    "discussion_paradigm": "memory",
+    "response_generator": "critical",
+    "decision_protocol": "weighted_vote",
+    "round_tasks": [
+      "第 1 轮：指出当前聚合提案或董事会上下文里最薄弱的一个假设，并用你的可见字段、角色规则或对可见证据的更强解释提出挑战。",
+      "第 2 轮：根据上一轮挑战重新评估预测；只更新证据权重、交易类型校准或数值校准确实发生变化的字段。",
+      "第 3 轮：给出最终预测；预测准确性优先于谈判姿态，除非能改善预测，否则不要引入新的让步。"
+    ],
+    "board_process": {
+      "archetype": "value_creating",
+      "archetype_label": "价值创造型董事会",
+      "archetype_description": "兼具监督和支持的董事会。L5 文化层鼓励充分准备、开放异议、建设性批判和共同校准预测。",
+      "culture_layer": "L5",
+      "culture": {
+        "criticality": 0.75,
+        "creativity": 0.7,
+        "cohesiveness": 0.7,
+        "openness_generosity": 0.8,
+        "preparation_involvement": 0.85
+      },
+      "protocol": "free_interjection",
+      "dominance_pattern": "balanced",
+      "challenge_required": true,
+      "memory_scope": "full",
+      "memory_window": 10,
+      "role_weight_multipliers": {}
+    }
+  },
+  "resume": false,
+  "skip_traces": false,
+  "skip_baselines": false,
+  "skip_debate_accuracy_report": false,
+  "deal_size_tolerance": 0.5,
+  "llm": {
+    "api_key_env": "BOARDROOM_LLM_API_KEY",
+    "api_key_passed": false,
+    "model": "GLM-4-Flash-250414",
+    "base_url": "https://api.z.ai/api/paas/v4",
+    "temperature": 0.2,
+    "timeout_seconds": 120,
+    "http_max_retries": 6,
+    "retry_base_seconds": 2.0
+  },
+  "case_ids": [
+    "9244942_963111474T",
+    "9244942_116110018T",
+    "9244942_146320797T",
+    "9244942_521451522T",
+    "9244942_032961692T"
+  ]
+}

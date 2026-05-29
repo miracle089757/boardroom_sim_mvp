@@ -64,7 +64,7 @@ export BOARDROOM_LLM_MODEL="glm-4.7-flash"
 ```bash
 cd boardroom_sim_mvp
 python3 run_experiment.py \
-  --input input/02_03_pitchbook_sample_100_shared.xlsx \
+  --input input/260524_02_03_pitchbook_sample_100_shared.xlsx \
   --output outputs/pitchbook_results.jsonl \
   --trace-output outputs/pitchbook_traces.json \
   --case-limit 3
@@ -111,7 +111,7 @@ python3 evaluate_results.py \
 
 ```bash
 python3 run_batch_experiments.py \
-  --input input/02_03_pitchbook_sample_100_shared.xlsx \
+  --input input/260524_02_03_pitchbook_sample_100_shared.xlsx \
   --output-dir outputs/batch/pitchbook_001 \
   --repeats 1 \
   --bargaining-rounds 3 \
@@ -122,7 +122,7 @@ python3 run_batch_experiments.py \
 
 ```bash
 python3 run_batch_experiments.py \
-  --input input/02_03_pitchbook_sample_100_shared.xlsx \
+  --input input/260524_02_03_pitchbook_sample_100_shared.xlsx \
   --output-dir outputs/batch/smoke_test \
   --repeats 1 \
   --case-limit 3 \
@@ -194,7 +194,7 @@ python3 analyze_debate_accuracy.py \
 
 当前支持两种输入：
 
-1. PitchBook Excel：`input/02_03_pitchbook_sample_100_shared.xlsx`。程序会自动筛选 VC-like 交易并转换成 `BoardCase`，不再要求目标交易有 `postvaluation`。
+1. PitchBook Excel：`input/260524_02_03_pitchbook_sample_100_shared.xlsx`。程序会自动筛选 VC-like 交易并转换成 `BoardCase`，不再要求目标交易有 `postvaluation`。
 2. 标准化 JSONL：每行一个已经转换好的 `BoardCase`。
 
 真实结果字段，例如当前轮 `deal.dealsize`、`deal.dealtype`、`deal.vcround`、`deal.postvaluation`、`deal.dealstatus`、`deal.vcroundup_down_flat` 以及派生出的 24 个月 CEO 更换标签，只会保存在 `notes.labels` 中，不会进入 Agent 可见字段。当前批量评估暂不统计 CEO 更换指标。

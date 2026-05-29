@@ -6,6 +6,7 @@ import argparse
 from pathlib import Path
 from typing import List
 
+from boardroom_sim.config import ExperimentConfig, load_experiment_config
 from boardroom_sim.io import read_cases_jsonl, write_results_jsonl, write_traces_json
 from boardroom_sim.llm import LLMClient, LLMConfig
 from boardroom_sim.models import BoardCase, SimulationResult
@@ -18,20 +19,20 @@ def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(description="Run the boardroom simulation MVP.")
     parser.add_argument(
         "--input",
-        default="data/sample_cases.jsonl",
+        default="input/260524_02_03_pitchbook_sample_100_shared.xlsx",
         type=Path,
-        required=True,
         help="Path to input JSONL cases or PitchBook XLSX workbook.",
     )
     parser.add_argument("--output", type=Path, required=True, help="Path to compact output JSONL results.")
     parser.add_argument("--trace-output", type=Path, required=True, help="Path to detailed trace JSON output.")
-    parser.add_argument("--bargaining-rounds", type=int, default=3, help="Number of deterministic bargaining rounds.")
+    parser.add_argument("--config", type=Path, default=None, help="Path to experiment TOML config.")
+    parser.add_argument("--bargaining-rounds", type=int, default=None, help="Override bargaining rounds from config.")
     parser.add_argument("--case-limit", type=int, default=None, help="Optional maximum number of input cases to run.")
     parser.add_argument(
         "--history-limit",
         type=int,
-        default=10,
-        help="Maximum number of recent historical records per history field. Use -1 for all history.",
+        default=None,
+        help="Override config history limit. Use -1 for all history.",
     )
     parser.add_argument("--api-key", default=None, help="API key. Defaults to BOARDROOM_LLM_API_KEY.")
     parser.add_argument("--api-key-env", default="BOARDROOM_LLM_API_KEY", help="Environment variable containing API key.")
@@ -62,16 +63,26 @@ def run_experiment(
     llm_client: LLMClient,
     case_limit: int | None = None,
     history_limit: int | None = 10,
+    experiment_config: ExperimentConfig | None = None,
 ) -> List[SimulationResult]:
     """Load cases and run the boardroom simulator for each case."""
     cases = load_cases(input_path, case_limit=case_limit, history_limit=history_limit)
-    simulator = BoardroomSimulator(llm_client=llm_client, bargaining_rounds=bargaining_rounds)
+    simulator = BoardroomSimulator(
+        llm_client=llm_client,
+        bargaining_rounds=bargaining_rounds,
+        config=experiment_config,
+    )
     return [simulator.simulate(case) for case in cases]
 
 
 def main() -> None:
     """Run the command-line experiment and write both compact and trace outputs."""
     args = parse_args()
+    experiment_config = load_experiment_config(args.config)
+    bargaining_rounds = (
+        args.bargaining_rounds if args.bargaining_rounds is not None else experiment_config.bargaining_rounds
+    )
+    history_limit = args.history_limit if args.history_limit is not None else experiment_config.history_limit
     llm_config = LLMConfig.from_env(
         api_key=args.api_key,
         api_key_env=args.api_key_env,
@@ -85,10 +96,11 @@ def main() -> None:
     llm_client = LLMClient(llm_config)
     results = run_experiment(
         args.input,
-        args.bargaining_rounds,
+        bargaining_rounds,
         llm_client,
         case_limit=args.case_limit,
-        history_limit=args.history_limit,
+        history_limit=history_limit,
+        experiment_config=experiment_config,
     )
     write_results_jsonl(args.output, results)
     write_traces_json(args.trace_output, results)

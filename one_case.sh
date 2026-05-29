@@ -4,7 +4,7 @@ import pandas as pd
 from pathlib import Path
 from boardroom_sim.pitchbook import build_cases_from_pitchbook
 
-xlsx = Path("input/02_03_pitchbook_sample_100_shared.xlsx")
+xlsx = Path("input/260524_02_03_pitchbook_sample_100_shared.xlsx")
 case_id = "11830986_789374083T"
 
 cases = build_cases_from_pitchbook(xlsx)

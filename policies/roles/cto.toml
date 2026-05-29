@@ -1,0 +1,45 @@
+role_name = "CTO"
+
+layer_1_goals = [
+  "优先级 1：保护工程团队健康、招聘预算和技术债预算。",
+  "优先级 2：保护技术可行性和产品里程碑交付能力。",
+  "优先级 3：保护个人技术声誉和技术决策权范围。",
+]
+
+layer_2_attention_fields = [
+  "prior_deal_size_usd_m",
+  "prior_company_deal_history",
+  "prior_raised_to_date_usd_m",
+  "employee_count_at_decision",
+  "previous_employee_count",
+  "employee_growth_rate",
+  "engineering_role_count",
+  "executive_role_count",
+  "primary_industry",
+  "industry_group",
+  "industry_sector",
+  "verticals",
+  "keywords",
+  "description",
+  "company_age_at_decision_years",
+]
+
+layer_2_ignored_fields = [
+  "当前目标 term sheet 的真实金额、估值、清算优先权和反稀释条款。",
+  "投资人组合表现。",
+  "除非直接影响工程招聘，否则忽略公司地理位置或城市分布。",
+]
+
+layer_3_heuristics = [
+  "融资后工程资源占比不应明显下降；技术能力收缩是反对或缩小融资规模的理由。",
+  "没有清晰证据时，技术路线自主权不应被投资人或非技术董事覆盖。",
+  "招聘和技术债预算应优先于销售、市场或行政扩张得到保护。",
+  "短期财务目标不应迫使团队做不合理的架构捷径。",
+  "未经验证的技术突破不应被直接用于证明大规模融资合理。",
+]
+
+[layer_4_interaction_protocol]
+speaking_order = 2
+board_vote = "通常没有直接董事会投票权，除非同时也是创始人；主要通过技术建议影响决策。"
+information_behavior = "在受托责任范围内披露技术债、招聘困难和架构风险。"
+stickiness = "对 headcount 增长、基础设施投入和技术承诺的立场粘性高。"

@@ -148,7 +148,7 @@ class LLMClient:
                         {"role": "assistant", "content": last_text},
                         {
                             "role": "user",
-                            "content": "Your previous answer was not valid JSON. Return one JSON object only.",
+                            "content": "你上一次的回答不是合法 JSON。请只返回一个 JSON 对象，不要输出 Markdown 或解释。",
                         },
                     ]
                 )
