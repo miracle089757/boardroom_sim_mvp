@@ -12,6 +12,7 @@ from boardroom_sim.llm import LLMClient, LLMConfig
 from boardroom_sim.models import BoardCase, SimulationResult
 from boardroom_sim.pitchbook import build_cases_from_pitchbook
 from boardroom_sim.simulator import BoardroomSimulator
+from boardroom_sim.trace_report import write_readable_trace_report
 
 
 def parse_args() -> argparse.Namespace:
@@ -25,8 +26,19 @@ def parse_args() -> argparse.Namespace:
     )
     parser.add_argument("--output", type=Path, required=True, help="Path to compact output JSONL results.")
     parser.add_argument("--trace-output", type=Path, required=True, help="Path to detailed trace JSON output.")
+    parser.add_argument(
+        "--readable-output",
+        type=Path,
+        default=None,
+        help="Optional path to a human-readable Markdown report of the simulated boardroom process.",
+    )
     parser.add_argument("--config", type=Path, default=None, help="Path to experiment TOML config.")
-    parser.add_argument("--bargaining-rounds", type=int, default=None, help="Override bargaining rounds from config.")
+    parser.add_argument(
+        "--bargaining-rounds",
+        type=int,
+        default=None,
+        help="Override the maximum discussion rounds from config.",
+    )
     parser.add_argument("--case-limit", type=int, default=None, help="Optional maximum number of input cases to run.")
     parser.add_argument(
         "--history-limit",
@@ -104,9 +116,13 @@ def main() -> None:
     )
     write_results_jsonl(args.output, results)
     write_traces_json(args.trace_output, results)
+    if args.readable_output is not None:
+        write_readable_trace_report(args.readable_output, results)
     print(f"Processed {len(results)} cases.")
     print(f"Wrote compact results to {args.output}.")
     print(f"Wrote detailed traces to {args.trace_output}.")
+    if args.readable_output is not None:
+        print(f"Wrote readable boardroom report to {args.readable_output}.")
     print(f"LLM total tokens reported by provider: {llm_client.total_tokens}.")
 
 

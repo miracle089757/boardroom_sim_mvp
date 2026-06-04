@@ -1,0 +1,12 @@
+{
+  "updated_at": "2026-06-03T00:29:12",
+  "run_id": "run_001",
+  "status": "completed",
+  "expected_count": 3,
+  "completed_count": 3,
+  "remaining_count": 0,
+  "last_case_id": "9244942_146320797T",
+  "total_tokens": 858861,
+  "total_prompt_tokens": 836415,
+  "total_completion_tokens": 22446
+}

@@ -34,12 +34,15 @@ $process_context_json
 - 当前聚合提案只是中间模型估计，不是事实证据，也不是 ground truth。
 - 此前辩论发言只是角色意见，除非它引用了可见的决策前字段。
 - 不要只是为了显得合作而向共识靠拢。
+- 你的主要任务不是“解释预测”，而是在当前会议阶段中按角色规则真实发言；预测字段是发言后的内部判断记录。
 - 当讨论引入你此前没有强调的具体可见证据、对可见证据更强的解释，或对交易类型/数值校准的纠正时，你可以更新预测。
 - 如果你改变 predicted_deal_type 或任何数值字段，rationale 必须说明导致变化的具体可见证据或推理。
 - 如果你没有改变任何字段，rationale 必须简要说明为什么当前预测仍强于其他备选解释。
 - JSON 预测字段是对下一次真实融资结果的预测，不是你的偏好谈判诉求。
 - 你必须遵守“当前董事会过程约束”中的 discussion_protocol、board_archetype_description、l5_culture、challenge_required、memory_scope 和 process_instruction；这些约束定义的是会议如何互动，不是事实证据。
-- 如果 challenge_required 为 true，你的 message 应明确指出一个可证伪的薄弱假设、证据冲突或数值/交易类型校准问题；如果确实没有发现问题，应说明为什么维持原预测更稳健。
+- 如果 challenge_required 为 true，或 l5_culture.behavior_controls.challenge_mode 要求挑战，你的 message 应明确指出一个可证伪的薄弱假设、证据冲突或数值/交易类型校准问题；如果确实没有发现问题，应说明为什么维持原预测更稳健。
+- 如果 l5_culture.behavior_controls.minimum_evidence_anchors 大于 0，你的 evidence_anchors 至少应列出相应数量的具体可见字段、历史锚点或角色规则；不要用泛泛表述凑数。
+- 如果 l5_culture.behavior_controls.alternative_options 要求替代方案，你必须在 alternative_options 中列出一个或多个可执行融资情境或条款路径。
 
 本轮任务：
 $round_specific_task
@@ -89,18 +92,27 @@ $response_guidance
 9. rationale 中应说明使用了哪些数值锚点：最近一轮、完整交易历史、累计融资额、轮次推进、投资人结构、公司经营信号或角色规则。
 10. 返回 JSON 前，检查融资额、投后估值、持股比例、交易类型和估值方向是否彼此合理。
 
-请为第 $round_index 轮写一句简洁的董事会辩论发言；如果讨论改变了可能融资结果判断，请更新你的预测。
+请为第 $round_index 轮写一段真实董事会会议发言；如果讨论改变了可能融资结果判断，请更新你的内部预测。
 
 发言必须：
 
 - 聚焦融资时机、融资金额、交易类型、估值方向或投资人保护；
 - 体现你的 L1 目标、L2 注意力字段、L3 启发式规则和 L4 交互协议；
+- 遵守 process_context_json 中的 meeting_phase、l5_culture.behavior_controls、process_instruction 和 challenge_instruction；
+- 像真实会议发言一样回应、质询、让步或推动行动，不要写成模型预测摘要；
 - 避免泛泛的企业口号；
-- 长度为一到三句话。
+- 长度为一到两个短段落，通常 4 到 8 句；如果当前 archetype 是 aunt 或会议阶段是形式确认，可以更短，但仍需给出角色立场。
 
 只返回一个 JSON 对象，且必须包含以下键和值类型：
 
-- "message": string，一到三句简洁董事会发言。
+- "message": string，一段真实董事会发言，必须体现当前会议阶段和角色立场。
+- "boardroom_act": string，取 evidence_framing、challenge、clarification_question、alternative_proposal、consensus_building、commitment、formal_confirmation 之一。
+- "direct_response_to": string，说明你主要回应了哪位角色或哪条此前观点；若无则填 "none"。
+- "questions_raised": array of strings，本轮向其他成员提出的具体问题，可为空数组。
+- "evidence_anchors": array of strings，本轮引用的具体可见字段、历史锚点或角色规则。
+- "alternative_options": array of strings，本轮提出的替代融资情境、条款路径或保护方案，可为空数组。
+- "role_commitment": string，说明该角色本轮愿意支持、反对、保留或要求修改什么。
+- "prediction_update_reason": string，说明本轮发言如何影响内部预测；如果未改变，说明为什么维持原判断。
 - "financing_intent": string，取 raise_now、wait、avoid 之一。
 - "completion_view": string，取 likely_complete、unlikely_complete 之一。
 - "predicted_deal_size_usd_m": number，预期融资额，单位百万美元。

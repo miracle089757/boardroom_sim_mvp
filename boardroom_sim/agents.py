@@ -62,6 +62,15 @@ def coerce_rationale(value: Any) -> List[str]:
     return ["LLM returned no explicit rationale."]
 
 
+def coerce_string_list(value: Any) -> List[str]:
+    """Normalize an optional LLM list field into a list of strings."""
+    if isinstance(value, list):
+        return [str(item).strip() for item in value if str(item).strip()]
+    if isinstance(value, str) and value.strip():
+        return [value.strip()]
+    return []
+
+
 class BoardAgent:
     """One LLM-backed board agent governed by a strict four-layer role policy."""
 
@@ -120,7 +129,7 @@ class BoardAgent:
         context: Dict[str, RoleDecision],
         prior_messages: List[Dict[str, Any]],
         process_context: Dict[str, Any] | None = None,
-    ) -> Tuple[str, RoleDecision]:
+    ) -> Tuple[str, RoleDecision, Dict[str, Any]]:
         """Ask the LLM to produce one bargaining message and an updated prediction."""
         messages = [
             {"role": "system", "content": self._system_prompt()},
@@ -138,9 +147,9 @@ class BoardAgent:
             },
         ]
         raw = self.llm_client.complete_json(messages)
-        message = str(raw.get("message", "")).strip() or self.opening_statement(decision)
+        message = str(raw.get("message") or raw.get("speech") or "").strip() or self.opening_statement(decision)
         updated_decision = self._decision_from_json(raw, self.observe(case), fallback=decision)
-        return message, updated_decision
+        return message, updated_decision, self._meeting_artifacts_from_json(raw)
 
     def rationale_line(self, rationale: List[str]) -> str:
         """Join rationale fragments into one readable trace line."""
@@ -283,6 +292,18 @@ class BoardAgent:
             rationale=rationale or ["LLM returned no explicit rationale."],
             observed_fields=observed_fields,
         )
+
+    def _meeting_artifacts_from_json(self, raw: Dict[str, Any]) -> Dict[str, Any]:
+        """Extract richer boardroom-process fields from a bargaining response."""
+        return {
+            "boardroom_act": coerce_text(raw.get("boardroom_act"), "unspecified"),
+            "direct_response_to": coerce_text(raw.get("direct_response_to"), ""),
+            "questions_raised": coerce_string_list(raw.get("questions_raised")),
+            "evidence_anchors": coerce_string_list(raw.get("evidence_anchors")),
+            "alternative_options": coerce_string_list(raw.get("alternative_options")),
+            "role_commitment": coerce_text(raw.get("role_commitment"), ""),
+            "prediction_update_reason": coerce_text(raw.get("prediction_update_reason"), ""),
+        }
 
     def _decision_payload(self, decision: RoleDecision) -> Dict[str, Any]:
         """Return a compact decision payload for prompts."""

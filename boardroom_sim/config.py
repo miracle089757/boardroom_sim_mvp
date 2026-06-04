@@ -31,9 +31,12 @@ DEFAULT_ROLE_WEIGHTS = {
 }
 
 DEFAULT_ROUND_TASKS = [
-    "第 1 轮：指出当前聚合提案或董事会上下文里最薄弱的一个假设，并用你的可见字段、角色规则或对可见证据的更强解释提出挑战。",
-    "第 2 轮：根据上一轮挑战重新评估预测；只更新证据权重、交易类型校准或数值校准确实发生变化的字段。",
-    "第 3 轮：给出最终预测；预测准确性优先于谈判姿态，除非能改善预测，否则不要引入新的让步。",
+    "第 1 轮：按当前会议阶段暴露你的角色立场、核心证据锚点和对当前融资路径的第一反应。",
+    "第 2 轮：澄清关键事实假设，指出当前提案中最需要验证的数据、估值或执行风险。",
+    "第 3 轮：回应此前至少一条具体观点，提出质询、替代融资情境或条款修正，并说明它对角色立场的影响。",
+    "第 4 轮：围绕替代方案、保护条款、融资规模或估值路径进行建设性修正。",
+    "第 5 轮：整合争议，说明你采纳、拒绝或保留了哪些观点，以及结构化预测为何变化或不变。",
+    "第 6 轮：形成该角色愿意支持、反对、保留或要求修改的最终会议立场，并同步内部预测。",
 ]
 
 DEFAULT_BOARD_CULTURE = {
@@ -150,6 +153,11 @@ class BoardProcessConfig:
     challenge_required: bool = True
     memory_scope: str = "full"
     memory_window: int = 10
+    min_rounds: int = 2
+    max_rounds: int = 6
+    stop_when_consensus_score_gte: float = 0.82
+    stop_when_no_role_changes_for_rounds: int = 1
+    stop_when_no_open_questions: bool = True
     role_weight_multipliers: Dict[str, float] = field(default_factory=dict)
 
 
@@ -163,7 +171,7 @@ class ExperimentConfig:
     prompts_dir: Path = PROJECT_ROOT / "prompts"
     role_order: List[str] = field(default_factory=lambda: list(DEFAULT_ROLE_ORDER))
     role_weights: Dict[str, float] = field(default_factory=lambda: dict(DEFAULT_ROLE_WEIGHTS))
-    bargaining_rounds: int = 3
+    bargaining_rounds: int = 6
     history_limit: int = 10
     discussion_paradigm: str = "memory"
     response_generator: str = "critical"
@@ -205,7 +213,8 @@ def load_experiment_config(path: Optional[Path] = None) -> ExperimentConfig:
         for role, weight in dict(decision.get("weights", DEFAULT_ROLE_WEIGHTS)).items()
     }
     round_tasks = _string_list(discussion.get("round_tasks"), DEFAULT_ROUND_TASKS)
-    board_process = _board_process_from_sections(board, discussion)
+    legacy_rounds = _int_value(experiment.get("bargaining_rounds"), 6)
+    board_process = _board_process_from_sections(board, discussion, legacy_rounds=legacy_rounds)
 
     return ExperimentConfig(
         name=str(experiment.get("name", resolved_path.stem)),
@@ -214,7 +223,7 @@ def load_experiment_config(path: Optional[Path] = None) -> ExperimentConfig:
         prompts_dir=_resolve_path(paths.get("prompts_dir", "prompts")),
         role_order=role_order,
         role_weights=role_weights,
-        bargaining_rounds=int(experiment.get("bargaining_rounds", 3)),
+        bargaining_rounds=board_process.max_rounds,
         history_limit=int(experiment.get("history_limit", 10)),
         discussion_paradigm=str(discussion.get("paradigm", "memory")),
         response_generator=str(discussion.get("response_generator", "critical")),
@@ -246,7 +255,12 @@ def canonicalize_board_archetype(value: Any) -> str:
     return normalized
 
 
-def _board_process_from_sections(board: Dict[str, Any], discussion: Dict[str, Any]) -> BoardProcessConfig:
+def _board_process_from_sections(
+    board: Dict[str, Any],
+    discussion: Dict[str, Any],
+    *,
+    legacy_rounds: int,
+) -> BoardProcessConfig:
     archetype = canonicalize_board_archetype(board.get("archetype", "value_creating"))
     profile = BOARD_ARCHETYPE_PROFILES[archetype]
     culture = _merge_float_dict(profile["culture"], board.get("culture"))
@@ -254,6 +268,9 @@ def _board_process_from_sections(board: Dict[str, Any], discussion: Dict[str, An
         profile.get("role_weight_multipliers", {}),
         board.get("role_weight_multipliers"),
     )
+
+    max_rounds = max(1, _int_value(discussion.get("max_rounds"), legacy_rounds))
+    min_rounds = min(max_rounds, max(0, _int_value(discussion.get("min_rounds"), min(2, max_rounds))))
 
     return BoardProcessConfig(
         archetype=archetype,
@@ -266,6 +283,14 @@ def _board_process_from_sections(board: Dict[str, Any], discussion: Dict[str, An
         challenge_required=_bool_value(discussion.get("challenge_required"), bool(profile["challenge_required"])),
         memory_scope=str(discussion.get("memory_scope", profile["memory_scope"])),
         memory_window=_int_value(discussion.get("memory_window"), int(profile["memory_window"])),
+        min_rounds=min_rounds,
+        max_rounds=max_rounds,
+        stop_when_consensus_score_gte=_float_value(discussion.get("stop_when_consensus_score_gte"), 0.82),
+        stop_when_no_role_changes_for_rounds=max(
+            0,
+            _int_value(discussion.get("stop_when_no_role_changes_for_rounds"), 1),
+        ),
+        stop_when_no_open_questions=_bool_value(discussion.get("stop_when_no_open_questions"), True),
         role_weight_multipliers=role_weight_multipliers,
     )
 
@@ -314,5 +339,14 @@ def _int_value(value: Any, default: int) -> int:
         return default
     try:
         return int(value)
+    except (TypeError, ValueError):
+        return default
+
+
+def _float_value(value: Any, default: float) -> float:
+    if value is None:
+        return default
+    try:
+        return float(value)
     except (TypeError, ValueError):
         return default

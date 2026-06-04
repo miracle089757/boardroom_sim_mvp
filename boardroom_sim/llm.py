@@ -2,9 +2,12 @@
 
 from __future__ import annotations
 
+import http.client
 import json
 import os
 import re
+import socket
+import ssl
 import sys
 import time
 import urllib.error
@@ -13,6 +16,16 @@ from dataclasses import dataclass
 from typing import Any, Dict, List, Optional
 
 RETRYABLE_HTTP_STATUS_CODES = {408, 409, 425, 429, 500, 502, 503, 504}
+RETRYABLE_NETWORK_EXCEPTIONS = (
+    urllib.error.URLError,
+    http.client.RemoteDisconnected,
+    http.client.IncompleteRead,
+    ConnectionResetError,
+    ConnectionAbortedError,
+    TimeoutError,
+    socket.timeout,
+    ssl.SSLEOFError,
+)
 
 
 @dataclass
@@ -120,11 +133,14 @@ class LLMClient:
                     self._sleep_before_retry(attempt, f"HTTP {exc.code}", retry_after)
                     continue
                 raise RuntimeError(f"LLM HTTP error {exc.code}: {error_body}") from exc
-            except urllib.error.URLError as exc:
+            except RETRYABLE_NETWORK_EXCEPTIONS as exc:
                 if attempt < self.config.http_max_retries:
-                    self._sleep_before_retry(attempt, "network error")
+                    self._sleep_before_retry(attempt, self._network_error_reason(exc))
                     continue
-                raise RuntimeError(f"LLM request failed: {exc}") from exc
+                raise RuntimeError(
+                    f"LLM request failed after {attempt + 1} attempts: "
+                    f"{type(exc).__name__}: {exc}"
+                ) from exc
 
         self._update_usage(response_payload.get("usage", {}))
         try:
@@ -173,6 +189,13 @@ class LLMClient:
             file=sys.stderr,
         )
         time.sleep(delay)
+
+    def _network_error_reason(self, exc: BaseException) -> str:
+        """Return a compact retry reason for transient network failures."""
+        if isinstance(exc, urllib.error.URLError):
+            reason = getattr(exc, "reason", exc)
+            return f"network error {type(reason).__name__}"
+        return f"network error {type(exc).__name__}"
 
     def _retry_delay_seconds(self, attempt: int, retry_after: Optional[str] = None) -> float:
         """Compute retry delay, honoring Retry-After when the provider sends it."""

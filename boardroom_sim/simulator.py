@@ -35,7 +35,7 @@ class BoardroomSimulator:
         bargaining_rounds: int | None = None,
         config: ExperimentConfig | None = None,
     ) -> None:
-        """Create a simulator with fixed role policies, LLM agents, and a round count."""
+        """Create a simulator with fixed role policies, LLM agents, and discussion limits."""
         self.config = config or load_experiment_config()
         if self.config.discussion_paradigm != "memory":
             raise ValueError(
@@ -47,8 +47,14 @@ class BoardroomSimulator:
                 f"Unsupported decision protocol for this implementation: {self.config.decision_protocol}. "
                 "Currently supported: weighted_vote."
         )
-        self.bargaining_rounds = bargaining_rounds if bargaining_rounds is not None else self.config.bargaining_rounds
         self.role_order = list(self.config.role_order)
+        if bargaining_rounds is not None:
+            self.config.board_process.max_rounds = max(1, bargaining_rounds)
+            self.config.board_process.min_rounds = min(
+                self.config.board_process.min_rounds,
+                self.config.board_process.max_rounds,
+            )
+        self.bargaining_rounds = self.config.board_process.max_rounds
         self.process = BoardProcessController(self.config.board_process, self.role_order)
         self.base_role_weights = dict(self.config.role_weights)
         self.role_weights = self.process.effective_role_weights(self.base_role_weights)
@@ -101,6 +107,23 @@ class BoardroomSimulator:
 
         for round_index in range(self.bargaining_rounds):
             proposal = self._run_bargaining_round(case, context, proposal, trace, bargaining_history, round_index)
+            round_number = round_index + 1
+            round_events = [event for event in bargaining_history if int(event.get("round", 0)) == round_number]
+            continuation = self.process.should_continue_discussion(
+                round_number=round_number,
+                round_events=round_events,
+                history=bargaining_history,
+                consensus_score=self._consensus_score(context),
+            )
+            self._record(
+                trace,
+                f"process_decision_after_round_{round_number}",
+                "system",
+                self._continuation_message(continuation),
+                continuation,
+            )
+            if not continuation["continue_discussion"]:
+                break
 
         financing_intent = self._aggregate_financing_intent(context)
         completion_view = self._aggregate_completion_view(context)
@@ -248,7 +271,7 @@ class BoardroomSimulator:
             )
             visible_history = self.process.visible_history(bargaining_history, round_index + 1)
             previous_decision = context[role_name]
-            message, updated_decision = self.agents[role_name].bargaining_step(
+            message, updated_decision, meeting_artifacts = self.agents[role_name].bargaining_step(
                 case=case,
                 decision=previous_decision,
                 proposal=proposal,
@@ -265,6 +288,7 @@ class BoardroomSimulator:
                 "message": message,
                 "changed_fields": changed,
                 "process_context": process_context,
+                "meeting_artifacts": meeting_artifacts,
                 "updated_decision": updated_decision.to_dict(),
             }
             bargaining_history.append(event)
@@ -277,6 +301,7 @@ class BoardroomSimulator:
                     "case_id": case.case_id,
                     "proposal_before_message": proposal.to_dict(),
                     "process_context": process_context,
+                    "meeting_artifacts": meeting_artifacts,
                     "visible_history_count": len(visible_history),
                     "changed_fields": changed,
                     "updated_decision": updated_decision.to_dict(),
@@ -291,6 +316,12 @@ class BoardroomSimulator:
             proposal.to_dict(),
         )
         return proposal
+
+    def _continuation_message(self, continuation: Dict[str, Any]) -> str:
+        """Summarize why the board continues or closes discussion."""
+        action = "Continue discussion" if continuation.get("continue_discussion") else "Close discussion"
+        reasons = " ".join(str(item) for item in continuation.get("reasons", []))
+        return f"{action} after round {continuation.get('round')}: {reasons}"
 
     def _aggregate_financing_intent(self, context: Dict[str, RoleDecision]) -> FinancingIntent:
         """Aggregate role predictions into the final financing initiation decision."""

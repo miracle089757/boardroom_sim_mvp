@@ -43,7 +43,12 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--output-dir", type=Path, required=True, help="Directory for batch outputs.")
     parser.add_argument("--repeats", type=int, default=1, help="Number of repeated full experiment runs.")
     parser.add_argument("--config", type=Path, default=None, help="Path to experiment TOML config.")
-    parser.add_argument("--bargaining-rounds", type=int, default=None, help="Override bargaining rounds from config.")
+    parser.add_argument(
+        "--bargaining-rounds",
+        type=int,
+        default=None,
+        help="Override the maximum discussion rounds from config.",
+    )
     parser.add_argument("--case-limit", type=int, default=None, help="Optional maximum number of input cases to run.")
     parser.add_argument(
         "--history-limit",

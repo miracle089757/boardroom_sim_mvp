@@ -98,15 +98,22 @@
 - `current_decision_json`：该角色当前预测。
 - `context_payload_json`：其它角色当前预测。
 - `prior_messages_json`：此前辩论发言和更新记录。
-- `process_context_json`：当前董事会过程约束，包括 board archetype、board_archetype_description、L5 culture、discussion protocol、challenge_required、memory_scope 和当前角色有效权重。
+- `process_context_json`：当前董事会过程约束，包括 board archetype、board_archetype_description、meeting_phase、解释后的 L5 culture、discussion protocol、challenge_required、memory_scope 和当前角色有效权重。
 - `round_specific_task`：来自配置的每轮任务。
 - `response_guidance`：来自 `prompts/response_generators/` 的发言风格。
 
-输出比初始预测多一个字段：
+输出比初始预测多会议行为字段：
 
 ```json
 {
-  "message": "一到三句董事会发言",
+  "message": "一段真实董事会会议发言",
+  "boardroom_act": "challenge",
+  "direct_response_to": "Lead_VC_Director",
+  "questions_raised": ["具体问题"],
+  "evidence_anchors": ["prior_deal_size_usd_m=..."],
+  "alternative_options": ["替代融资路径"],
+  "role_commitment": "该角色愿意支持、反对、保留或要求修改什么",
+  "prediction_update_reason": "本轮发言如何影响内部预测",
   "financing_intent": "raise_now|wait|avoid",
   "completion_view": "likely_complete|unlikely_complete",
   "predicted_deal_size_usd_m": 10.0,
@@ -121,8 +128,8 @@
 
 维护建议：
 
-- 想改变每一轮讨论任务，优先改 `configs/boardroom_default.toml` 的 `discussion.round_tasks`。
-- 想改变董事会互动机制，优先改 `configs/boardroom_default.toml` 的 `board.archetype`；它会默认带出 L5 文化层、讨论协议、主导模式、挑战要求、记忆范围和角色权重乘数。需要做消融时，再单独覆盖 `[board.culture]` 或 `[discussion]`。
+- 想改变每一轮讨论任务，优先改 `configs/boardroom_default.toml` 的 `discussion.round_tasks`；想改变讨论长度，改 `discussion.min_rounds`、`discussion.max_rounds` 和停止条件。
+- 想改变董事会互动机制，优先改 `configs/boardroom_default.toml` 的 `board.archetype`；它会默认带出 L5 文化层、会议阶段、讨论协议、主导模式、挑战要求、记忆范围和角色权重乘数。需要做消融时，再单独覆盖 `[board.culture]` 或 `[discussion]`。
 - 想改变语气，优先改或新增 `prompts/response_generators/*.md`。
 - 想改变模型是否必须更新预测，修改 “更新状态记录” 段落。
 

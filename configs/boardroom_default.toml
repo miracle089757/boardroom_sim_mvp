@@ -1,6 +1,7 @@
 [experiment]
 name = "boardroom_default"
-bargaining_rounds = 3
+# 旧字段，保留给命令行和 manifest 兼容；现在表示默认最大讨论轮数。
+bargaining_rounds = 6
 history_limit = 10
 
 [paths]
@@ -38,12 +39,22 @@ archetype = "value_creating"
 [discussion]
 paradigm = "memory"
 response_generator = "critical"
+# 董事会讨论不再固定三轮。模拟会至少跑 min_rounds，最多跑 max_rounds；
+# 每轮后根据共识、观点变化和开放问题判断是否继续。
+min_rounds = 2
+max_rounds = 6
+stop_when_consensus_score_gte = 0.82
+stop_when_no_role_changes_for_rounds = 1
+stop_when_no_open_questions = true
 # protocol、dominance_pattern、challenge_required、memory_scope、memory_window
 # 默认由 board.archetype 决定；只在做消融实验时显式覆盖。
 round_tasks = [
-  "第 1 轮：指出当前聚合提案或董事会上下文里最薄弱的一个假设，并用你的可见字段、角色规则或对可见证据的更强解释提出挑战。",
-  "第 2 轮：根据上一轮挑战重新评估预测；只更新证据权重、交易类型校准或数值校准确实发生变化的字段。",
-  "第 3 轮：给出最终预测；预测准确性优先于谈判姿态，除非能改善预测，否则不要引入新的让步。",
+  "第 1 轮：按当前会议阶段暴露你的角色立场、核心证据锚点和对当前融资路径的第一反应。",
+  "第 2 轮：澄清关键事实假设，指出当前提案中最需要验证的数据、估值或执行风险。",
+  "第 3 轮：回应此前至少一条具体观点，提出质询、替代融资情境或条款修正，并说明它对角色立场的影响。",
+  "第 4 轮：围绕替代方案、保护条款、融资规模或估值路径进行建设性修正。",
+  "第 5 轮：整合争议，说明你采纳、拒绝或保留了哪些观点，以及结构化预测为何变化或不变。",
+  "第 6 轮：形成该角色愿意支持、反对、保留或要求修改的最终会议立场，并同步内部预测。",
 ]
 
 [decision]

@@ -26,10 +26,9 @@ $context_payload_json
 
 任务：
 
-生成该角色视角下、基于当前决策时点的下一次真实融资结果预测。
-不要把该角色偏好的谈判诉求当成预测结果。
-角色规则用于决定强调哪些证据，但输出字段必须保持为对可能市场交易结果的最佳预测。
-如果角色偏好和可能结果不同，应在 rationale 和 satisfaction_score 中说明差异；预测字段仍填写可能结果。
+先形成该角色在董事会会议开始前的私有立场：他关心什么、担心什么、希望推动或阻止什么。然后把这个立场转化为对下一次真实融资结果的内部判断。
+不要把该角色写成中立预测员；他的判断应明显受到 L1 目标、L2 注意力字段、L3 启发式和 L4 互动协议影响。
+也不要把该角色偏好的谈判诉求直接当成预测结果。如果角色偏好和可能结果不同，应在 rationale 和 satisfaction_score 中说明差异；预测字段仍填写该角色认为最可能发生的结果。
 
 硬性一致性规则：
 
@@ -83,3 +82,4 @@ $context_payload_json
 - "valuation_direction": string，取允许的 valuation_direction 标签之一。
 - "satisfaction_score": number，范围 0 到 100。
 - "rationale": array of short strings。
+- "role_stance": string，简短说明该角色会以什么立场进入董事会讨论。
